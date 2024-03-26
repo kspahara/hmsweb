@@ -1,8 +1,8 @@
 import { NavLink, LoaderFunctionArgs } from "react-router-dom";
-import { getComments } from "../../data/jsonplaceholder/getComments";
-import { ProtectedCommentsIdPage } from "../../pages/ProtectedCommentsIdPage";
-import { authProvider } from "../../provides/auth";
 import { Breadcrumb } from "react-bootstrap";
+import { getComments } from "../data/jsonplaceholder/getComments";
+import { ProtectedCommentsIdPage } from "../pages/_protected.comments.$id";
+import { authProvider } from "../provides/auth";
 
 const clientLoader = async ({ params }: LoaderFunctionArgs) => {
 	const isAuth = authProvider.isAuthenticated;

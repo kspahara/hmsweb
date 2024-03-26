@@ -1,8 +1,8 @@
 import { NavLink, LoaderFunctionArgs } from "react-router-dom";
-import { getAlbumDetail } from "../../data/jsonplaceholder/getAlbumDetail";
-import { ProtectedAlbumsIdPage } from "../../pages/ProtectedAlbumsIdPage";
-import { authProvider } from "../../provides/auth";
 import { Breadcrumb } from "react-bootstrap";
+import { getAlbumDetail } from "../data/jsonplaceholder/getAlbumDetail";
+import { ProtectedAlbumsIdPage } from "../pages/_protected.albums.$id";
+import { authProvider } from "../provides/auth";
 
 const clientLoader = async ({ params }: LoaderFunctionArgs) => {
 	const isAuth = authProvider.isAuthenticated;

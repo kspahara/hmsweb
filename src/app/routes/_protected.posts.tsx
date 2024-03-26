@@ -1,5 +1,5 @@
 import { getPosts } from "../data/jsonplaceholder/getPosts";
-import { ProtectedPostsPage } from "../pages/ProtectedPostsPage";
+import { ProtectedPostsPage } from "../pages/_protected.posts";
 import { authProvider } from "../provides/auth";
 
 const clientLoader = async () => {

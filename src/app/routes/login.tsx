@@ -1,7 +1,7 @@
 import { ActionFunctionArgs, redirect, NavLink, LoaderFunctionArgs } from "react-router-dom";
-import { authProvider } from "../../provides/auth";
-import { LoginPage } from "../../pages/login";
 import { Breadcrumb } from "react-bootstrap";
+import { authProvider } from "../provides/auth";
+import { LoginPage } from "../pages/login";
 
 const clientLoader = async ({ request }: LoaderFunctionArgs) => {
 	const url = new URL(request.url);

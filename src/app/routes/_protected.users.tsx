@@ -1,5 +1,5 @@
 import { getUsers } from "../data/jsonplaceholder/getUsers";
-import { ProtectedUsersPage } from "../pages/ProtectedUsersPage";
+import { ProtectedUsersPage } from "../pages/_protected.users";
 import { authProvider } from "../provides/auth";
 
 const clientLoader = async () => {

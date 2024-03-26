@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Fallback } from "./components/Fallback";
-import { ErrorPage } from "./pages/error";
+import { Fallback } from "./app/components/Fallback";
+import { ErrorPage } from "./app/pages/error";
 
 const router = [
 	{
@@ -109,7 +109,7 @@ const router = [
 					{
 						path: "photos",
 						async lazy() {
-							const { ProtectedPhotosRoute } = await import("./routes/ProtectedPhotosRoute");
+							const { ProtectedPhotosRoute } = await import("./app/routes/_protected.photos");
 							return {
 								loader: ProtectedPhotosRoute.loader,
 								element: <ProtectedPhotosRoute />,
@@ -119,7 +119,7 @@ const router = [
 					{
 						path: "posts",
 						async lazy() {
-							const { ProtectedPostsRoute } = await import("./routes/ProtectedPostsRoute");
+							const { ProtectedPostsRoute } = await import("./app/routes/_protected.posts");
 							return {
 								loader: ProtectedPostsRoute.loader,
 								element: <ProtectedPostsRoute />,
@@ -129,7 +129,7 @@ const router = [
 					{
 						path: "todos",
 						async lazy() {
-							const { ProtectedTodosRoute } = await import("./routes/ProtectedTodosRoute");
+							const { ProtectedTodosRoute } = await import("./app/routes/_protected.todos");
 							return {
 								loader: ProtectedTodosRoute.loader,
 								element: <ProtectedTodosRoute />,
@@ -139,7 +139,7 @@ const router = [
 					{
 						path: "users",
 						async lazy() {
-							const { ProtectedUsersRoute } = await import("./routes/ProtectedUsersRoute");
+							const { ProtectedUsersRoute } = await import("./app/routes/_protected.users");
 							return {
 								loader: ProtectedUsersRoute.loader,
 								element: <ProtectedUsersRoute />,

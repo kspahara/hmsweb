@@ -1,5 +1,5 @@
 import { getTodos } from "../data/jsonplaceholder/getTodos";
-import { ProtectedTodosPage } from "../pages/ProtectedTodosPage";
+import { ProtectedTodosPage } from "../pages/_protected.todos";
 import { authProvider } from "../provides/auth";
 
 const clientLoader = async () => {

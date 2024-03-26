@@ -1,7 +1,6 @@
 import { Link, useLoaderData } from "react-router-dom";
 import { Comment } from "../data/jsonplaceholder/getComments";
 
-
 export function ProtectedCommentsPage() {
 	const { data } = useLoaderData() as { data: Comment[] };
 

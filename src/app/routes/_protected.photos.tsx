@@ -1,5 +1,5 @@
 import { getPhotos } from "../data/jsonplaceholder/getPhotos";
-import { ProtectedPhotosPage } from "../pages/ProtectedPhotosPage";
+import { ProtectedPhotosPage } from "../pages/_protected.photos";
 import { authProvider } from "../provides/auth";
 
 const clientLoader = async () => {
