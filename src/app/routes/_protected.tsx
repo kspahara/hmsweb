@@ -1,6 +1,6 @@
 import { LoaderFunctionArgs, redirect } from "react-router-dom";
-import { authProvider } from "../provides/auth";
-import { ProtectedRoutePage } from "../pages/ProtectedRoutePage";
+import { authProvider } from "../../provides/auth";
+import { ProtectedRoutePage } from "../../pages/ProtectedRoutePage";
 
 const clientLoader = async ({ request }: LoaderFunctionArgs) => {
 	const isAuth = authProvider.isAuthenticated;

@@ -1,4 +1,4 @@
-import { PublicPage } from "../pages/PublicPage";
+import { PublicPage } from "../../pages/public";
 
 const clientLoader = async () => {
 	return { message: "Public Page Home" };

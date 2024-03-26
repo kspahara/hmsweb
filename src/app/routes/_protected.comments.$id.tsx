@@ -1,7 +1,7 @@
 import { NavLink, LoaderFunctionArgs } from "react-router-dom";
-import { getComments } from "../data/jsonplaceholder/getComments";
-import { ProtectedCommentsIdPage } from "../pages/ProtectedCommentsIdPage";
-import { authProvider } from "../provides/auth";
+import { getComments } from "../../data/jsonplaceholder/getComments";
+import { ProtectedCommentsIdPage } from "../../pages/ProtectedCommentsIdPage";
+import { authProvider } from "../../provides/auth";
 import { Breadcrumb } from "react-bootstrap";
 
 const clientLoader = async ({ params }: LoaderFunctionArgs) => {

@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
-import { RootPage } from "../pages/RootPage";
-import { authProvider } from "../provides/auth";
+import { RootPage } from "../../pages/_index";
+import { authProvider } from "../../provides/auth";
 import { Breadcrumb } from "react-bootstrap";
 
 const clientLoader = async () => {

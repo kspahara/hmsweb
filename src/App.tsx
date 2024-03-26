@@ -1,13 +1,13 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Fallback } from "./components/Fallback";
-import { ErrorPage } from "./pages/ErrorPage";
+import { ErrorPage } from "./pages/error";
 
 const router = [
 	{
 		id: "root",
 		path: "/",
 		async lazy() {
-			const { RootRoute } = await import("./routes/RootRoute");
+			const { RootRoute } = await import("./app/routes/_index");
 			return {
 				loader: RootRoute.loader,
 				handle: RootRoute.handle,
@@ -19,7 +19,7 @@ const router = [
 			{
 				index: true,
 				async lazy() {
-					const { PublicRoute } = await import("./routes/PublicRoute");
+					const { PublicRoute } = await import("./app/routes/public");
 					return {
 						loader: PublicRoute.loader,
 						element: <PublicRoute />,
@@ -29,7 +29,7 @@ const router = [
 			{
 				id: "protected-layout",
 				async lazy() {
-					const { ProtectedRoute } = await import("./routes/ProtectedRoute");
+					const { ProtectedRoute } = await import("./app/routes/_protected");
 					return {
 						loader: ProtectedRoute.loader,
 						element: <ProtectedRoute />,
@@ -41,7 +41,7 @@ const router = [
 						id: "protected-albums-layout",
 						path: "albums",
 						async lazy() {
-							const { handle } = await import("./routes/ProtectedAlbumsLayout");
+							const { handle } = await import("./app/routes/_protected.albums");
 							return {
 								handle: handle,
 							};
@@ -51,7 +51,7 @@ const router = [
 							{
 								index: true,
 								async lazy() {
-									const { ProtectedAlbumsRoute } = await import("./routes/ProtectedAlbumsRoute");
+									const { ProtectedAlbumsRoute } = await import("./app/routes/_protected.albums._index");
 									return {
 										loader: ProtectedAlbumsRoute.loader,
 										element: <ProtectedAlbumsRoute />,
@@ -61,7 +61,7 @@ const router = [
 							{
 								path: ":id",
 								async lazy() {
-									const { ProtectedAlbumsIdRoute } = await import("./routes/ProtectedAlbumsIdRoute");
+									const { ProtectedAlbumsIdRoute } = await import("./app/routes/_protected.albums.$id");
 									return {
 										loader: ProtectedAlbumsIdRoute.loader,
 										handle: ProtectedAlbumsIdRoute.handle,
@@ -76,7 +76,7 @@ const router = [
 						id: "protected-comments-layout",
 						path: "comments",
 						async lazy() {
-							const { handle } = await import("./routes/ProtectedCommentsLayout");
+							const { handle } = await import("./app/routes/_protected.comments");
 							return {
 								handle: handle,
 							};
@@ -86,7 +86,7 @@ const router = [
 							{
 								index: true,
 								async lazy() {
-									const { ProtectedCommentsRoute } = await import("./routes/ProtectedCommentsRoute");
+									const { ProtectedCommentsRoute } = await import("./app/routes/_protected.comments._index");
 									return {
 										loader: ProtectedCommentsRoute.loader,
 										element: <ProtectedCommentsRoute />,
@@ -96,7 +96,7 @@ const router = [
 							{
 								path: ":id",
 								async lazy() {
-									const { ProtectedCommentsIdRoute } = await import("./routes/ProtectedCommentsIdRoute");
+									const { ProtectedCommentsIdRoute } = await import("./app/routes/_protected.comments.$id");
 									return {
 										loader: ProtectedCommentsIdRoute.loader,
 										handle: ProtectedCommentsIdRoute.handle,
@@ -151,7 +151,7 @@ const router = [
 			{
 				path: "login",
 				async lazy() {
-					const { LoginRoute } = await import("./routes/LoginRoute");
+					const { LoginRoute } = await import("./app/routes/login");
 					return {
 						loader: LoginRoute.loader,
 						action: LoginRoute.action,
@@ -163,7 +163,7 @@ const router = [
 			{
 				path: "logout",
 				async lazy() {
-					const { clientAction } = await import("./routes/LogoutRoute");
+					const { clientAction } = await import("./app/routes/logout");
 					return {
 						action: clientAction,
 					};
@@ -172,7 +172,7 @@ const router = [
 			{
 				path: "*",
 				async lazy() {
-					const { NoMatchRoute } = await import("./routes/NoMatchRoute");
+					const { NoMatchRoute } = await import("./app/routes/no-match");
 					return {
 						element: <NoMatchRoute />,
 					};
@@ -182,7 +182,7 @@ const router = [
 	},
 ];
 
-export function App(): JSX.Element {
+export default function App(): JSX.Element {
 	return (
 		<RouterProvider
 			router={createBrowserRouter(router, {

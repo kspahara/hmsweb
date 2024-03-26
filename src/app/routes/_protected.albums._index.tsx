@@ -1,8 +1,8 @@
 import { LoaderFunctionArgs } from "react-router-dom";
-import { getAlbums } from "../data/jsonplaceholder/getAlbums";
-import { ProtectedAlbumsPage } from "../pages/ProtectedAlbumsPage";
-import { authProvider } from "../provides/auth";
-import { getUsers } from "../data/jsonplaceholder/getUsers";
+import { getAlbums } from "../../data/jsonplaceholder/getAlbums";
+import { ProtectedAlbumsPage } from "../../pages/ProtectedAlbumsPage";
+import { authProvider } from "../../provides/auth";
+import { getUsers } from "../../data/jsonplaceholder/getUsers";
 
 const clientLoader = async ({ request }: LoaderFunctionArgs) => {
 	const url = new URL(request.url);
