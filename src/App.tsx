@@ -64,6 +64,7 @@ const router = [
 									const { ProtectedAlbumsIdRoute } = await import("./app/routes/_protected.albums.$id");
 									return {
 										loader: ProtectedAlbumsIdRoute.loader,
+										action: ProtectedAlbumsIdRoute.action,
 										handle: ProtectedAlbumsIdRoute.handle,
 										element: <ProtectedAlbumsIdRoute />,
 									};

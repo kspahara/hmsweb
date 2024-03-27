@@ -1,6 +1,7 @@
-import { NavLink, LoaderFunctionArgs } from "react-router-dom";
+import { NavLink, LoaderFunctionArgs, redirect } from "react-router-dom";
 import { Breadcrumb } from "react-bootstrap";
 import { getAlbumDetail } from "../data/jsonplaceholder/getAlbumDetail";
+import { updateAlbum } from "../data/jsonplaceholder/Albums";
 import { ProtectedAlbumsIdPage } from "../pages/_protected.albums.$id";
 import { authProvider } from "../provides/auth";
 
@@ -8,6 +9,16 @@ const clientLoader = async ({ params }: LoaderFunctionArgs) => {
 	const isAuth = authProvider.isAuthenticated;
 
 	return isAuth ? { data: await getAlbumDetail(params.id) } : null;
+};
+
+const clientAction = async ({ params, request }: LoaderFunctionArgs) => {
+	const isAuth = authProvider.isAuthenticated;
+	const body = new URLSearchParams(await request.text());
+	const title = body.get("title");
+	const userId = body.get("userId");
+	console.log("title", title);
+	isAuth && (await updateAlbum({ id: params.id, title, userId }));
+	return redirect(`/albums/${params.id}`);
 };
 
 const handle = {
@@ -27,4 +38,5 @@ export function ProtectedAlbumsIdRoute(): JSX.Element {
 }
 
 ProtectedAlbumsIdRoute.loader = clientLoader;
+ProtectedAlbumsIdRoute.action = clientAction;
 ProtectedAlbumsIdRoute.handle = handle;
