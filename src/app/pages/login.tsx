@@ -1,8 +1,9 @@
 import { Form, useActionData, useLoaderData, useNavigation } from "react-router-dom";
 import { Breadcrumbs } from "../components/Breadcrumbs";
+import { Forms, Form as FormType } from "../components/Forms";
 
 export function LoginPage() {
-	const { searchParams } = useLoaderData() as { searchParams: URLSearchParams };
+	const { searchParams, forms } = useLoaderData() as { searchParams: URLSearchParams; forms: FormType[] };
 	const navigation = useNavigation();
 	const actionData = useActionData() as { error: string } | undefined;
 	const isLoggingIn = navigation.formData?.get("username") != null;
@@ -14,9 +15,7 @@ export function LoginPage() {
 				<h1>Login</h1>
 				<Breadcrumbs />
 				<Form method={"post"} replace>
-					<label>
-						Username: <input name={"username"} />
-					</label>
+					<Forms forms={forms} />
 					<button type={"submit"}>
 						{isLoggingIn ? (
 							<>

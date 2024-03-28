@@ -59,7 +59,7 @@ const router = [
 								},
 							},
 							{
-								path: ":id",
+								path: ":id/edit?",
 								async lazy() {
 									const { ProtectedAlbumsIdRoute } = await import("./app/routes/_protected.albums.$id");
 									return {
@@ -95,7 +95,7 @@ const router = [
 								},
 							},
 							{
-								path: ":id",
+								path: ":id/edit?",
 								async lazy() {
 									const { ProtectedCommentsIdRoute } = await import("./app/routes/_protected.comments.$id");
 									return {

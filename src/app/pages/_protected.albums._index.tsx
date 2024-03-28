@@ -1,6 +1,6 @@
 import { Suspense, useEffect, useState } from "react";
 import { Await, Form, Link, useLoaderData, useSubmit } from "react-router-dom";
-import { Album } from "../data/jsonplaceholder/getAlbums";
+import { Album } from "../data/jsonplaceholder/albums";
 import { User } from "../data/jsonplaceholder/getUsers";
 
 export function ProtectedAlbumsPage() {

@@ -4,6 +4,7 @@ export type Comment = {
 	name: string;
 	email: string;
 	body: string;
+	[key: string]: number | string;
 };
 
 export async function getComments(id?: string | undefined): Promise<Comment[] | Comment> {

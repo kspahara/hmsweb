@@ -1,4 +1,4 @@
-import { getComments } from "../data/jsonplaceholder/getComments";
+import { getComments } from "../data/jsonplaceholder/comments";
 import { ProtectedCommentsPage } from "../pages/_protected.comments._index";
 import { authProvider } from "../provides/auth";
 

@@ -1,5 +1,5 @@
 import { LoaderFunctionArgs } from "react-router-dom";
-import { getAlbums } from "../data/jsonplaceholder/getAlbums";
+import { getAlbums } from "../data/jsonplaceholder/albums";
 import { getUsers } from "../data/jsonplaceholder/getUsers";
 import { ProtectedAlbumsPage } from "../pages/_protected.albums._index";
 import { authProvider } from "../provides/auth";

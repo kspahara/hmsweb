@@ -2,13 +2,34 @@ import { ActionFunctionArgs, redirect, NavLink, LoaderFunctionArgs } from "react
 import { Breadcrumb } from "react-bootstrap";
 import { authProvider } from "../provides/auth";
 import { LoginPage } from "../pages/login";
+import { Form } from "../components/Forms";
+
+const getForms = async (): Promise<Form[]> => {
+	const forms = [
+		{
+			type: "text",
+			controlId: "username",
+			label: "Username:",
+			placeholder: "username",
+			required: true,
+		},
+		{
+			type: "password",
+			controlId: "password",
+			label: "Password:",
+			placeholder: "password",
+			autoComplete: "false",
+		},
+	];
+	return forms;
+};
 
 const clientLoader = async ({ request }: LoaderFunctionArgs) => {
 	const url = new URL(request.url);
 	const searchParams = url.searchParams;
 	const isAuth = authProvider.isAuthenticated;
 
-	return isAuth ? redirect("/") : { searchParams };
+	return isAuth ? redirect("/") : { searchParams, forms: await getForms() };
 };
 
 const clientAction = async ({ request }: ActionFunctionArgs) => {

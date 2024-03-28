@@ -1,7 +1,7 @@
 import { NavLink, Outlet, useFetcher, useRouteLoaderData } from "react-router-dom";
 import { ProgressNav } from "../components/ProgressNav";
 import { IsAuthenticated, UserName } from "../provides/auth";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Container } from "react-bootstrap";
 
 const HeaderNavigation = (): JSX.Element => {
 	type Link = { to: string; label: string };
@@ -98,7 +98,9 @@ export function RootPage(): JSX.Element {
 	return (
 		<>
 			<HeaderNavigation />
-			<Outlet />
+			<Container>
+				<Outlet />
+			</Container>
 		</>
 	);
 }

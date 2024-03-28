@@ -1,12 +1,43 @@
-import { useState } from "react";
-import { Form as RouterForm, useLoaderData, useNavigate } from "react-router-dom";
-import { Button, FloatingLabel, Form } from "react-bootstrap";
-import { Album } from "../data/jsonplaceholder/getAlbums";
+import { Link, Form as RouterForm, useLoaderData, useNavigate } from "react-router-dom";
+import { Button, Card, Form } from "react-bootstrap";
+import { Forms, Form as FormType } from "../components/Forms";
 
 export function ProtectedAlbumsIdPage() {
-	const [edit, setEdit] = useState(false);
-	const { data } = useLoaderData() as { data: Album };
+	const { data, forms } = useLoaderData() as { data: Record<string, string>; forms: FormType[] };
+	const isEdit = location.pathname.includes("edit");
 	const navigate = useNavigate();
+	// console.log("data", data);
+	// console.log("forms", forms);
+
+	const FormContents = () => {
+		return (
+			<>
+				<Form as={RouterForm} method={"post"} replace={true}>
+					<fieldset disabled={!isEdit}>
+						<Forms forms={forms} data={data} />
+					</fieldset>
+					<div className={"d-flex justify-content-between"}>
+						<Button variant={"success"} type={"submit"}>
+							Update
+						</Button>
+					</div>
+				</Form>
+			</>
+		);
+	};
+
+	const Contents = () => {
+		return (
+			<>
+				{forms.map((form, index) => (
+					<dl key={index}>
+						<dt>{form.label}</dt>
+						<dd>{data[form.controlId]}</dd>
+					</dl>
+				))}
+			</>
+		);
+	};
 
 	return (
 		<>
@@ -22,25 +53,27 @@ export function ProtectedAlbumsIdPage() {
 					>
 						Back
 					</Button>
-					<Button variant={edit ? "secondary" : "primary"} type={"button"} onClick={() => setEdit(!edit)}>
-						{edit ? "Cancel" : "Edit"}
-					</Button>
+					{isEdit ? (
+						<Button
+							type={"button"}
+							variant={"secondary"}
+							onClick={() => {
+								navigate(-1);
+							}}
+						>
+							Cancel
+						</Button>
+					) : (
+						<Link to={"edit"} className={"btn btn-primary"}>
+							Edit
+						</Link>
+					)}
 				</nav>
-				<div className="col-6 mx-auto">
-					<h4>{data.id}</h4>
-					<Form as={RouterForm} method={"post"}>
-						<FloatingLabel controlId={"title"} label={"Title"} className={"mb-3"}>
-							<Form.Control type={"text"} name={"title"} defaultValue={data.title} readOnly={!edit} plaintext={!edit} />
-						</FloatingLabel>
-						<FloatingLabel controlId={"userId"} label={"UserId"} className={"mb-3"}>
-							<Form.Control type={"text"} name={"userId"} defaultValue={data.userId} readOnly={!edit} plaintext={!edit} />
-						</FloatingLabel>
-						<div className={"text-end"}>
-							<Button variant={"success"} type={"submit"} hidden={!edit}>
-								Update
-							</Button>
-						</div>
-					</Form>
+				<div className="col-sm-6 mx-auto">
+					<Card body className={"shadow-sm mb-3"}>
+						<Card.Title>{data.id}</Card.Title>
+						{isEdit ? <FormContents /> : <Contents />}
+					</Card>
 				</div>
 			</section>
 		</>
