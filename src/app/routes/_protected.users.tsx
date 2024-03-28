@@ -1,4 +1,4 @@
-import { getUsers } from "../data/jsonplaceholder/getUsers";
+import { getUsers } from "../data/jsonplaceholder/users";
 import { ProtectedUsersPage } from "../pages/_protected.users";
 import { authProvider } from "../provides/auth";
 

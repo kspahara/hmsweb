@@ -1,7 +1,7 @@
 import { Suspense, useEffect, useState } from "react";
 import { Await, Form, Link, useLoaderData, useSubmit } from "react-router-dom";
 import { Album } from "../data/jsonplaceholder/albums";
-import { User } from "../data/jsonplaceholder/getUsers";
+import { User } from "../data/jsonplaceholder/users";
 
 export function ProtectedAlbumsPage() {
 	const { data, searchParams, users } = useLoaderData() as { data: Album[]; searchParams: URLSearchParams; users: User[] };
@@ -9,7 +9,6 @@ export function ProtectedAlbumsPage() {
 	const [query, setQuery] = useState({
 		userId: userId || "",
 	});
-
 	useEffect(() => {
 		setQuery({
 			userId: userId || "",
@@ -23,34 +22,37 @@ export function ProtectedAlbumsPage() {
 				<h2>ProtectedAlbumsPage</h2>
 				<div>
 					<Form role="search" onChange={(event) => submit(event.currentTarget)}>
-						<label htmlFor={"album-userId"}>
-							<select
-								id={"album-userId"}
-								name={"userId"}
-								value={query.userId}
-								onChange={(event) => {
-									setQuery({
-										...query,
-										userId: event.currentTarget.value,
-									});
-								}}
-							>
-								<Suspense fallback={<option>Loading...</option>}>
-									<Await resolve={users} errorElement={<div>Error</div>}>
-										{(users: User[]): JSX.Element => (
-											<>
-												<option value={""}>All Users</option>
-												{users.map((user) => (
-													<option key={user.id} value={user.id}>
-														{user.name}
-													</option>
-												))}
-											</>
-										)}
-									</Await>
-								</Suspense>
-							</select>
-						</label>
+						<label htmlFor={"album-userId"}>User:</label>
+						<Suspense
+							fallback={
+								<select>
+									<option>Loading...</option>
+								</select>
+							}
+						>
+							<Await resolve={users} errorElement={<div>Error</div>}>
+								{(users: User[]): JSX.Element => (
+									<select
+										id={"album-userId"}
+										name={"userId"}
+										value={query.userId}
+										onChange={(e) => {
+											setQuery({
+												...query,
+												userId: e.currentTarget.value,
+											});
+										}}
+									>
+										<option value={""}>All Users</option>
+										{users.map((user) => (
+											<option key={user.id} value={user.id}>
+												{user.name}
+											</option>
+										))}
+									</select>
+								)}
+							</Await>
+						</Suspense>
 						<button type={"submit"}>Search</button>
 					</Form>
 				</div>

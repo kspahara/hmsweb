@@ -1,4 +1,4 @@
-import { getUsers } from "../data/jsonplaceholder/getUsers";
+import { getUsers } from "../data/jsonplaceholder/users";
 
 export type IsAuthenticated = boolean;
 export type UserName = string | null;

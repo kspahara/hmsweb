@@ -1,4 +1,4 @@
-import { getPhotos } from "../data/jsonplaceholder/getPhotos";
+import { getPhotos } from "../data/jsonplaceholder/photos";
 import { ProtectedPhotosPage } from "../pages/_protected.photos";
 import { authProvider } from "../provides/auth";
 

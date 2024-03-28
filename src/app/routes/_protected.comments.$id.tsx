@@ -4,9 +4,19 @@ import { getComments } from "../data/jsonplaceholder/comments";
 import { ProtectedCommentsIdPage } from "../pages/_protected.comments.$id";
 import { authProvider } from "../provides/auth";
 import { Form } from "../components/Forms";
+import { getPosts } from "../data/jsonplaceholder/posts";
 
-const getForms = async (): Promise<Form[]> => {
-	const forms = [
+const getForms = async () => {
+	const forms: Form[] = [
+		{
+			type: "number",
+			controlId: "id",
+			label: "Id:",
+			placeholder: "Id",
+			disabled: true,
+			readOnly: true,
+			plaintext: true,
+		},
 		{
 			type: "text",
 			controlId: "name",
@@ -25,15 +35,23 @@ const getForms = async (): Promise<Form[]> => {
 			label: "Body:",
 			placeholder: "Body",
 		},
+		{
+			as: "select",
+			controlId: "postId",
+			label: "PostId:",
+			placeholder: "Select PostId",
+			ariaLabel: "PostId",
+			optionKey: { key: "id", value: "title" },
+		},
 	];
 	return forms;
 };
 
 const clientLoader = async ({ params }: LoaderFunctionArgs) => {
 	const isAuth = authProvider.isAuthenticated;
-	const [data, forms] = await Promise.all([getComments(params.id), getForms()]);
+	const [data, forms, posts] = await Promise.all([getComments(params.id), getForms(), getPosts()]);
 
-	return isAuth ? { data, forms } : null;
+	return isAuth ? { data, forms, posts } : null;
 };
 
 const handle = {

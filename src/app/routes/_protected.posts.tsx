@@ -1,4 +1,4 @@
-import { getPosts } from "../data/jsonplaceholder/getPosts";
+import { getPosts } from "../data/jsonplaceholder/posts";
 import { ProtectedPostsPage } from "../pages/_protected.posts";
 import { authProvider } from "../provides/auth";
 

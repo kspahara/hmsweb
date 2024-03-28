@@ -3,7 +3,7 @@ import { Button, Card, Form } from "react-bootstrap";
 import { Forms, Form as FormType } from "../components/Forms";
 
 export function ProtectedCommentsIdPage() {
-	const { data, forms } = useLoaderData() as { data: Record<string, string>; forms: FormType[] };
+	const { data, forms, posts } = useLoaderData() as { data: Record<string, string>; forms: FormType[]; posts: Record<string, string>[] };
 	const isEdit = location.pathname.includes("edit");
 	const navigate = useNavigate();
 	// console.log("data", data);
@@ -14,7 +14,7 @@ export function ProtectedCommentsIdPage() {
 			<>
 				<Form as={RouterForm} method={"post"} replace={true}>
 					<fieldset disabled={!isEdit}>
-						<Forms forms={forms} data={data} />
+						<Forms forms={forms} data={data} option={posts} />
 					</fieldset>
 					<div className={"d-flex justify-content-between"}>
 						<Button variant={"success"} type={"submit"}>

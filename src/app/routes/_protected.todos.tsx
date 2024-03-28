@@ -1,4 +1,4 @@
-import { getTodos } from "../data/jsonplaceholder/getTodos";
+import { getTodos } from "../data/jsonplaceholder/todos";
 import { ProtectedTodosPage } from "../pages/_protected.todos";
 import { authProvider } from "../provides/auth";
 

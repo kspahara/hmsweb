@@ -5,9 +5,19 @@ import { updateAlbum } from "../data/jsonplaceholder/albums";
 import { ProtectedAlbumsIdPage } from "../pages/_protected.albums.$id";
 import { authProvider } from "../provides/auth";
 import { Form } from "../components/Forms";
+import { getUsers } from "../data/jsonplaceholder/users";
 
-const getForms = async (): Promise<Form[]> => {
-	const forms = [
+const getForms = async () => {
+	const forms: Form[] = [
+		{
+			type: "number",
+			controlId: "id",
+			label: "Id:",
+			placeholder: "Id",
+			disabled: true,
+			readOnly: true,
+			plaintext: true,
+		},
 		{
 			type: "text",
 			controlId: "title",
@@ -15,16 +25,12 @@ const getForms = async (): Promise<Form[]> => {
 			placeholder: "Title",
 		},
 		{
-			type: "text",
+			as: "select",
 			controlId: "userId",
 			label: "UserId:",
-			placeholder: "UserId",
-		},
-		{
-			type: "text",
-			controlId: "id",
-			label: "Id:",
-			placeholder: "Id",
+			placeholder: "Select UserId",
+			ariaLabel: "UserId",
+			optionKey: { key: "id", value: "name" },
 		},
 	];
 	return forms;
@@ -32,9 +38,9 @@ const getForms = async (): Promise<Form[]> => {
 
 const clientLoader = async ({ params }: LoaderFunctionArgs) => {
 	const isAuth = authProvider.isAuthenticated;
-	const [data, forms] = await Promise.all([getAlbumDetail(params.id), getForms()]);
+	const [data, forms, users] = await Promise.all([getAlbumDetail(params.id), getForms(), getUsers()]);
 
-	return isAuth ? { data, forms } : null;
+	return isAuth ? { data, forms, users } : null;
 };
 
 const clientAction = async ({ params, request }: LoaderFunctionArgs) => {
