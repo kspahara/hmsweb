@@ -1,5 +1,4 @@
 import { useLoaderData, useRouteLoaderData } from "react-router-dom";
-import { Breadcrumbs } from "../components/Breadcrumbs";
 
 export function PublicPage(): JSX.Element {
 	const { user } = useRouteLoaderData("root") as { user: string | null };
@@ -7,11 +6,17 @@ export function PublicPage(): JSX.Element {
 
 	return (
 		<>
-			<main id={"public-page"}>
-				<h1>{data.message}</h1>
-				<Breadcrumbs />
-				<p>Welcome, {user || "guest"}!</p>
-			</main>
+			<section id={"public-page"}>
+				<header>
+					<h1>{data.message}</h1>
+					<p>Welcome, {user || "guest"}!</p>
+				</header>
+				<hr />
+				<section>
+					<h2>{"Public Page"}</h2>
+					<p>{"This is a public route."}</p>
+				</section>
+			</section>
 		</>
 	);
 }

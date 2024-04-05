@@ -10,7 +10,7 @@ export function ProgressNav(): JSX.Element {
 
 	return (
 		<>
-			<fieldset style={{ position: "fixed", top: 0, right: 0 }}>
+			<fieldset style={{ position: "fixed", top: "5rem", right: "1rem", zIndex: 1 }}>
 				<legend className={"h6"}>Debug</legend>
 				<div>username: {username ? username : "null"}</div>
 				<div>isAuthenticated: {isAuthenticated ? isAuthenticated : "null"}</div>

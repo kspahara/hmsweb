@@ -5,12 +5,17 @@ export function ErrorPage() {
 	console.error(error);
 
 	return (
-		<div id="error-page">
-			<h1>Oops!</h1>
-			<p>Sorry, an unexpected error has occurred.</p>
-			<p>
-				<i>{error.name || error.message}</i>
-			</p>
-		</div>
+		<section id={"error-page"}>
+			<header>
+				<h1 className={"h2"}>Oops!</h1>
+				<p>Sorry, an unexpected error has occurred.</p>
+			</header>
+			<hr />
+			<section>
+				<p>
+					<i>{error.name || error.message}</i>
+				</p>
+			</section>
+		</section>
 	);
 }

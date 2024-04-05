@@ -1,7 +1,7 @@
 import { PublicPage } from "../pages/public";
 
 const clientLoader = async () => {
-	return { message: "Public Page Home" };
+	return { message: "Public Page" };
 };
 
 export function PublicRoute(): JSX.Element {

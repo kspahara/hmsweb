@@ -1,11 +1,10 @@
 import { Form as RouterForm, useActionData, useLoaderData, useNavigation } from "react-router-dom";
-import { Breadcrumbs } from "../components/Breadcrumbs";
 import { FloatingForms, Form as FormType } from "../components/FloatingForms";
-import { Alert, Button, Card, Col, Container, Form, Row } from "react-bootstrap";
+import { Alert, Button, Card, Col, Form, Row } from "react-bootstrap";
 import { Fallback } from "../components/Fallback";
 
 export function LoginPage() {
-	const { searchParams, forms } = useLoaderData() as { searchParams: URLSearchParams; forms: FormType[] };
+	const { searchParams, forms, message } = useLoaderData() as { searchParams: URLSearchParams; forms: FormType[]; message: string };
 	const navigation = useNavigation();
 	const actionData = useActionData() as { error: string } | undefined;
 	const isLoggingIn = navigation.formData?.get("username") != null;
@@ -13,13 +12,17 @@ export function LoginPage() {
 
 	return (
 		<>
-			<main id={"login-page"} className={`bg-light mt-5 py-5`} style={{ minHeight: "100vh" }}>
-				<Container as={"section"}>
-					<h1 className={"h3 border-bottom border-dark mb-3"}>Login</h1>
-					<Breadcrumbs />
+			<section id={"login-page"}>
+				<header>
+					<h1 className={"h2"}>{message}</h1>
+					<p>{"Please login to continue."}</p>
+				</header>
+				<hr />
+				<section>
 					<Row>
 						<Col md={6} lg={4} className={"mx-auto"}>
 							<Card body className={"mb-3 shadow-sm"}>
+								<h2 className={"h3"}>{"Login"}</h2>
 								<Form as={RouterForm} method={"post"} replace>
 									<FloatingForms forms={forms} />
 									<Button type={"submit"} className={"w-100"}>
@@ -35,8 +38,8 @@ export function LoginPage() {
 							</Card>
 						</Col>
 					</Row>
-				</Container>
-			</main>
+				</section>
+			</section>
 		</>
 	);
 }

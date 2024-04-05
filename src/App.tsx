@@ -27,12 +27,11 @@ const router = [
 				},
 			},
 			{
-				id: "protected-layout",
+				id: "pathless-protected-layout",
 				async lazy() {
-					const { ProtectedRoute } = await import("./app/routes/_protected");
+					const { clientLoader } = await import("./app/routes/_protected");
 					return {
-						loader: ProtectedRoute.loader,
-						element: <ProtectedRoute />,
+						loader: clientLoader,
 					};
 				},
 				errorElement: <ErrorPage />,

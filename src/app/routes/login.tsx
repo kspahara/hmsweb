@@ -29,7 +29,7 @@ const clientLoader = async ({ request }: LoaderFunctionArgs) => {
 	const searchParams = url.searchParams;
 	const isAuth = authProvider.isAuthenticated;
 
-	return isAuth ? redirect("/") : { searchParams, forms: await getForms() };
+	return isAuth ? redirect("/") : { searchParams, forms: await getForms(), message: "Login Page" };
 };
 
 const clientAction = async ({ request }: ActionFunctionArgs) => {

@@ -3,8 +3,12 @@ import { Breadcrumb } from "react-bootstrap";
 import { useMatches } from "react-router-dom";
 
 export function Breadcrumbs(): JSX.Element {
-	const matches: any[] = useMatches();
-	// console.log("matches", matches);
+	const matches = useMatches() as {
+		handle: {
+			crumb: (match: { params: Record<string, string> }) => JSX.Element;
+		};
+		params: Record<string, string>;
+	}[];
 
 	return (
 		<Breadcrumb>

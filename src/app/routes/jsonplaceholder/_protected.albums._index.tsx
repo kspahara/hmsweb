@@ -24,7 +24,7 @@ const clientLoader = async ({ request }: LoaderFunctionArgs) => {
 	const searchParams = url.searchParams;
 	const isAuth = authProvider.isAuthenticated;
 
-	return isAuth ? defer({ data: getAlbums(searchParams), searchParams, forms: await getForms(), users: getUsers() }) : null;
+	return isAuth ? defer({ data: getAlbums(searchParams), searchParams, forms: await getForms(), users: getUsers(), message: "Albums" }) : null;
 };
 
 export function ProtectedAlbumsRoute() {

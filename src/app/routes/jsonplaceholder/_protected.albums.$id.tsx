@@ -40,7 +40,7 @@ const clientLoader = async ({ params }: LoaderFunctionArgs) => {
 	const isAuth = authProvider.isAuthenticated;
 	const [data, forms, users] = await Promise.all([getAlbumDetail(params.id), getForms(), getUsers()]);
 
-	return isAuth ? { data, forms, users } : null;
+	return isAuth ? { data, forms, users, message: "ProtectedAlbumsIdPage" } : null;
 };
 
 const clientAction = async ({ params, request }: LoaderFunctionArgs) => {

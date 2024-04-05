@@ -15,7 +15,11 @@ const handle = {
 			linkProps: { to: `${match.pathname}` },
 			active: location.pathname === match.pathname,
 		};
-		const label = "Home";
+		const label = (
+			<>
+				<i className={"bi bi-house-door-fill me-1"}></i>Home
+			</>
+		);
 		return <Breadcrumb.Item {...props}>{label}</Breadcrumb.Item>;
 	},
 };
