@@ -1,25 +1,30 @@
 import { ActionFunctionArgs, redirect, NavLink, LoaderFunctionArgs } from "react-router-dom";
 import { Breadcrumb } from "react-bootstrap";
-import { authProvider } from "../provides/auth";
-import { LoginPage } from "../pages/login";
-import { Form } from "../components/FloatingForms";
-import { getLocationPath } from "../libs/libs";
+import { authProvider } from "../provides/auth.ts";
+import { LoginPage } from "../pages/login.tsx";
+import { FormType } from "../components/CreateForm.tsx";
+import { getLocationPath } from "../libs/libs.ts";
 
 const getForms = async () => {
-	const forms: Form[] = [
+	const forms: FormType[] = [
 		{
 			type: "text",
 			controlId: "username",
+			name: "username",
 			label: "Username:",
 			placeholder: "username",
 			required: true,
+			invalidMessage: "You must provide a username to log in",
 		},
 		{
 			type: "password",
 			controlId: "password",
+			name: "password",
 			label: "Password:",
 			placeholder: "password",
 			autoComplete: "false",
+			required: true,
+			invalidMessage: "You must provide a password to log in",
 		},
 	];
 	return forms;

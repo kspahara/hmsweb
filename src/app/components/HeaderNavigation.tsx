@@ -1,6 +1,6 @@
 import { Link, NavLink, useFetcher, useRouteLoaderData } from "react-router-dom";
 import { Button, Form, Container, Navbar, Nav, NavDropdown } from "react-bootstrap";
-import { IsAuthenticated, UserName } from "../provides/auth";
+import { IsAuthenticated, UserName } from "../provides/auth.ts";
 
 export function HeaderNavigation(): JSX.Element {
 	type Link = { to: string; label: string };

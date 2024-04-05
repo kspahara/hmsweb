@@ -1,6 +1,6 @@
 import { Link, Form as RouterForm, useLoaderData, useNavigate } from "react-router-dom";
-import { Button, Card, Form } from "react-bootstrap";
-import { FloatingForms, Form as FormType } from "../../components/FloatingForms";
+import { Button, Card, Form, Stack } from "react-bootstrap";
+import { CreateForm, FormType } from "../../components/CreateForm.tsx";
 
 export function ProtectedAlbumsIdPage(): JSX.Element {
 	const { data, forms, users, message } = useLoaderData() as {
@@ -19,13 +19,17 @@ export function ProtectedAlbumsIdPage(): JSX.Element {
 			<>
 				<Form as={RouterForm} method={"post"} replace={true}>
 					<fieldset disabled={!isEdit}>
-						<FloatingForms forms={forms} data={data} option={users} />
+						<Stack gap={3}>
+							{forms.map((form, index) => (
+								<CreateForm key={index} form={form} data={data} option={users} />
+							))}
+							<div>
+								<Button variant={"success"} type={"submit"}>
+									Update
+								</Button>
+							</div>
+						</Stack>
 					</fieldset>
-					<div className={"d-flex justify-content-between"}>
-						<Button variant={"success"} type={"submit"}>
-							Update
-						</Button>
-					</div>
 				</Form>
 			</>
 		);

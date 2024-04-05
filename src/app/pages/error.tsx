@@ -1,6 +1,5 @@
 import { Container } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { useRouteError } from "react-router-dom";
+import { Link, useRouteError } from "react-router-dom";
 
 export function ErrorPage() {
 	const error = useRouteError() as Error;

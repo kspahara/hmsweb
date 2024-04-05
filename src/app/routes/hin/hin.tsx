@@ -1,16 +1,20 @@
-import { LoaderFunctionArgs, defer, NavLink } from "react-router-dom";
+import {
+	// LoaderFunctionArgs,
+	//  defer,
+	NavLink,
+} from "react-router-dom";
 import { Breadcrumb } from "react-bootstrap";
-import { HinIndexPage } from "../../pages/hin/hin";
-import { getLocationPath } from "../../libs/libs";
+// import { HinPage } from "../../pages/hin/hin";
+import { getLocationPath } from "../../libs/libs.ts";
 
-const clientLoader = async ({ request }: LoaderFunctionArgs) => {
-	const url = new URL(request.url);
-	const searchParams = url.searchParams;
+// export const clientLoader = async ({ request }: LoaderFunctionArgs) => {
+// 	const url = new URL(request.url);
+// 	const searchParams = url.searchParams;
 
-	return defer({ searchParams });
-};
+// 	return defer({ searchParams });
+// };
 
-const handle = {
+export const handle = {
 	crumb: (match: { pathname: string }): JSX.Element => {
 		const props = {
 			linkAs: NavLink,
@@ -22,9 +26,9 @@ const handle = {
 	},
 };
 
-export function HinIndexRoute(): JSX.Element {
-	return <HinIndexPage />;
-}
+// export function HinRoute(): JSX.Element {
+// 	return <HinPage />;
+// }
 
-HinIndexRoute.loader = clientLoader;
-HinIndexRoute.handle = handle;
+// HinRoute.loader = clientLoader;
+// HinRoute.handle = handle;

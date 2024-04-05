@@ -1,10 +1,8 @@
 import { NavLink, LoaderFunctionArgs } from "react-router-dom";
 import { Breadcrumb } from "react-bootstrap";
-import { getHinDetail } from "../../data/hin/getHinDetail";
-import { HinDetailPage } from "../../pages/hin/hin.$hin_cd";
-import { getLocationPath } from "../../libs/libs";
-
-
+import { getHinDetail } from "../../data/hin/getHinDetail.ts";
+import { HinDetailPage } from "../../pages/hin/hin.$hin_cd.tsx";
+import { getLocationPath } from "../../libs/libs.ts";
 
 const clientLoader = async ({ params }: LoaderFunctionArgs) => {
 	return { data: await getHinDetail(params.hin_cd) };

@@ -1,17 +1,18 @@
 import { NavLink, LoaderFunctionArgs } from "react-router-dom";
 import { Breadcrumb } from "react-bootstrap";
-import { getComments } from "../../data/jsonplaceholder/comments";
-import { ProtectedCommentsIdPage } from "../../pages/jsonplaceholder/_protected.comments.$id";
-import { authProvider } from "../../provides/auth";
-import { Form } from "../../components/FloatingForms";
-import { getPosts } from "../../data/jsonplaceholder/posts";
-import { getLocationPath } from "../../libs/libs";
+import { getComments } from "../../data/jsonplaceholder/comments.ts";
+import { ProtectedCommentsIdPage } from "../../pages/jsonplaceholder/_protected.comments.$id.tsx";
+import { authProvider } from "../../provides/auth.ts";
+import { FormType } from "../../components/CreateForm.tsx";
+import { getPosts } from "../../data/jsonplaceholder/posts.ts";
+import { getLocationPath } from "../../libs/libs.ts";
 
 const getForms = async () => {
-	const forms: Form[] = [
+	const forms: FormType[] = [
 		{
 			type: "number",
 			controlId: "id",
+			name: "id",
 			label: "Id:",
 			placeholder: "Id",
 			disabled: true,
@@ -21,24 +22,28 @@ const getForms = async () => {
 		{
 			type: "text",
 			controlId: "name",
+			name: "name",
 			label: "Name:",
 			placeholder: "Name",
 		},
 		{
 			type: "text",
 			controlId: "email",
+			name: "email",
 			label: "Email:",
 			placeholder: "Email",
 		},
 		{
 			type: "text",
 			controlId: "body",
+			name: "body",
 			label: "Body:",
 			placeholder: "Body",
 		},
 		{
 			as: "select",
 			controlId: "postId",
+			name: "postId",
 			label: "PostId:",
 			placeholder: "Select PostId",
 			ariaLabel: "PostId",

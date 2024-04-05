@@ -1,18 +1,19 @@
 import { NavLink, LoaderFunctionArgs, redirect } from "react-router-dom";
 import { Breadcrumb } from "react-bootstrap";
-import { Form } from "../../components/FloatingForms";
-import { getAlbumDetail } from "../../data/jsonplaceholder/albums";
-import { updateAlbum } from "../../data/jsonplaceholder/albums";
-import { getUsers } from "../../data/jsonplaceholder/users";
-import { ProtectedAlbumsIdPage } from "../../pages/jsonplaceholder/_protected.albums.$id";
-import { authProvider } from "../../provides/auth";
-import { getLocationPath } from "../../libs/libs";
+import { FormType } from "../../components/CreateForm.tsx";
+import { getAlbumDetail } from "../../data/jsonplaceholder/albums.ts";
+import { updateAlbum } from "../../data/jsonplaceholder/albums.ts";
+import { getUsers } from "../../data/jsonplaceholder/users.ts";
+import { ProtectedAlbumsIdPage } from "../../pages/jsonplaceholder/_protected.albums.$id.tsx";
+import { authProvider } from "../../provides/auth.ts";
+import { getLocationPath } from "../../libs/libs.ts";
 
 const getForms = async () => {
-	const forms: Form[] = [
+	const forms: FormType[] = [
 		{
 			type: "number",
 			controlId: "id",
+			name: "id",
 			label: "Id:",
 			placeholder: "Id",
 			disabled: true,
@@ -22,12 +23,14 @@ const getForms = async () => {
 		{
 			type: "text",
 			controlId: "title",
+			name: "title",
 			label: "Title:",
 			placeholder: "Title",
 		},
 		{
 			as: "select",
 			controlId: "userId",
+			name: "userId",
 			label: "UserId:",
 			placeholder: "Select UserId",
 			ariaLabel: "UserId",

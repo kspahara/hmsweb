@@ -1,5 +1,5 @@
 import { Link, useLoaderData } from "react-router-dom";
-import { Comment } from "../../data/jsonplaceholder/comments";
+import { Comment } from "../../data/jsonplaceholder/comments.ts";
 
 export function ProtectedCommentsPage() {
 	const { data } = useLoaderData() as { data: Comment[] };

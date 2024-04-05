@@ -1,6 +1,6 @@
 import { LoaderFunctionArgs, redirect } from "react-router-dom";
-import { authProvider } from "../provides/auth";
-import { getLocationPath } from "../libs/libs";
+import { authProvider } from "../provides/auth.ts";
+import { getLocationPath } from "../libs/libs.ts";
 
 export const clientLoader = ({ request }: LoaderFunctionArgs) => {
 	const isAuth = authProvider.isAuthenticated;

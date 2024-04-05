@@ -1,10 +1,10 @@
 import { NavLink } from "react-router-dom";
 import { Breadcrumb } from "react-bootstrap";
-import { RootPage } from "../pages/_index";
-import { authProvider } from "../provides/auth";
-import { getLocationPath } from "../libs/libs";
+import { RootPage } from "../pages/_index.tsx";
+import { authProvider } from "../provides/auth.ts";
+import { getLocationPath } from "../libs/libs.ts";
 
-const clientLoader = async () => {
+const clientLoader = () => {
 	// ログインしている場合、rootルートは常にauthProviderを返す
 	return { user: authProvider.username, isAuth: authProvider.isAuthenticated };
 };

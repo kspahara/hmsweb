@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 
-export function HinIndexPage(): JSX.Element {
+export function HinPage(): JSX.Element {
 	return (
 		<>
 			<section>

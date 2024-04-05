@@ -1,6 +1,6 @@
-import { PublicPage } from "../pages/public";
+import { PublicPage } from "../pages/public.tsx";
 
-const clientLoader = async () => {
+const clientLoader = () => {
 	return { message: "Public Page" };
 };
 

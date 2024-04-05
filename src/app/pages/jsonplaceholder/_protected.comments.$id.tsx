@@ -1,6 +1,6 @@
 import { Link, Form as RouterForm, useLoaderData, useNavigate } from "react-router-dom";
-import { Button, Card, Form } from "react-bootstrap";
-import { FloatingForms, Form as FormType } from "../../components/FloatingForms";
+import { Button, Card, Form, Stack } from "react-bootstrap";
+import { CreateForm, FormType } from "../../components/CreateForm.tsx";
 
 export function ProtectedCommentsIdPage() {
 	const { data, forms, posts } = useLoaderData() as { data: Record<string, string>; forms: FormType[]; posts: Record<string, string>[] };
@@ -14,13 +14,17 @@ export function ProtectedCommentsIdPage() {
 			<>
 				<Form as={RouterForm} method={"post"} replace={true}>
 					<fieldset disabled={!isEdit}>
-						<FloatingForms forms={forms} data={data} option={posts} />
+						<Stack gap={3}>
+							{forms.map((form, index) => (
+								<CreateForm key={index} form={form} data={data} option={posts} />
+							))}
+							<div>
+								<Button variant={"success"} type={"submit"}>
+									Update
+								</Button>
+							</div>
+						</Stack>
 					</fieldset>
-					<div className={"d-flex justify-content-between"}>
-						<Button variant={"success"} type={"submit"}>
-							Update
-						</Button>
-					</div>
 				</Form>
 			</>
 		);

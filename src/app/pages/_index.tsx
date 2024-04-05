@@ -1,9 +1,9 @@
 import { Outlet, ScrollRestoration } from "react-router-dom";
-import { ProgressNav } from "../components/ProgressNav";
-import { HeaderNavigation } from "../components/HeaderNavigation";
-import { Breadcrumbs } from "../components/Breadcrumbs";
 import { Container } from "react-bootstrap";
-import { ReturnTopBtn } from "../components/ReturnTopBtn";
+import { ProgressNav } from "../components/ProgressNav.tsx";
+import { HeaderNavigation } from "../components/HeaderNavigation.tsx";
+import { Breadcrumbs } from "../components/Breadcrumbs.tsx";
+import { ReturnTopBtn } from "../components/ReturnTopBtn.tsx";
 
 export function RootPage(): JSX.Element {
 	const isDebugMode = import.meta.env.VITE_DEBBUG === "true";
