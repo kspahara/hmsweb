@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import { Breadcrumb } from "react-bootstrap";
 import { RootPage } from "../pages/_index";
 import { authProvider } from "../provides/auth";
+import { getLocationPath } from "../libs/libs";
 
 const clientLoader = async () => {
 	// ログインしている場合、rootルートは常にauthProviderを返す
@@ -13,7 +14,7 @@ const handle = {
 		const props = {
 			linkAs: NavLink,
 			linkProps: { to: `${match.pathname}` },
-			active: location.pathname === match.pathname,
+			active: getLocationPath() === match.pathname,
 		};
 		const label = (
 			<>

@@ -20,7 +20,7 @@ export const ReturnTopBtn = () => {
 					transition: "0.5s",
 				}}
 			>
-				<Button variant={"secondary"} className={"rounded-pill"} onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} aria-label={"ページ上部へ戻る"}>
+				<Button variant={"secondary"} className={"rounded-pill shadow-sm"} onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} aria-label={"ページ上部へ戻る"}>
 					<i className={"bi bi-arrow-up me-1"}></i>TOP
 				</Button>
 			</aside>

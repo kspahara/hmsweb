@@ -3,6 +3,7 @@ import { Breadcrumb } from "react-bootstrap";
 import { authProvider } from "../provides/auth";
 import { LoginPage } from "../pages/login";
 import { Form } from "../components/FloatingForms";
+import { getLocationPath } from "../libs/libs";
 
 const getForms = async () => {
 	const forms: Form[] = [
@@ -62,7 +63,7 @@ const handle = {
 		const props = {
 			linkAs: NavLink,
 			linkProps: { to: `${match.pathname}`, end: true },
-			active: location.pathname === match.pathname,
+			active: getLocationPath() === match.pathname,
 		};
 		const label = "Login";
 		return <Breadcrumb.Item {...props}>{label}</Breadcrumb.Item>;

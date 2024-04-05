@@ -19,6 +19,7 @@ export function HeaderNavigation(): JSX.Element {
 		external_links: [{ href: "..", label: "Home" }],
 		links: [
 			{ to: "./", label: "Public" },
+			{ to: "/hin", label: "Item" },
 			{ to: "/albums", label: "Albums List (Protected)" },
 		],
 		not_auth_links: [{ to: "./login", label: "Login" }],
@@ -41,7 +42,7 @@ export function HeaderNavigation(): JSX.Element {
 			<Navbar expand={"lg"} fixed={"top"} className={"bg-white _border-bottom shadow-sm"}>
 				<Container fluid>
 					<Navbar.Brand as={Link} to={".."}>
-						React-Bootstrap
+						Template-App
 					</Navbar.Brand>
 					<Navbar.Toggle aria-controls={"basic-navbar-nav"} />
 					<Navbar.Collapse id={"basic-navbar-nav"}>

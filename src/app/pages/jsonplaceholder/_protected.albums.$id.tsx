@@ -57,28 +57,29 @@ export function ProtectedAlbumsIdPage(): JSX.Element {
 								navigate(-1);
 							}}
 						>
+							<i className={"bi bi-arrow-left me-1"}></i>
 							Back
 						</Button>
-						{isEdit ? (
-							<Button
-								type={"button"}
-								variant={"secondary"}
-								onClick={() => {
-									navigate(-1);
-								}}
-							>
-								Cancel
-							</Button>
-						) : (
-							<Link to={"edit"} className={"btn btn-primary"}>
-								Edit
-							</Link>
-						)}
 					</nav>
 				</header>
 				<hr />
 				<section>
 					<h2 className={"h3"}>{data.title}</h2>
+					{isEdit ? (
+						<Button
+							type={"button"}
+							variant={"secondary"}
+							onClick={() => {
+								navigate(-1);
+							}}
+						>
+							Cancel
+						</Button>
+					) : (
+						<Link to={"edit"} className={"btn btn-primary"}>
+							Edit
+						</Link>
+					)}
 					<div className={"col-sm-6 mx-auto"}>
 						<Card body className={"shadow-sm mb-3"}>
 							{isEdit ? <FormContents /> : <Contents />}

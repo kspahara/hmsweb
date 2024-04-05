@@ -27,6 +27,41 @@ const router = [
 				},
 			},
 			{
+				path: "hin",
+				async lazy() {
+					const { HinIndexRoute } = await import("./app/routes/hin/hin");
+					return {
+						loader: HinIndexRoute.loader,
+						handle: HinIndexRoute.handle,
+						element: <HinIndexRoute />,
+					};
+				},
+				errorElement: <ErrorPage />,
+				children: [
+					{
+						index: true,
+						async lazy() {
+							const { HinRoute } = await import("./app/routes/hin/hin._index");
+							return {
+								loader: HinRoute.loader,
+								element: <HinRoute />,
+							};
+						},
+					},
+					{
+						path: ":hin_cd",
+						async lazy() {
+							const { HinDetailRoute } = await import("./app/routes/hin/hin.$hin_cd");
+							return {
+								loader: HinDetailRoute.loader,
+								handle: HinDetailRoute.handle,
+								element: <HinDetailRoute />,
+							};
+						},
+					},
+				],
+			},
+			{
 				id: "pathless-protected-layout",
 				async lazy() {
 					const { clientLoader } = await import("./app/routes/_protected");
@@ -71,7 +106,6 @@ const router = [
 							},
 						],
 					},
-
 					{
 						id: "protected-comments-layout",
 						path: "comments",
@@ -186,7 +220,7 @@ export default function App(): JSX.Element {
 	return (
 		<RouterProvider
 			router={createBrowserRouter(router, {
-				basename: "/",
+				basename: "/base/",
 				future: {
 					v7_fetcherPersist: true,
 					v7_normalizeFormMethod: true,

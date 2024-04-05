@@ -6,6 +6,7 @@ import { updateAlbum } from "../../data/jsonplaceholder/albums";
 import { getUsers } from "../../data/jsonplaceholder/users";
 import { ProtectedAlbumsIdPage } from "../../pages/jsonplaceholder/_protected.albums.$id";
 import { authProvider } from "../../provides/auth";
+import { getLocationPath } from "../../libs/libs";
 
 const getForms = async () => {
 	const forms: Form[] = [
@@ -56,7 +57,7 @@ const handle = {
 		const props = {
 			linkAs: NavLink,
 			linkProps: { to: `${match.pathname}` },
-			active: location.pathname === match.pathname,
+			active: getLocationPath() === match.pathname,
 		};
 		const label = match.data.data.title;
 

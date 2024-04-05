@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, ScrollRestoration } from "react-router-dom";
 import { ProgressNav } from "../components/ProgressNav";
 import { HeaderNavigation } from "../components/HeaderNavigation";
 import { Breadcrumbs } from "../components/Breadcrumbs";
@@ -19,6 +19,7 @@ export function RootPage(): JSX.Element {
 				<Container>
 					<Breadcrumbs />
 					<Outlet />
+					<ScrollRestoration />
 				</Container>
 			</main>
 			<footer>

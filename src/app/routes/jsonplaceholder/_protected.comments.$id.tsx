@@ -5,6 +5,7 @@ import { ProtectedCommentsIdPage } from "../../pages/jsonplaceholder/_protected.
 import { authProvider } from "../../provides/auth";
 import { Form } from "../../components/FloatingForms";
 import { getPosts } from "../../data/jsonplaceholder/posts";
+import { getLocationPath } from "../../libs/libs";
 
 const getForms = async () => {
 	const forms: Form[] = [
@@ -59,7 +60,7 @@ const handle = {
 		const props = {
 			linkAs: NavLink,
 			linkProps: { to: `${match.pathname}` },
-			active: location.pathname === match.pathname,
+			active: getLocationPath() === match.pathname,
 		};
 		const label = match.data.data.name;
 		return <Breadcrumb.Item {...props}>{label}</Breadcrumb.Item>;
