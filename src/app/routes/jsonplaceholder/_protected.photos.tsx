@@ -1,6 +1,6 @@
-import { getPhotos } from "../data/jsonplaceholder/photos";
-import { ProtectedPhotosPage } from "../pages/_protected.photos";
-import { authProvider } from "../provides/auth";
+import { getPhotos } from "../../data/jsonplaceholder/photos";
+import { ProtectedPhotosPage } from "../../pages/jsonplaceholder/_protected.photos";
+import { authProvider } from "../../provides/auth";
 
 const clientLoader = async () => {
 	const isAuth = authProvider.isAuthenticated;

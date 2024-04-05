@@ -2,10 +2,10 @@ import { ActionFunctionArgs, redirect, NavLink, LoaderFunctionArgs } from "react
 import { Breadcrumb } from "react-bootstrap";
 import { authProvider } from "../provides/auth";
 import { LoginPage } from "../pages/login";
-import { Form } from "../components/Forms";
+import { Form } from "../components/FloatingForms";
 
-const getForms = async (): Promise<Form[]> => {
-	const forms = [
+const getForms = async () => {
+	const forms: Form[] = [
 		{
 			type: "text",
 			controlId: "username",

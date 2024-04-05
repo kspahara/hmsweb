@@ -1,6 +1,6 @@
-import { getTodos } from "../data/jsonplaceholder/todos";
-import { ProtectedTodosPage } from "../pages/_protected.todos";
-import { authProvider } from "../provides/auth";
+import { getTodos } from "../../data/jsonplaceholder/todos";
+import { ProtectedTodosPage } from "../../pages/jsonplaceholder/_protected.todos";
+import { authProvider } from "../../provides/auth";
 
 const clientLoader = async () => {
 	const isAuth = authProvider.isAuthenticated;

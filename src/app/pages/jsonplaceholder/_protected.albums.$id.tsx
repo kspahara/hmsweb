@@ -1,20 +1,20 @@
 import { Link, Form as RouterForm, useLoaderData, useNavigate } from "react-router-dom";
 import { Button, Card, Form } from "react-bootstrap";
-import { Forms, Form as FormType } from "../components/Forms";
+import { FloatingForms, Form as FormType } from "../../components/FloatingForms";
 
-export function ProtectedCommentsIdPage() {
-	const { data, forms, posts } = useLoaderData() as { data: Record<string, string>; forms: FormType[]; posts: Record<string, string>[] };
+export function ProtectedAlbumsIdPage(): JSX.Element {
+	const { data, forms, users } = useLoaderData() as { data: Record<string, string>; forms: FormType[]; users: Record<string, string>[] };
 	const isEdit = location.pathname.includes("edit");
 	const navigate = useNavigate();
 	// console.log("data", data);
 	// console.log("forms", forms);
 
-	const FormContents = () => {
+	const FormContents = (): JSX.Element => {
 		return (
 			<>
 				<Form as={RouterForm} method={"post"} replace={true}>
 					<fieldset disabled={!isEdit}>
-						<Forms forms={forms} data={data} option={posts} />
+						<FloatingForms forms={forms} data={data} option={users} />
 					</fieldset>
 					<div className={"d-flex justify-content-between"}>
 						<Button variant={"success"} type={"submit"}>
@@ -26,7 +26,7 @@ export function ProtectedCommentsIdPage() {
 		);
 	};
 
-	const Contents = () => {
+	const Contents = (): JSX.Element => {
 		return (
 			<>
 				{forms.map((form, index) => (
@@ -42,7 +42,7 @@ export function ProtectedCommentsIdPage() {
 	return (
 		<>
 			<section>
-				<h3>ProtectedCommentsIdPage</h3>
+				<h2>ProtectedAlbumsIdPage</h2>
 				<nav className={"mb-3"}>
 					<Button
 						type={"button"}

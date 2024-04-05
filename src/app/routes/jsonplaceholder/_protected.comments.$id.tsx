@@ -1,10 +1,10 @@
 import { NavLink, LoaderFunctionArgs } from "react-router-dom";
 import { Breadcrumb } from "react-bootstrap";
-import { getComments } from "../data/jsonplaceholder/comments";
-import { ProtectedCommentsIdPage } from "../pages/_protected.comments.$id";
-import { authProvider } from "../provides/auth";
-import { Form } from "../components/Forms";
-import { getPosts } from "../data/jsonplaceholder/posts";
+import { getComments } from "../../data/jsonplaceholder/comments";
+import { ProtectedCommentsIdPage } from "../../pages/jsonplaceholder/_protected.comments.$id";
+import { authProvider } from "../../provides/auth";
+import { Form } from "../../components/FloatingForms";
+import { getPosts } from "../../data/jsonplaceholder/posts";
 
 const getForms = async () => {
 	const forms: Form[] = [

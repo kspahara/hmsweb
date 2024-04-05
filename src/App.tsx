@@ -41,7 +41,7 @@ const router = [
 						id: "protected-albums-layout",
 						path: "albums",
 						async lazy() {
-							const { handle } = await import("./app/routes/_protected.albums");
+							const { handle } = await import("./app/routes/jsonplaceholder/_protected.albums");
 							return {
 								handle: handle,
 							};
@@ -51,7 +51,7 @@ const router = [
 							{
 								index: true,
 								async lazy() {
-									const { ProtectedAlbumsRoute } = await import("./app/routes/_protected.albums._index");
+									const { ProtectedAlbumsRoute } = await import("./app/routes/jsonplaceholder/_protected.albums._index");
 									return {
 										loader: ProtectedAlbumsRoute.loader,
 										element: <ProtectedAlbumsRoute />,
@@ -61,7 +61,7 @@ const router = [
 							{
 								path: ":id/edit?",
 								async lazy() {
-									const { ProtectedAlbumsIdRoute } = await import("./app/routes/_protected.albums.$id");
+									const { ProtectedAlbumsIdRoute } = await import("./app/routes/jsonplaceholder/_protected.albums.$id");
 									return {
 										loader: ProtectedAlbumsIdRoute.loader,
 										action: ProtectedAlbumsIdRoute.action,
@@ -77,7 +77,7 @@ const router = [
 						id: "protected-comments-layout",
 						path: "comments",
 						async lazy() {
-							const { handle } = await import("./app/routes/_protected.comments");
+							const { handle } = await import("./app/routes/jsonplaceholder/_protected.comments");
 							return {
 								handle: handle,
 							};
@@ -87,7 +87,7 @@ const router = [
 							{
 								index: true,
 								async lazy() {
-									const { ProtectedCommentsRoute } = await import("./app/routes/_protected.comments._index");
+									const { ProtectedCommentsRoute } = await import("./app/routes/jsonplaceholder/_protected.comments._index");
 									return {
 										loader: ProtectedCommentsRoute.loader,
 										element: <ProtectedCommentsRoute />,
@@ -97,7 +97,7 @@ const router = [
 							{
 								path: ":id/edit?",
 								async lazy() {
-									const { ProtectedCommentsIdRoute } = await import("./app/routes/_protected.comments.$id");
+									const { ProtectedCommentsIdRoute } = await import("./app/routes/jsonplaceholder/_protected.comments.$id");
 									return {
 										loader: ProtectedCommentsIdRoute.loader,
 										handle: ProtectedCommentsIdRoute.handle,
@@ -110,7 +110,7 @@ const router = [
 					{
 						path: "photos",
 						async lazy() {
-							const { ProtectedPhotosRoute } = await import("./app/routes/_protected.photos");
+							const { ProtectedPhotosRoute } = await import("./app/routes/jsonplaceholder/_protected.photos");
 							return {
 								loader: ProtectedPhotosRoute.loader,
 								element: <ProtectedPhotosRoute />,
@@ -120,7 +120,7 @@ const router = [
 					{
 						path: "posts",
 						async lazy() {
-							const { ProtectedPostsRoute } = await import("./app/routes/_protected.posts");
+							const { ProtectedPostsRoute } = await import("./app/routes/jsonplaceholder/_protected.posts");
 							return {
 								loader: ProtectedPostsRoute.loader,
 								element: <ProtectedPostsRoute />,
@@ -130,7 +130,7 @@ const router = [
 					{
 						path: "todos",
 						async lazy() {
-							const { ProtectedTodosRoute } = await import("./app/routes/_protected.todos");
+							const { ProtectedTodosRoute } = await import("./app/routes/jsonplaceholder/_protected.todos");
 							return {
 								loader: ProtectedTodosRoute.loader,
 								element: <ProtectedTodosRoute />,
@@ -140,7 +140,7 @@ const router = [
 					{
 						path: "users",
 						async lazy() {
-							const { ProtectedUsersRoute } = await import("./app/routes/_protected.users");
+							const { ProtectedUsersRoute } = await import("./app/routes/jsonplaceholder/_protected.users");
 							return {
 								loader: ProtectedUsersRoute.loader,
 								element: <ProtectedUsersRoute />,

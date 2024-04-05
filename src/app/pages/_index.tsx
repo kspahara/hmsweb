@@ -5,16 +5,16 @@ import { Button, Form, Container } from "react-bootstrap";
 
 const HeaderNavigation = (): JSX.Element => {
 	type Link = { to: string; label: string };
-	interface Links {
+	type Links = {
 		external_links: { href: string; label: string }[];
 		links: Link[];
 		not_auth_links: Link[];
 		protected_links: Link[];
-	}
-	interface Auth {
+	};
+	type Auth = {
 		user: UserName;
 		isAuth: IsAuthenticated;
-	}
+	};
 
 	const links: Links = {
 		external_links: [{ href: "..", label: "Home Page" }],

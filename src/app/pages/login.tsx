@@ -1,6 +1,6 @@
 import { Form as RouterForm, useActionData, useLoaderData, useNavigation } from "react-router-dom";
 import { Breadcrumbs } from "../components/Breadcrumbs";
-import { Forms, Form as FormType } from "../components/Forms";
+import { FloatingForms, Form as FormType } from "../components/FloatingForms";
 import { Alert, Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 import { Fallback } from "../components/Fallback";
 
@@ -21,7 +21,7 @@ export function LoginPage() {
 						<Col md={6} lg={4} className={"mx-auto"}>
 							<Card body className={"mb-3 shadow-sm"}>
 								<Form as={RouterForm} method={"post"} replace>
-									<Forms forms={forms} />
+									<FloatingForms forms={forms} />
 									<Button type={"submit"} className={"w-100"}>
 										{isLoggingIn ? <Fallback /> : <span>{"Login"}</span>}
 									</Button>

@@ -2,10 +2,10 @@ import { LoaderFunctionArgs, redirect } from "react-router-dom";
 import { authProvider } from "../provides/auth";
 import { ProtectedRoutePage } from "../pages/_protected";
 
-const clientLoader = async ({ request }: LoaderFunctionArgs) => {
+const clientLoader = ({ request }: LoaderFunctionArgs) => {
 	const isAuth = authProvider.isAuthenticated;
 	// ログインしていないユーザーが`/protected`にアクセスしようとした場合`/login`にリダイレクトする
-	return !isAuth ? redirect(`/login?from=${new URL(request.url).pathname}`) : null;
+	return !isAuth ? redirect(`/login?from=${new URL(request.url).pathname}`) : { message: "Protected Page" };
 };
 
 export function ProtectedRoute(): JSX.Element {

@@ -1,11 +1,11 @@
 import { NavLink, LoaderFunctionArgs, redirect } from "react-router-dom";
 import { Breadcrumb } from "react-bootstrap";
-import { getAlbumDetail } from "../data/jsonplaceholder/albums";
-import { updateAlbum } from "../data/jsonplaceholder/albums";
-import { ProtectedAlbumsIdPage } from "../pages/_protected.albums.$id";
-import { authProvider } from "../provides/auth";
-import { Form } from "../components/Forms";
-import { getUsers } from "../data/jsonplaceholder/users";
+import { Form } from "../../components/FloatingForms";
+import { getAlbumDetail } from "../../data/jsonplaceholder/albums";
+import { updateAlbum } from "../../data/jsonplaceholder/albums";
+import { getUsers } from "../../data/jsonplaceholder/users";
+import { ProtectedAlbumsIdPage } from "../../pages/jsonplaceholder/_protected.albums.$id";
+import { authProvider } from "../../provides/auth";
 
 const getForms = async () => {
 	const forms: Form[] = [
