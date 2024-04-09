@@ -1,14 +1,7 @@
 import { useLoaderData } from "react-router-dom";
+import { Photo } from "../../data/jsonplaceholder/photos";
 
-interface Photo {
-	albumId: number;
-	id: number;
-	title: string;
-	url: string;
-	thumbnailUrl: string;
-}
-
-export function ProtectedPhotosPage() {
+export function ProtectedPhotosPage(): JSX.Element {
 	const { data } = useLoaderData() as { data: Photo[] };
 
 	return (
@@ -16,10 +9,10 @@ export function ProtectedPhotosPage() {
 			<section>
 				<h2>ProtectedPhotosPage</h2>
 				<ul>
-					{data.map((photo) => (
-						<li key={photo.id}>
+					{data.map((item) => (
+						<li key={item.id}>
 							<div>
-								{photo.id}:{photo.title}
+								{item.id}:{item.title}
 							</div>
 						</li>
 					))}

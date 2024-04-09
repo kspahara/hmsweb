@@ -31,9 +31,7 @@ const router = [
 				async lazy() {
 					const { handle } = await import("./app/routes/hin/hin.tsx");
 					return {
-						// loader: clientLoader,
 						handle: handle,
-						// element: <HinRoute />,
 					};
 				},
 				errorElement: <ErrorPage />,

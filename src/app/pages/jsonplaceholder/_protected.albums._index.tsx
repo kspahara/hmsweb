@@ -15,13 +15,12 @@ export function ProtectedAlbumsPage() {
 	};
 	const submit = useSubmit();
 	const [query, setQuery] = useState<Record<string, string>>({
-		userId: searchParams.userId,
-		title: searchParams.title,
+		...searchParams,
 	});
 	useEffect(() => {
 		setQuery({
-			userId: searchParams.userId,
-			title: searchParams.title,
+			...searchParams,
+			title: searchParams.title || "",
 		});
 	}, [searchParams]);
 
@@ -32,7 +31,7 @@ export function ProtectedAlbumsPage() {
 					<h1 className={"h2"}>{message}</h1>
 					<p>Protected Albums</p>
 					<div id={"search"}>
-						<Form role="search" onChange={(event) => submit(event.currentTarget)}>
+						<Form role="search" onChange={(e) => submit(e.currentTarget, { replace: true })}>
 							<Row className={"g-3"}>
 								<Suspense fallback={<Fallback />}>
 									<Await
@@ -40,38 +39,41 @@ export function ProtectedAlbumsPage() {
 										errorElement={<div>Error</div>}
 										children={(users): JSX.Element => (
 											<>
-												{forms.map((form, index) => (
-													<Col md key={index}>
-														<CreateForm
-															form={form}
-															data={data}
-															value={query[form.controlId]}
-															event={(e) => setQuery({ ...query, [form.controlId]: e.target.value })}
-															option={users}
-														/>
-													</Col>
-												))}
-
+												{forms.map((form, index) => {
+													const { name } = form;
+													return (
+														<Col md key={index}>
+															<CreateForm
+																form={form}
+																value={query[name]}
+																event={(e) => setQuery({ ...query, [name]: e.currentTarget.value })}
+																option={users}
+															/>
+														</Col>
+													);
+												})}
 												<Stack direction={"horizontal"} gap={2}>
-													{users
-														.filter((item: Record<string, string>) => item.id == query.userId)
-														.map((item: Record<string, string>, index: number) => (
-															<Badge
-																role="button"
-																key={index}
-																bg={"secondary"}
-																pill={false}
-																className={"btn"}
-																aroa-label={"Remove"}
-																onClick={() => {
-																	setQuery({ userId: "" });
-																	submit({ userId: "" });
-																}}
-															>
-																<i className={"bi bi-x me-1"}></i>
-																{item.name}
-															</Badge>
-														))}
+													{forms.map((form, index) => {
+														const { name, optionKey } = form;
+														return (
+															query[name] && (
+																<Badge
+																	role={"button"}
+																	key={index}
+																	bg={"secondary"}
+																	pill={false}
+																	className={"btn mt-3"}
+																	onClick={() => {
+																		setQuery({ ...query, [name]: "" });
+																		submit({ ...query, [name]: "" }, { replace: true });
+																	}}
+																>
+																	<i className={"bi bi-x me-1"}></i>
+																	{optionKey ? users.find((item: Record<string, string>) => item.id == query[name])?.name : query[name]}
+																</Badge>
+															)
+														);
+													})}
 												</Stack>
 											</>
 										)}

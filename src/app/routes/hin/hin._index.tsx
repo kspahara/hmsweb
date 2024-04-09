@@ -1,18 +1,8 @@
 import { LoaderFunctionArgs, defer } from "react-router-dom";
-import { getHinCond } from "../../data/hin/getHinCond.ts";
-import { getHinList } from "../../data/hin/getHinList.ts";
+import { getHinCond } from "../../data/hin/hin_cond.ts";
+import { getHinList } from "../../data/hin/hin.ts";
 import { HinIndexPage } from "../../pages/hin/hin._index.tsx";
 import { FormType } from "../../components/CreateForm.tsx";
-
-const getSearchParam = async (searchParams: URLSearchParams) => {
-	const p_key = ["keyword", "cat_cd", "ext_cat1_cd", "ext_cat2_cd", "ext_cat3_cd", "ext_cat4_cd", "ext_cat5_cd"];
-	const searchParams_key: Record<string, string> = {};
-	p_key.forEach((key) => {
-		searchParams_key[key] = searchParams.get(key) || "";
-	});
-
-	return searchParams_key;
-};
 
 const getForms = async () => {
 	const forms: FormType[] = [
@@ -22,7 +12,6 @@ const getForms = async () => {
 			name: "keyword",
 			label: "キーワード検索",
 			placeholder: "キーワードで絞り込む",
-			ariaLabel: "KeywordSearch",
 		},
 		{
 			as: "select",
@@ -83,15 +72,18 @@ const getForms = async () => {
 };
 
 const clientLoader = async ({ request }: LoaderFunctionArgs) => {
-	const url = new URL(request.url);
-	const search_params = url.searchParams;
-	const [searchParams, forms] = await Promise.all([getSearchParam(search_params), getForms()]);
-
+	const search_params = new URL(request.url).searchParams;
+	const searchParams = Object.fromEntries(
+		Array.from(search_params.entries()).map(([key, value]) => {
+			return [key, value ?? ""];
+		})
+	);
+	
 	return defer({
 		searchParams,
 		hin_cond: getHinCond(),
 		hin_list: getHinList(search_params),
-		forms,
+		forms: await getForms(),
 	});
 };
 

@@ -1,15 +1,20 @@
-import { NavLink } from "react-router-dom";
-import { Breadcrumb } from "react-bootstrap";
+import { CrumbItem } from "../../components/CrumbItem";
 import { getLocationPath } from "../../libs/libs";
 
+type Match = {
+	pathname: string;
+};
+
+const createCrumb = (match: Match): JSX.Element => {
+	const props = {
+		linkProps: { to: `${match.pathname}`, end: true },
+		active: getLocationPath() === match.pathname,
+	};
+	const label = <>{"Comments"}</>;
+
+	return <CrumbItem props={props} label={label} />;
+};
+
 export const handle = {
-	crumb: (match: { pathname: string }): JSX.Element => {
-		const props = {
-			linkAs: NavLink,
-			linkProps: { to: `${match.pathname}`, end: true },
-			active: getLocationPath() === match.pathname,
-		};
-		const label = "Comments";
-		return <Breadcrumb.Item {...props}>{label}</Breadcrumb.Item>;
-	},
+	crumb: createCrumb,
 };

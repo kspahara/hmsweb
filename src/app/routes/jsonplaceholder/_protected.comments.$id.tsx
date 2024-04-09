@@ -1,5 +1,5 @@
-import { NavLink, LoaderFunctionArgs } from "react-router-dom";
-import { Breadcrumb } from "react-bootstrap";
+import { LoaderFunctionArgs } from "react-router-dom";
+import { CrumbItem } from "../../components/CrumbItem.tsx";
 import { getComments } from "../../data/jsonplaceholder/comments.ts";
 import { ProtectedCommentsIdPage } from "../../pages/jsonplaceholder/_protected.comments.$id.tsx";
 import { authProvider } from "../../provides/auth.ts";
@@ -60,16 +60,30 @@ const clientLoader = async ({ params }: LoaderFunctionArgs) => {
 	return isAuth ? { data, forms, posts } : null;
 };
 
+type Match<T> = {
+	pathname: string;
+	data: {
+		data: T;
+	};
+};
+
+type Data = {
+	id: string;
+	name: string;
+};
+
+const createCrumb = (match: Match<Data>): JSX.Element => {
+	const props = {
+		linkProps: { to: `${match.pathname}` },
+		active: getLocationPath() === match.pathname,
+	};
+	const label = <>{match.data.data.name}</>;
+
+	return <CrumbItem props={props} label={label} />;
+};
+
 const handle = {
-	crumb: (match: { pathname: string; data: { data: { id: string; name: string } } }): JSX.Element => {
-		const props = {
-			linkAs: NavLink,
-			linkProps: { to: `${match.pathname}` },
-			active: getLocationPath() === match.pathname,
-		};
-		const label = match.data.data.name;
-		return <Breadcrumb.Item {...props}>{label}</Breadcrumb.Item>;
-	},
+	crumb: createCrumb,
 };
 
 export function ProtectedCommentsIdRoute(): JSX.Element {

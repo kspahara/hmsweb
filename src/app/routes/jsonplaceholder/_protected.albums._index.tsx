@@ -1,14 +1,15 @@
 import { LoaderFunctionArgs, defer } from "react-router-dom";
 import { FormType } from "../../components/CreateForm";
 import { getAlbums } from "../../data/jsonplaceholder/albums";
-import { getUsers } from "../../data/jsonplaceholder/users";
+import { getUser } from "../../data/jsonplaceholder/users";
 import { ProtectedAlbumsPage } from "../../pages/jsonplaceholder/_protected.albums._index";
 import { authProvider } from "../../provides/auth";
 
+// TODO
 const getForms = async () => {
 	const forms: FormType[] = [
 		{
-			type: "input",
+			type: "search",
 			controlId: "title",
 			name: "title",
 			label: "Title:",
@@ -27,27 +28,15 @@ const getForms = async () => {
 	return forms;
 };
 
-const getSearchParam = async (searchParams: URLSearchParams) => {
-	const forms = await getForms();
-	const searchParams_key: Record<string, string> = {};
-	forms.forEach((form) => {
-		searchParams_key[form.controlId] = searchParams.get(form.controlId) || "";
-	});
-
-	return searchParams_key;
-};
-
 const clientLoader = async ({ request }: LoaderFunctionArgs) => {
-	const url = new URL(request.url);
-	const searchParams = url.searchParams;
 	const isAuth = authProvider.isAuthenticated;
+	const search_params = new URL(request.url).searchParams;
+	const searchParams = Object.fromEntries(search_params.entries());
 
-	return isAuth
-		? defer({ data: getAlbums(searchParams), searchParams: await getSearchParam(searchParams), forms: await getForms(), users: getUsers(), message: "Albums" })
-		: null;
+	return isAuth ? defer({ data: getAlbums(search_params), searchParams, forms: await getForms(), users: getUser(search_params), message: "Albums" }) : null;
 };
 
-export function ProtectedAlbumsRoute() {
+export function ProtectedAlbumsRoute(): JSX.Element {
 	return <ProtectedAlbumsPage />;
 }
 

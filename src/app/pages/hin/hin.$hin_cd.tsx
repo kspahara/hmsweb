@@ -1,26 +1,8 @@
 import { Form, Button, Col, Row, Image, FloatingLabel, InputGroup, Card } from "react-bootstrap";
-import { useLoaderData, useNavigate, useRouteLoaderData } from "react-router-dom";
-import noImage from "../../assets/images/no_image.png";
+import { useHinDetailPage } from "../../hooks/hooks";
 
 export function HinDetailPage(): JSX.Element {
-	interface HinList {
-		results: {
-			hin_cd: string;
-			hin_nm: string;
-			tanka: string;
-			density: string;
-			size_cd: string;
-			hosoku1: string;
-			atch_flg: string;
-			atch_image: string;
-			biko1: string;
-		}[];
-	}
-
-	const { user } = useRouteLoaderData("root") as { user: string | null };
-	const { data } = useLoaderData() as { data: HinList };
-	const item = data.results[0];
-	const navigate = useNavigate();
+	const { user, item, navigate, noImage } = useHinDetailPage();
 
 	return (
 		<>

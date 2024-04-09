@@ -1,11 +1,11 @@
-import { ActionFunctionArgs, redirect, NavLink, LoaderFunctionArgs } from "react-router-dom";
-import { Breadcrumb } from "react-bootstrap";
-import { authProvider } from "../provides/auth.ts";
-import { LoginPage } from "../pages/login.tsx";
+import { ActionFunctionArgs, redirect, LoaderFunctionArgs } from "react-router-dom";
 import { FormType } from "../components/CreateForm.tsx";
+import { CrumbItem } from "../components/CrumbItem.tsx";
 import { getLocationPath } from "../libs/libs.ts";
+import { LoginPage } from "../pages/login.tsx";
+import { authProvider } from "../provides/auth.ts";
 
-const getForms = async () => {
+const getForms = async (): Promise<FormType[]> => {
 	const forms: FormType[] = [
 		{
 			type: "text",
@@ -31,11 +31,10 @@ const getForms = async () => {
 };
 
 const clientLoader = async ({ request }: LoaderFunctionArgs) => {
-	const url = new URL(request.url);
-	const searchParams = url.searchParams;
 	const isAuth = authProvider.isAuthenticated;
+	const from = new URL(request.url).searchParams.get("from") || "/";
 
-	return isAuth ? redirect("/") : { searchParams, forms: await getForms(), message: "Login Page" };
+	return isAuth ? redirect("/") : { from, forms: await getForms(), message: "Login Page" };
 };
 
 const clientAction = async ({ request }: ActionFunctionArgs) => {
@@ -63,16 +62,22 @@ const clientAction = async ({ request }: ActionFunctionArgs) => {
 	return redirect(redirectTo || "/");
 };
 
+type Match = {
+	pathname: string;
+};
+
+const createCrumb = (match: Match): JSX.Element => {
+	const props = {
+		linkProps: { to: `${match.pathname}`, end: true },
+		active: getLocationPath() === match.pathname,
+	};
+	const label = <>{"Login"}</>;
+
+	return <CrumbItem props={props} label={label} />;
+};
+
 const handle = {
-	crumb: (match: { pathname: string }): JSX.Element => {
-		const props = {
-			linkAs: NavLink,
-			linkProps: { to: `${match.pathname}`, end: true },
-			active: getLocationPath() === match.pathname,
-		};
-		const label = "Login";
-		return <Breadcrumb.Item {...props}>{label}</Breadcrumb.Item>;
-	},
+	crumb: createCrumb,
 };
 
 export function LoginRoute(): JSX.Element {

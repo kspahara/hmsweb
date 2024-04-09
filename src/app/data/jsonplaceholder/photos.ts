@@ -1,16 +1,23 @@
-export async function getPhotos() {
-	const apiUrl = import.meta.env.VITE_TEST_API_URL;
+import { handleResponse } from "../../libs/libs";
+
+const apiUrl = import.meta.env.VITE_TEST_API_URL;
+
+export type Photo = {
+	albumId: number;
+	id: number;
+	title: string;
+	url: string;
+	thumbnailUrl: string;
+};
+
+/**
+ *
+ * @returns
+ */
+export async function getPhotos(): Promise<Photo[]> {
 	const url = `${apiUrl}/photos`;
 	const res = await fetch(url);
-	if (!res.ok) {
-		throw new Error("Network response was not ok");
-	}
-	const data = await res.json();
-	if (!data) {
-		throw new Response("", {
-			status: 404,
-			statusText: "Not Found",
-		});
-	}
+	const data = await handleResponse(res);
+
 	return data;
 }

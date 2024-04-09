@@ -1,14 +1,13 @@
-import { useLoaderData, useRouteLoaderData } from "react-router-dom";
+import { usePublicPage } from "../hooks/hooks";
 
 export function PublicPage(): JSX.Element {
-	const { user } = useRouteLoaderData("root") as { user: string | null };
-	const data = useLoaderData() as { message: string };
+	const { user, message } = usePublicPage();
 
 	return (
 		<>
 			<section id={"public-page"}>
 				<header>
-					<h1>{data.message}</h1>
+					<h1>{message}</h1>
 					<p>Welcome, {user || "guest"}!</p>
 				</header>
 				<hr />

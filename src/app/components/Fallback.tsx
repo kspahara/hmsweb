@@ -1,6 +1,6 @@
 import { Spinner } from "react-bootstrap";
 
-export function Fallback(props: { animation?: "border" | "grow" }) {
+export function Fallback(props: { animation?: "border" | "grow" }): JSX.Element {
 	const animation = props.animation;
 
 	return (

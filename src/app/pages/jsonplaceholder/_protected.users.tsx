@@ -1,9 +1,5 @@
 import { useLoaderData } from "react-router-dom";
-
-interface User {
-	id: number;
-	name: string;
-}
+import { User } from "../../data/jsonplaceholder/users.ts";
 
 export function ProtectedUsersPage() {
 	const { data } = useLoaderData() as { data: User[] };

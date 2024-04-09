@@ -1,34 +1,20 @@
-import {
-	// LoaderFunctionArgs,
-	//  defer,
-	NavLink,
-} from "react-router-dom";
-import { Breadcrumb } from "react-bootstrap";
-// import { HinPage } from "../../pages/hin/hin";
+import { CrumbItem } from "../../components/CrumbItem.tsx";
 import { getLocationPath } from "../../libs/libs.ts";
 
-// export const clientLoader = async ({ request }: LoaderFunctionArgs) => {
-// 	const url = new URL(request.url);
-// 	const searchParams = url.searchParams;
-
-// 	return defer({ searchParams });
-// };
-
-export const handle = {
-	crumb: (match: { pathname: string }): JSX.Element => {
-		const props = {
-			linkAs: NavLink,
-			linkProps: { to: `${match.pathname}`, end: true },
-			active: getLocationPath() === match.pathname,
-		};
-		const label = "商品一覧";
-		return <Breadcrumb.Item {...props}>{label}</Breadcrumb.Item>;
-	},
+type Match = {
+	pathname: string;
 };
 
-// export function HinRoute(): JSX.Element {
-// 	return <HinPage />;
-// }
+const createCrumb = (match: Match): JSX.Element => {
+	const props = {
+		linkProps: { to: `${match.pathname}`, end: true },
+		active: getLocationPath() === match.pathname,
+	};
+	const label = <>{"商品一覧"}</>;
 
-// HinRoute.loader = clientLoader;
-// HinRoute.handle = handle;
+	return <CrumbItem props={props} label={label} />;
+};
+
+export const handle = {
+	crumb: createCrumb,
+};

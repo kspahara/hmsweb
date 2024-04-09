@@ -1,11 +1,5 @@
 import { useLoaderData } from "react-router-dom";
-
-interface Todo {
-	userId: number;
-	id: number;
-	title: string;
-	completed: boolean;
-}
+import { Todo } from "../../data/jsonplaceholder/todos";
 
 export function ProtectedTodosPage() {
 	const { data } = useLoaderData() as { data: Todo[] };

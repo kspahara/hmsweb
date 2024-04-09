@@ -5,8 +5,7 @@ import { getLocationPath } from "../libs/libs.ts";
 export const clientLoader = ({ request }: LoaderFunctionArgs) => {
 	const isAuth = authProvider.isAuthenticated;
 	const pathWithoutBase = getLocationPath(request);
-	// console.log(pathWithoutBase);
 	// ログインしていないユーザーが`/protected`にアクセスしようとした場合`/login`にリダイレクトする
 	// リダイレクト先にはログイン後にアクセスしようとしたページのパスを含める
-	return !isAuth ? redirect(`/login?from=${pathWithoutBase}`) : { message: "Protected Layout" };
+	return !isAuth ? redirect(`/login?from=${pathWithoutBase}`) : null;
 };

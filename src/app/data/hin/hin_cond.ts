@@ -1,10 +1,17 @@
-export type HinCond = {
+import { handleResponse } from "../../libs/libs";
+
+const apiUrl = import.meta.env.VITE_API_URL;
+
+type HinCond = {
 	han_cd: string;
 	han_name: string;
 };
 
+export type HinCondList = {
+	results: HinCond[];
+};
+
 export async function getHinCond() {
-	const apiUrl = import.meta.env.VITE_API_URL;
 	const url = `${apiUrl}/get-search-hin-cond.php`;
 	const param: RequestInit = {
 		method: "POST",
@@ -16,15 +23,7 @@ export async function getHinCond() {
 		body: JSON.stringify({}),
 	};
 	const res = await fetch(url, param);
-	if (!res.ok) {
-		throw new Error("Network response was not ok");
-	}
-	const data = await res.json();
-	if (!data) {
-		throw new Response("", {
-			status: 404,
-			statusText: "Not Found",
-		});
-	}
+	const data = await handleResponse(res);
+
 	return data;
 }

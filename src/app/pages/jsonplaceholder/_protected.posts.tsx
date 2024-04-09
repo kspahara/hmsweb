@@ -1,11 +1,5 @@
 import { useLoaderData } from "react-router-dom";
-
-interface Post {
-	userId: number;
-	id: number;
-	title: string;
-	body: string;
-}
+import { Post } from "../../data/jsonplaceholder/posts";
 
 export function ProtectedPostsPage() {
 	const { data } = useLoaderData() as { data: Post[] };

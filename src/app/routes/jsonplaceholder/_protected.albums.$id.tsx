@@ -1,5 +1,5 @@
-import { NavLink, LoaderFunctionArgs, redirect } from "react-router-dom";
-import { Breadcrumb } from "react-bootstrap";
+import { LoaderFunctionArgs, redirect } from "react-router-dom";
+import { CrumbItem } from "../../components/CrumbItem.tsx";
 import { FormType } from "../../components/CreateForm.tsx";
 import { getAlbumDetail } from "../../data/jsonplaceholder/albums.ts";
 import { updateAlbum } from "../../data/jsonplaceholder/albums.ts";
@@ -42,6 +42,7 @@ const getForms = async () => {
 
 const clientLoader = async ({ params }: LoaderFunctionArgs) => {
 	const isAuth = authProvider.isAuthenticated;
+
 	const [data, forms, users] = await Promise.all([getAlbumDetail(params.id), getForms(), getUsers()]);
 
 	return isAuth ? { data, forms, users, message: "ProtectedAlbumsIdPage" } : null;
@@ -55,17 +56,32 @@ const clientAction = async ({ params, request }: LoaderFunctionArgs) => {
 	return redirect(`/albums/${params.id}`);
 };
 
-const handle = {
-	crumb: (match: { pathname: string; data: { data: { title: string } } }): JSX.Element => {
-		const props = {
-			linkAs: NavLink,
-			linkProps: { to: `${match.pathname}` },
-			active: getLocationPath() === match.pathname,
-		};
-		const label = match.data.data.title;
+/**
+ * @param T
+ */
+type Match<T> = {
+	pathname: string;
+	data: {
+		data: T;
+	};
+};
 
-		return <Breadcrumb.Item {...props}>{label}</Breadcrumb.Item>;
-	},
+type Title = {
+	title: string;
+};
+
+const createCrumb = (match: Match<Title>): JSX.Element => {
+	const props = {
+		linkProps: { to: `${match.pathname}` },
+		active: getLocationPath() === match.pathname,
+	};
+	const label = <>{match.data.data.title}</>;
+
+	return <CrumbItem props={props} label={label} />;
+};
+
+const handle = {
+	crumb: createCrumb,
 };
 
 export function ProtectedAlbumsIdRoute(): JSX.Element {

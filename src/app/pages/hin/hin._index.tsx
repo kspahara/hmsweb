@@ -1,160 +1,14 @@
-import { Suspense, useEffect, useState } from "react";
+import { Suspense } from "react";
+import { Link, Await, Form as RouterForm } from "react-router-dom";
 import { Badge, Card, InputGroup, Alert, Button, Col, FloatingLabel, Form, Row, Spinner, Stack } from "react-bootstrap";
-import { Link, useRouteLoaderData, Await, useLoaderData, Form as RouterForm, useSubmit, useNavigation } from "react-router-dom";
-import noImage from "../../assets/images/no_image.png";
-import { parseInttoStr } from "../../libs/libs.ts";
-import { HinCond } from "../../data/hin/getHinCond.ts";
 import { Fallback } from "../../components/Fallback.tsx";
-import { CreateForm, FormType } from "../../components/CreateForm.tsx";
+import { CreateForm } from "../../components/CreateForm.tsx";
+import { HinList } from "../../data/hin/hin.ts";
+import { parseInttoStr } from "../../libs/libs.ts";
+import { useHinIndexPage } from "../../hooks/hooks.ts";
 
 const HinSearchArea = (): JSX.Element => {
-	const Contents = (): JSX.Element => {
-		interface HinConds {
-			results: HinCond[];
-		}
-		const { hin_cond, searchParams, forms } = useLoaderData() as {
-			hin_cond: HinConds;
-			searchParams: Record<string, string>;
-			forms: FormType[];
-		};
-
-		const [query, setQuery] = useState<Record<string, string>>({
-			keyword: searchParams.keyword,
-			cat_cd: searchParams.cat_cd,
-			ext_cat1_cd: searchParams.ext_cat1_cd,
-			ext_cat2_cd: searchParams.ext_cat2_cd,
-			ext_cat3_cd: searchParams.ext_cat3_cd,
-			ext_cat4_cd: searchParams.ext_cat4_cd,
-			ext_cat5_cd: searchParams.ext_cat5_cd,
-		});
-
-		useEffect(() => {
-			setQuery({
-				keyword: searchParams.keyword,
-				cat_cd: searchParams.cat_cd,
-				ext_cat1_cd: searchParams.ext_cat1_cd,
-				ext_cat2_cd: searchParams.ext_cat2_cd,
-				ext_cat3_cd: searchParams.ext_cat3_cd,
-				ext_cat4_cd: searchParams.ext_cat4_cd,
-				ext_cat5_cd: searchParams.ext_cat5_cd,
-			});
-		}, [searchParams]);
-		const submit = useSubmit();
-		// console.log("submit", submit);
-		const navigation = useNavigation();
-		const isSearching = navigation.formData?.get("keyword") != null;
-
-		return (
-			<>
-				<Form
-					as={RouterForm}
-					role={"search"}
-					// onChange={(event) => {
-					// 	const isFirstSearch = searchParams.get("keyword") === null;
-					// 	console.log("searchParams", searchParams.get("keyword"));
-					// 	console.log("isFirstSearch", isFirstSearch);
-					// 	submit(event.currentTarget, {
-					// 		replace: !isFirstSearch,
-					// 	});
-					// }}
-				>
-					<fieldset disabled={isSearching}>
-						<fieldset>
-							<legend className={"h6"}>{"絞り込む"}</legend>
-							<Row className={"gx-2 gy-2"}>
-								<Suspense fallback={<Fallback />}>
-									<Await resolve={hin_cond} errorElement={<Alert variant={"danger"}>{"商品が見つかりませんでした"}</Alert>}>
-										{(hin_cond): JSX.Element => (
-											<>
-												{forms.map((form, index) => {
-													const { controlId, name } = form;
-													return (
-														<Col key={index} md={controlId === "keyword" ? 12 : 6} lg={controlId === "keyword" ? 12 : 2}>
-															<CreateForm
-																form={form}
-																value={query[name]}
-																event={(e) => {
-																	setQuery({ ...query, [name]: e.target.value });
-																	submit(e.currentTarget.form as HTMLFormElement, {
-																		replace: true,
-																	});
-																}}
-																option={hin_cond.results[controlId]}
-															/>
-														</Col>
-													);
-												})}
-												<Stack direction={"horizontal"} gap={2}>
-													{forms.map((form, index) => {
-														const { controlId, name } = form;
-														return (
-															query[name] && (
-																<Badge
-																	role={"button"}
-																	key={index}
-																	bg={"secondary"}
-																	pill={false}
-																	className={"btn mt-3"}
-																	onClick={() => {
-																		setQuery({ ...query, [name]: "" });
-																		submit({ ...query, [name]: "" }, { replace: true });
-																	}}
-																>
-																	<i className={"bi bi-x me-1"}></i>
-																	{form.optionKey
-																		? hin_cond.results[controlId].find((item: Record<string, string>) => item.han_cd == query[name])?.han_name
-																		: query[name]}
-																</Badge>
-															)
-														);
-													})}
-												</Stack>
-											</>
-										)}
-									</Await>
-								</Suspense>
-							</Row>
-						</fieldset>
-						<div className={"text-end d-none"}>
-							<Button
-								variant={"secondary"}
-								type={"button"}
-								className={"me-2"}
-								onClick={(e) => {
-									setQuery({
-										keyword: "",
-										cat_cd: "",
-										ext_cat1_cd: "",
-										ext_cat2_cd: "",
-										ext_cat3_cd: "",
-										ext_cat4_cd: "",
-										ext_cat5_cd: "",
-									});
-									// submit(e.currentTarget.form as HTMLFormElement);
-									e.currentTarget.form?.reset();
-								}}
-							>
-								{isSearching ? (
-									<>
-										<Spinner size={"sm"} role={"status"} aria-hidden={"true"} className={"me-1"}>
-											<span className={"visually-hidden"}>{"Loading..."}</span>
-										</Spinner>
-									</>
-								) : (
-									<i className={"bi bi-arrow-counterclockwise me-1"}></i>
-								)}
-								{"リセット"}
-							</Button>
-							<Button variant={"primary"} type={"submit"}>
-								<i className={"bi bi-search me-1"}></i>
-								{"検索"}
-							</Button>
-						</div>
-					</fieldset>
-				</Form>
-			</>
-		);
-	};
+	const { hin_cond, forms, query, setQuery, submit, isSearching } = useHinIndexPage();
 
 	return (
 		<>
@@ -169,33 +23,130 @@ const HinSearchArea = (): JSX.Element => {
 						</Accordion.Body>
 					</Accordion.Item>
 				</Accordion> */}
-				<Contents />
+				<>
+					<Form
+						as={RouterForm}
+						role={"search"}
+						onChange={(e) => {
+							submit(e.currentTarget, { replace: true });
+							// const isFirstSearch = searchParams.get("keyword") == null;
+							// console.log("searchParams", searchParams.get("keyword"));
+							// console.log("isFirstSearch", isFirstSearch);
+							// submit(event.currentTarget, {
+							// 	replace: !isFirstSearch,
+							// });
+						}}
+					>
+						<fieldset disabled={isSearching}>
+							<fieldset>
+								<legend className={"h6"}>{"絞り込む"}</legend>
+								<Row className={"gx-2 gy-2"}>
+									<Suspense fallback={<Fallback />}>
+										<Await resolve={hin_cond} errorElement={<Alert variant={"danger"}>{"商品が見つかりませんでした"}</Alert>}>
+											{(hin_cond): JSX.Element => (
+												<>
+													{forms.map((form, index) => {
+														const { controlId, name } = form;
+														return (
+															<Col key={index} md={controlId === "keyword" ? 12 : 6} lg={controlId === "keyword" ? 12 : 2}>
+																<CreateForm
+																	form={form}
+																	value={query[name]}
+																	event={(e) => {
+																		setQuery({ ...query, [name]: e.target.value });
+																		// submit(e.currentTarget.form as HTMLFormElement, {
+																		// 	replace: true,
+																		// });
+																	}}
+																	option={hin_cond.results[controlId]}
+																/>
+															</Col>
+														);
+													})}
+													<Stack direction={"horizontal"} gap={2}>
+														{forms.map((form, index) => {
+															const { controlId, name, optionKey } = form;
+															return (
+																query[name] && (
+																	<Badge
+																		role={"button"}
+																		key={index}
+																		bg={"secondary"}
+																		pill={false}
+																		className={"btn mt-3"}
+																		onClick={() => {
+																			setQuery({ ...query, [name]: "" });
+																			submit({ ...query, [name]: "" }, { replace: true });
+																		}}
+																	>
+																		<i className={"bi bi-x me-1"}></i>
+																		{optionKey
+																			? hin_cond.results[controlId].find((item: Record<string, string>) => item.han_cd == query[name])
+																					?.han_name
+																			: query[name]}
+																	</Badge>
+																)
+															);
+														})}
+													</Stack>
+												</>
+											)}
+										</Await>
+									</Suspense>
+								</Row>
+							</fieldset>
+							<div className={"text-end d-none"}>
+								<Button
+									variant={"secondary"}
+									type={"button"}
+									className={"me-2"}
+									onClick={(e) => {
+										setQuery({
+											keyword: "",
+											cat_cd: "",
+											ext_cat1_cd: "",
+											ext_cat2_cd: "",
+											ext_cat3_cd: "",
+											ext_cat4_cd: "",
+											ext_cat5_cd: "",
+										});
+										// submit(e.currentTarget.form as HTMLFormElement);
+										e.currentTarget.form?.reset();
+									}}
+								>
+									{isSearching ? (
+										<>
+											<Spinner size={"sm"} role={"status"} aria-hidden={"true"} className={"me-1"}>
+												<span className={"visually-hidden"}>{"Loading..."}</span>
+											</Spinner>
+										</>
+									) : (
+										<i className={"bi bi-arrow-counterclockwise me-1"}></i>
+									)}
+									{"リセット"}
+								</Button>
+								<Button variant={"primary"} type={"submit"}>
+									<i className={"bi bi-search me-1"}></i>
+									{"検索"}
+								</Button>
+							</div>
+						</fieldset>
+					</Form>
+				</>
 			</div>
 		</>
 	);
 };
 
 const HinContentsArea = (): JSX.Element => {
-	interface HinList {
-		hin_cd: string;
-		han_name: string;
-		hin_nm: string;
-		tanka: string;
-		atch_flg: string;
-		atch_image: string;
-	}
-	interface HinLists {
-		results: HinList[];
-	}
-	const { user } = useRouteLoaderData("root") as { user: string | null };
-	const { hin_list } = useLoaderData() as { hin_list: HinLists };
+	const { user, hin_list, noImage } = useHinIndexPage();
 
 	return (
 		<>
 			<div id={"hin-content-area"}>
 				<Suspense fallback={<Fallback />}>
 					<Await resolve={hin_list} errorElement={<Alert variant={"danger"}>{"商品が見つかりませんでした"}</Alert>}>
-						{(hin_list): JSX.Element => (
+						{(hin_list: HinList): JSX.Element => (
 							<>
 								<div id={"list-header"} className={"text-end mb-2"}>
 									<span className={"me-1"}>count:</span>
@@ -203,7 +154,7 @@ const HinContentsArea = (): JSX.Element => {
 								</div>
 								<div id={"list-body"}>
 									<Row lg={5} xl={6} className={"gx-2 gy-3"}>
-										{hin_list.results.map((post: HinList, index: number) => (
+										{hin_list.results.map((post, index) => (
 											<Col key={index} xs={6} sm={4} md={3} xl={2}>
 												<Card className={"h-100 shadow-sm"}>
 													<Link to={`/hin/${post.hin_cd}`} className={"h-100 d-flex flex-column text-reset text-decoration-none"}>
@@ -256,9 +207,12 @@ const HinContentsArea = (): JSX.Element => {
 	);
 };
 
+/**
+ * HinIndexPage
+ * @returns
+ */
 export function HinIndexPage(): JSX.Element {
-	const navigation = useNavigation();
-	const isLoading = navigation.state === "loading";
+	const { isLoading } = useHinIndexPage();
 
 	return (
 		<>

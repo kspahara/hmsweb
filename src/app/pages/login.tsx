@@ -1,17 +1,12 @@
-import { useState } from "react";
-import { Form as RouterForm, useActionData, useLoaderData, useNavigation } from "react-router-dom";
+import { Form as RouterForm } from "react-router-dom";
 import { Alert, Button, Card, Col, Form, Row, Stack } from "react-bootstrap";
-import { CreateForm, FormType } from "../components/CreateForm.tsx";
+import { CreateForm } from "../components/CreateForm.tsx";
 import { Fallback } from "../components/Fallback.tsx";
+import { useLogin } from "../hooks/hooks.ts";
 
 export function LoginPage() {
-	const { searchParams, forms, message } = useLoaderData() as { searchParams: URLSearchParams; forms: FormType[]; message: string };
-	const navigation = useNavigation();
-	const actionData = useActionData() as { error: string } | undefined;
-	const isLoggingIn = navigation.formData?.get("username") != null;
-	const from = searchParams.get("from") || "/";
-	const [validated, setValidated] = useState(false);
-	console.log("actionData", actionData);
+	const { forms, message, actionData, isLoggingIn, from, validated, setValidated } = useLogin();
+	// console.log("actionData", actionData);
 	// const submit = useSubmit();
 	// const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 	// 	const form = event.currentTarget;
