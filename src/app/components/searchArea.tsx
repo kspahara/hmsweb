@@ -1,8 +1,8 @@
 import { Suspense } from "react";
 import { Await, Form } from "react-router-dom";
 import { Badge, Col, Row, Stack } from "react-bootstrap";
-import { CreateForm, FormType } from "./CreateForm.tsx";
-import { Fallback } from "./Fallback.tsx";
+import { CreateForm, FormType } from "./createForm.tsx";
+import { Fallback } from "./fallback.tsx";
 
 type Props = {
 	forms: FormType[];
@@ -29,7 +29,12 @@ export function SearchArea(props: Props): JSX.Element {
 										const { name } = form;
 										return (
 											<Col md key={index}>
-												<CreateForm form={form} value={query[name]} event={(e) => setQuery({ ...query, [name]: e.currentTarget.value })} option={searchies} />
+												<CreateForm
+													form={form}
+													value={query[name]}
+													event={(e) => setQuery({ ...query, [name]: e.currentTarget.value })}
+													option={searchies}
+												/>
 											</Col>
 										);
 									})}

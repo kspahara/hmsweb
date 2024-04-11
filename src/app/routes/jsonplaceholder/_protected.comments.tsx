@@ -1,21 +1,14 @@
-import { CrumbItem } from "../../components/CrumbItem";
+import { CrumbItem, Match } from "../../components/breadcrumbs";
 import { getLocationPath } from "../../libs/libs";
 
-type Match = {
-	pathname: string;
-};
-
-const createCrumb = (match: Match): JSX.Element => {
-	const props = {
-		props: {
-			linkProps: { to: `${match.pathname}`, end: true },
-			active: getLocationPath() === match.pathname,
-		},
-		label: <>{"Comments"}</>,
-	};
-
-	return <CrumbItem {...props} />;
-};
+/**
+ *
+ * @param match
+ * @returns
+ */
+const createCrumb = (match: Match<unknown>): JSX.Element => (
+	<CrumbItem props={{ linkProps: { to: `${match.pathname}`, end: true }, active: getLocationPath() === match.pathname }} label={<>{"Comments"}</>} />
+);
 
 export const handle = {
 	crumb: createCrumb,

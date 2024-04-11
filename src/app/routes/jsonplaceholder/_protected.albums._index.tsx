@@ -1,5 +1,5 @@
 import { LoaderFunctionArgs, defer } from "react-router-dom";
-import { FormType } from "../../components/CreateForm";
+import { FormType } from "../../components/createForm";
 import { getAlbums } from "../../data/jsonplaceholder/albums";
 import { getUsers } from "../../data/jsonplaceholder/users";
 import { ProtectedAlbumsPage } from "../../pages/jsonplaceholder/_protected.albums._index";

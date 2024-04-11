@@ -1,6 +1,6 @@
 import { ActionFunctionArgs, redirect, LoaderFunctionArgs } from "react-router-dom";
-import { FormType } from "../components/CreateForm.tsx";
-import { CrumbItem } from "../components/CrumbItem.tsx";
+import { FormType } from "../components/createForm.tsx";
+import { CrumbItem, Match } from "../components/breadcrumbs.tsx";
 import { getLocationPath } from "../libs/libs.ts";
 import { LoginPage } from "../pages/login.tsx";
 import { authProvider } from "../provides/auth.ts";
@@ -80,21 +80,9 @@ const clientAction = async ({ request }: ActionFunctionArgs) => {
 	return validationError || signInError || redirectTo(formData.redirectTo);
 };
 
-type Match = {
-	pathname: string;
-};
-
-const createCrumb = (match: Match): JSX.Element => {
-	const props = {
-		props: {
-			linkProps: { to: `${match.pathname}`, end: true },
-			active: getLocationPath() === match.pathname,
-		},
-		label: <>{"Login"}</>,
-	};
-
-	return <CrumbItem {...props} />;
-};
+const createCrumb = (match: Match<unknown>): JSX.Element => (
+	<CrumbItem props={{ linkProps: { to: `${match.pathname}`, end: true }, active: getLocationPath() === match.pathname }} label={<>{"Login"}</>} />
+);
 
 const handle = {
 	crumb: createCrumb,

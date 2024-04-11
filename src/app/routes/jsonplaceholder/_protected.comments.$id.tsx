@@ -1,9 +1,9 @@
 import { LoaderFunctionArgs } from "react-router-dom";
-import { CrumbItem } from "../../components/CrumbItem.tsx";
+import { CrumbItem, Match } from "../../components/breadcrumbs.tsx";
 import { getCommentsDetail } from "../../data/jsonplaceholder/comments.ts";
 import { ProtectedCommentsIdPage } from "../../pages/jsonplaceholder/_protected.comments.$id.tsx";
 import { authProvider } from "../../provides/auth.ts";
-import { FormType } from "../../components/CreateForm.tsx";
+import { FormType } from "../../components/createForm.tsx";
 import { getPosts } from "../../data/jsonplaceholder/posts.ts";
 import { getLocationPath } from "../../libs/libs.ts";
 
@@ -66,29 +66,14 @@ const clientLoader = async ({ params }: LoaderFunctionArgs) => {
 	};
 };
 
-type Match<T> = {
-	pathname: string;
-	data: {
-		data: T;
-	};
-};
-
-type Data = {
-	id: string;
-	name: string;
-};
-
-const createCrumb = (match: Match<Data>): JSX.Element => {
-	const props = {
-		props: {
-			linkProps: { to: `${match.pathname}` },
-			active: getLocationPath() === match.pathname,
-		},
-		label: <>{match.data.data.name}</>,
-	};
-
-	return <CrumbItem {...props} />;
-};
+/**
+ *
+ * @param match
+ * @returns
+ */
+const createCrumb = (match: Match<{ name: string }>): JSX.Element => (
+	<CrumbItem props={{ linkProps: { to: `${match.pathname}` }, active: getLocationPath() === match.pathname }} label={<>{match.data.data.name}</>} />
+);
 
 const handle = {
 	crumb: createCrumb,

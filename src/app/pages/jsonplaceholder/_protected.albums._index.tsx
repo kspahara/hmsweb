@@ -1,5 +1,5 @@
-import { SearchArea } from "../../components/SearchArea.tsx";
-import { ContentArea } from "../../components/ContentArea.tsx";
+import { SearchArea } from "../../components/searchArea.tsx";
+import { ContentArea } from "../../components/contentArea.tsx";
 import { useProtectedAlbumsPage } from "../../hooks/hooks.ts";
 
 /**

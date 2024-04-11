@@ -1,6 +1,6 @@
 import { Link, Form as RouterForm, useLoaderData, useNavigate } from "react-router-dom";
 import { Button, Card, Form, Stack } from "react-bootstrap";
-import { CreateForm, FormType } from "../../components/CreateForm.tsx";
+import { CreateForm, FormType } from "../../components/createForm.tsx";
 
 export function ProtectedCommentsIdPage() {
 	const { data, forms, posts } = useLoaderData() as { data: Record<string, string>; forms: FormType[]; posts: Record<string, string>[] };

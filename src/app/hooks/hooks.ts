@@ -12,11 +12,11 @@ import {
 	useRouteLoaderData,
 	useSubmit,
 } from "react-router-dom";
-import { FormType } from "../components/CreateForm.tsx";
+import { FormType } from "../components/createForm.tsx";
 import { HinCondList } from "../data/hin/hin_cond.ts";
 import { HinList } from "../data/hin/hin.ts";
 import { IsAuthenticated, UserName } from "../provides/auth.ts";
-import { Links } from "../routes/_index.tsx";
+import { Link } from "../routes/_index.tsx";
 
 import noImage from "../assets/images/no_image.png";
 
@@ -45,27 +45,9 @@ export function useRootPage() {
 	const { user, isAuth, links } = useLoaderData() as {
 		user: UserName;
 		isAuth: IsAuthenticated;
-		links: Links;
+		links: Link[];
 	};
 	const fetcher = useFetcher();
-
-	const [isBtnActive, setIsBtnActive] = useState(false);
-
-	useEffect(() => {
-		const scrollWindow = () => {
-			setIsBtnActive(window.scrollY > 200);
-		};
-
-		window.addEventListener("scroll", scrollWindow);
-		return () => window.removeEventListener("scroll", scrollWindow);
-	}, []);
-
-	const matches = useMatches() as {
-		handle: {
-			crumb: (match: { params: Record<string, string> }) => JSX.Element;
-		};
-		params: Record<string, string>;
-	}[];
 
 	return {
 		user,
@@ -73,8 +55,6 @@ export function useRootPage() {
 		links,
 		isLoggingOut: fetcher.formData != null,
 		FeacherForm: fetcher.Form,
-		isBtnActive,
-		matches,
 	};
 }
 
@@ -136,11 +116,11 @@ export function useErrorPage() {
  * @returns
  */
 export function useHinIndexPage() {
-	const { hin_cond, searchParams, forms, hin_list } = useLoaderData() as {
-		hin_cond: HinCondList;
+	const { searchies, searchParams, forms, data } = useLoaderData() as {
+		searchies: HinCondList;
 		searchParams: Record<string, string>;
 		forms: FormType[];
-		hin_list: HinList;
+		data: HinList;
 	};
 	const { user } = useRouteLoaderData("root") as {
 		user: string | null;
@@ -164,9 +144,9 @@ export function useHinIndexPage() {
 	}, [searchParams]);
 
 	return {
-		hin_cond,
+		searchies,
 		forms,
-		hin_list,
+		data,
 		user,
 		query,
 		setQuery,
@@ -285,4 +265,10 @@ export function useProtectedAlbumsIdPage() {
 		isEdit: location.pathname.includes("edit"),
 		navigate: useNavigate(),
 	};
+}
+
+export function useBreadcrumbs() {
+	const matches = useMatches();
+
+	return { matches };
 }

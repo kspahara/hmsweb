@@ -1,5 +1,5 @@
 import { LoaderFunctionArgs } from "react-router-dom";
-import { CrumbItem } from "../../components/CrumbItem.tsx";
+import { CrumbItem, Match } from "../../components/breadcrumbs.tsx";
 import { getHinDetail } from "../../data/hin/hin.ts";
 import { HinDetailPage } from "../../pages/hin/hin.$hin_cd.tsx";
 import { getLocationPath } from "../../libs/libs.ts";
@@ -10,33 +10,9 @@ const clientLoader = async ({ params }: LoaderFunctionArgs) => {
 	};
 };
 
-/**
- * @param T
- */
-type Match<T> = {
-	pathname: string;
-	data: {
-		data: {
-			results: T[];
-		};
-	};
-};
-
-type Hin = {
-	hin_nm: string;
-};
-
-const createCrumb = (match: Match<Hin>): JSX.Element => {
-	const props = {
-		props: {
-			linkProps: { to: `${match.pathname}` },
-			active: getLocationPath() === match.pathname,
-		},
-		label: <>{match.data.data.results[0].hin_nm}</>,
-	};
-
-	return <CrumbItem {...props} />;
-};
+const createCrumb = (match: Match<{ results: { hin_nm: string }[] }>): JSX.Element => (
+	<CrumbItem props={{ linkProps: { to: `${match.pathname}` }, active: getLocationPath() === match.pathname }} label={<>{match.data.data.results[0].hin_nm}</>} />
+);
 
 const handle = {
 	crumb: createCrumb,

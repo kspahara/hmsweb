@@ -1,6 +1,6 @@
 import { Link, Form as RouterForm } from "react-router-dom";
 import { Button, Card, Form, Stack } from "react-bootstrap";
-import { CreateForm } from "../../components/CreateForm.tsx";
+import { CreateForm } from "../../components/createForm.tsx";
 import { useProtectedAlbumsIdPage } from "../../hooks/hooks.ts";
 
 export function ProtectedAlbumsIdPage(): JSX.Element {

@@ -2,7 +2,7 @@ import { LoaderFunctionArgs, defer } from "react-router-dom";
 import { getHinCond } from "../../data/hin/hin_cond.ts";
 import { getHinList } from "../../data/hin/hin.ts";
 import { HinIndexPage } from "../../pages/hin/hin._index.tsx";
-import { FormType } from "../../components/CreateForm.tsx";
+import { FormType } from "../../components/createForm.tsx";
 
 const getForms = async (): Promise<FormType[]> => {
 	return [
@@ -80,12 +80,16 @@ const clientLoader = async ({ request }: LoaderFunctionArgs) => {
 
 	return defer({
 		searchParams,
-		hin_cond: getHinCond(),
-		hin_list: getHinList(search_params),
+		searchies: getHinCond(),
+		data: getHinList(search_params),
 		forms: await getForms(),
 	});
 };
 
+/**
+ *
+ * @returns
+ */
 export function HinIndexRoute(): JSX.Element {
 	return <HinIndexPage />;
 }

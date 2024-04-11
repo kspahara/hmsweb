@@ -1,5 +1,5 @@
 import { LoaderFunctionArgs, defer } from "react-router-dom";
-import { FormType } from "../../components/CreateForm";
+import { FormType } from "../../components/createForm";
 import { getComments } from "../../data/jsonplaceholder/comments";
 import { ProtectedCommentsPage } from "../../pages/jsonplaceholder/_protected.comments._index";
 import { authProvider } from "../../provides/auth";

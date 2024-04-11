@@ -1,5 +1,5 @@
-import { ContentArea } from "../../components/ContentArea.tsx";
-import { SearchArea } from "../../components/SearchArea.tsx";
+import { ContentArea } from "../../components/contentArea.tsx";
+import { SearchArea } from "../../components/searchArea.tsx";
 import { useCommentsPage } from "../../hooks/hooks.ts";
 
 /**

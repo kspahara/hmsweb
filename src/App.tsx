@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Fallback } from "./app/components/Fallback.tsx";
+import { Fallback } from "./app/components/fallback.tsx";
 import { ErrorPage } from "./app/pages/error.tsx";
 
 const router = [

@@ -1,36 +1,31 @@
-import { CrumbItem } from "../components/CrumbItem.tsx";
+import { CrumbItem, Match } from "../components/breadcrumbs.tsx";
 import { RootPage } from "../pages/_index.tsx";
 import { authProvider } from "../provides/auth.ts";
 import { getLocationPath } from "../libs/libs.ts";
 
-type Link = { to: string; label: string };
-
-export type Links = {
-	external_links: { href: string; label: string }[];
-	links: Link[];
-	not_auth_links: Link[];
-	protected_links: Link[];
+// const paths = ["/", "/hin", "/login", "/albums", "/comments", "/photos", "/posts", "/todos", "/users"] as const;
+/**
+ * kbns = index: ルートページ | public: リンク | not_auth: 非認証 | auth: 認証
+ */
+export type Link = {
+	// href: (typeof paths)[number];
+	href: string;
+	label: string;
+	kbn: "index" | "public" | "not_auth" | "auth";
 };
 
-const getLinks = async (): Promise<Links> => {
-	return {
-		external_links: [
-			// { href: "..", label: "Home" }
-		],
-		links: [
-			{ to: "./", label: "Home" },
-			{ to: "/hin", label: "Item" },
-		],
-		not_auth_links: [{ to: "./login", label: "Login" }],
-		protected_links: [
-			{ to: "/albums", label: "Albums List" },
-			{ to: "/comments", label: "Comments List" },
-			{ to: "/photos", label: "Photos List" },
-			{ to: "/posts", label: "Posts List" },
-			{ to: "/todos", label: "Todos List" },
-			{ to: "/users", label: "Users List" },
-		],
-	};
+const getLinks = async (): Promise<Link[]> => {
+	return [
+		{ href: "/", label: "HMS-App", kbn: "index" },
+		{ href: "/hin", label: "Item", kbn: "public" },
+		{ href: "/login", label: "Login", kbn: "not_auth" },
+		{ href: "/albums", label: "Albums List", kbn: "auth" },
+		{ href: "/comments", label: "Comments List", kbn: "auth" },
+		{ href: "/photos", label: "Photos List", kbn: "auth" },
+		{ href: "/posts", label: "Posts List", kbn: "auth" },
+		{ href: "/todos", label: "Todos List", kbn: "auth" },
+		{ href: "/users", label: "Users List", kbn: "auth" },
+	];
 };
 
 const clientLoader = async () => {
@@ -42,24 +37,16 @@ const clientLoader = async () => {
 	};
 };
 
-type Match = {
-	pathname: string;
-};
-
-const createCrumb = (match: Match): JSX.Element => {
-	const props = {
-		props: {
-			linkProps: { to: `${match.pathname}` },
-			active: getLocationPath() === match.pathname,
-		},
-		label: (
+const createCrumb = (match: Match<unknown>): JSX.Element => (
+	<CrumbItem
+		props={{ linkProps: { to: `${match.pathname}` }, active: getLocationPath() === match.pathname }}
+		label={
 			<>
 				<i className={"bi bi-house-door-fill me-1"}></i>Home
 			</>
-		),
-	};
-	return <CrumbItem {...props} />;
-};
+		}
+	/>
+);
 
 const handle = {
 	crumb: createCrumb,

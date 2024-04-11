@@ -1,6 +1,6 @@
 import { LoaderFunctionArgs, redirect } from "react-router-dom";
-import { CrumbItem } from "../../components/CrumbItem.tsx";
-import { FormType } from "../../components/CreateForm.tsx";
+import { CrumbItem, Match } from "../../components/breadcrumbs.tsx";
+import { FormType } from "../../components/createForm.tsx";
 import { getAlbumDetail } from "../../data/jsonplaceholder/albums.ts";
 import { updateAlbum } from "../../data/jsonplaceholder/albums.ts";
 import { getUsers } from "../../data/jsonplaceholder/users.ts";
@@ -68,31 +68,9 @@ const clientAction = async ({ params, request }: LoaderFunctionArgs) => {
 	return redirect(`/albums/${params.id}`);
 };
 
-/**
- * @param T
- */
-type Match<T> = {
-	pathname: string;
-	data: {
-		data: T;
-	};
-};
-
-type Title = {
-	title: string;
-};
-
-const createCrumb = (match: Match<Title>): JSX.Element => {
-	const props = {
-		props: {
-			linkProps: { to: `${match.pathname}` },
-			active: getLocationPath() === match.pathname,
-		},
-		label: <>{match.data.data.title}</>,
-	};
-
-	return <CrumbItem {...props} />;
-};
+const createCrumb = (match: Match<{ title: string }>): JSX.Element => (
+	<CrumbItem props={{ linkProps: { to: `${match.pathname}` }, active: getLocationPath() === match.pathname }} label={<>{match.data.data.title}</>} />
+);
 
 const handle = {
 	crumb: createCrumb,

@@ -1,7 +1,7 @@
 import { Form as RouterForm } from "react-router-dom";
 import { Alert, Button, Card, Col, Form, Row, Stack } from "react-bootstrap";
-import { CreateForm } from "../components/CreateForm.tsx";
-import { Fallback } from "../components/Fallback.tsx";
+import { CreateForm } from "../components/createForm.tsx";
+import { Fallback } from "../components/fallback.tsx";
 import { useLogin } from "../hooks/hooks.ts";
 
 export function LoginPage() {
