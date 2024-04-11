@@ -7,12 +7,14 @@ type Match = {
 
 const createCrumb = (match: Match): JSX.Element => {
 	const props = {
-		linkProps: { to: `${match.pathname}`, end: true },
-		active: getLocationPath() === match.pathname,
+		props: {
+			linkProps: { to: `${match.pathname}`, end: true },
+			active: getLocationPath() === match.pathname,
+		},
+		label: <>{"商品一覧"}</>,
 	};
-	const label = <>{"商品一覧"}</>;
 
-	return <CrumbItem props={props} label={label} />;
+	return <CrumbItem {...props} />;
 };
 
 export const handle = {

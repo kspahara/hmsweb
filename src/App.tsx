@@ -214,6 +214,10 @@ const router = [
 	},
 ];
 
+/**
+ *
+ * @returns
+ */
 export default function App(): JSX.Element {
 	return (
 		<RouterProvider
@@ -224,6 +228,7 @@ export default function App(): JSX.Element {
 					v7_normalizeFormMethod: true,
 					// v7_partialHydration: true,
 					// v7_prependBasename: true,
+					v7_relativeSplatPath: true,
 				},
 				window: window,
 			})}

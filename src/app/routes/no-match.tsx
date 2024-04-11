@@ -25,6 +25,10 @@ const NoMatchPage = (): JSX.Element => {
 	);
 };
 
+/**
+ *
+ * @returns
+ */
 export function NoMatchRoute(): JSX.Element {
 	return <NoMatchPage />;
 }

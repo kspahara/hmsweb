@@ -1,34 +1,26 @@
-import { Link, useLoaderData } from "react-router-dom";
-import { Comment } from "../../data/jsonplaceholder/comments.ts";
+import { ContentArea } from "../../components/ContentArea.tsx";
+import { SearchArea } from "../../components/SearchArea.tsx";
+import { useCommentsPage } from "../../hooks/hooks.ts";
 
-const useCommentsPage = () => {
-	const { data } = useLoaderData() as { data: Comment[] };
-
-	return data;
-};
-
+/**
+ *
+ * @returns
+ */
 export function ProtectedCommentsPage() {
-	const data = useCommentsPage();
+	const props = useCommentsPage();
 
 	return (
 		<>
 			<section id={"protexted-comments-page"}>
 				<header>
-					<h1 className={"h2"}>ProtectedCommentsPage</h1>
+					<h1 className={"h2"}>{props.message}</h1>
 					<p>Protected Comments</p>
+					<SearchArea {...props} />
 				</header>
 				<hr />
 				<section>
 					<h2 className={"h3"}>ProtectedCommentsPage</h2>
-					<ul>
-						{data.map((comment) => (
-							<li key={comment.id}>
-								<Link to={`/comments/${comment.id}`}>
-									{comment.id}:{comment.name}
-								</Link>
-							</li>
-						))}
-					</ul>
+					<ContentArea data={props.data} />
 				</section>
 			</section>
 		</>

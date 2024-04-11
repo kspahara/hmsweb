@@ -43,6 +43,11 @@ export async function getUsers() {
 	return data;
 }
 
+/**
+ *
+ * @param searchParams
+ * @returns
+ */
 export async function getUser(searchParams: URLSearchParams) {
 	const params = Object.fromEntries(searchParams.entries());
 	const query = await createQueryParams(params);

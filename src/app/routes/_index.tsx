@@ -13,12 +13,13 @@ export type Links = {
 };
 
 const getLinks = async (): Promise<Links> => {
-	const links: Links = {
-		external_links: [{ href: "..", label: "Home" }],
+	return {
+		external_links: [
+			// { href: "..", label: "Home" }
+		],
 		links: [
-			{ to: "./", label: "Public" },
+			{ to: "./", label: "Home" },
 			{ to: "/hin", label: "Item" },
-			{ to: "/albums", label: "Albums List (Protected)" },
 		],
 		not_auth_links: [{ to: "./login", label: "Login" }],
 		protected_links: [
@@ -30,13 +31,15 @@ const getLinks = async (): Promise<Links> => {
 			{ to: "/users", label: "Users List" },
 		],
 	};
-
-	return links;
 };
 
 const clientLoader = async () => {
-	// ログインしている場合、rootルートは常にauthProviderを返す
-	return { user: authProvider.username, isAuth: authProvider.isAuthenticated, links: await getLinks() };
+	return {
+		// ログインしている場合、rootルートは常にauthProviderを返す
+		user: authProvider.username,
+		isAuth: authProvider.isAuthenticated,
+		links: await getLinks(),
+	};
 };
 
 type Match = {
@@ -45,16 +48,17 @@ type Match = {
 
 const createCrumb = (match: Match): JSX.Element => {
 	const props = {
-		linkProps: { to: `${match.pathname}` },
-		active: getLocationPath() === match.pathname,
+		props: {
+			linkProps: { to: `${match.pathname}` },
+			active: getLocationPath() === match.pathname,
+		},
+		label: (
+			<>
+				<i className={"bi bi-house-door-fill me-1"}></i>Home
+			</>
+		),
 	};
-	const label = (
-		<>
-			<i className={"bi bi-house-door-fill me-1"}></i>Home
-		</>
-	);
-
-	return <CrumbItem props={props} label={label} />;
+	return <CrumbItem {...props} />;
 };
 
 const handle = {

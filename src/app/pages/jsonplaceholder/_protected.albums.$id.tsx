@@ -1,18 +1,10 @@
-import { Link, Form as RouterForm, useLoaderData, useNavigate } from "react-router-dom";
+import { Link, Form as RouterForm } from "react-router-dom";
 import { Button, Card, Form, Stack } from "react-bootstrap";
-import { CreateForm, FormType } from "../../components/CreateForm.tsx";
+import { CreateForm } from "../../components/CreateForm.tsx";
+import { useProtectedAlbumsIdPage } from "../../hooks/hooks.ts";
 
 export function ProtectedAlbumsIdPage(): JSX.Element {
-	const { data, forms, users, message } = useLoaderData() as {
-		data: Record<string, string>;
-		forms: FormType[];
-		users: Record<string, string>[];
-		message: string;
-	};
-	const isEdit = location.pathname.includes("edit");
-	const navigate = useNavigate();
-	// console.log("data", data);
-	// console.log("forms", forms);
+	const { data, forms, users, message, isEdit, navigate } = useProtectedAlbumsIdPage();
 
 	const FormContents = (): JSX.Element => {
 		return (

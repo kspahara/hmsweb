@@ -1,8 +1,9 @@
 import { redirect } from "react-router-dom";
 import { authProvider } from "../provides/auth.ts";
 
+const route_name = "LogoutRoute";
+
 export const clientAction = async () => {
 	// fetcher.Formからアクセスできる "resource route "にsignoutする
-	await authProvider.signout();
-	return redirect("/");
+	return await authProvider.signout(), console.log(`${route_name} redirect`), redirect("/");
 };

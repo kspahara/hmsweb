@@ -8,8 +8,10 @@ import { ProtectedAlbumsIdPage } from "../../pages/jsonplaceholder/_protected.al
 import { authProvider } from "../../provides/auth.ts";
 import { getLocationPath } from "../../libs/libs.ts";
 
-const getForms = async () => {
-	const forms: FormType[] = [
+const route_name = "ProtectedAlbumsIdRoute";
+
+const getForms = async (): Promise<FormType[]> => {
+	return [
 		{
 			type: "number",
 			controlId: "id",
@@ -37,21 +39,31 @@ const getForms = async () => {
 			optionKey: { key: "id", value: "name" },
 		},
 	];
-	return forms;
 };
 
 const clientLoader = async ({ params }: LoaderFunctionArgs) => {
-	const isAuth = authProvider.isAuthenticated;
+	if (!authProvider.isAuthenticated) return console.log(`${route_name} !isAuth`), false;
 
 	const [data, forms, users] = await Promise.all([getAlbumDetail(params.id), getForms(), getUsers()]);
 
-	return isAuth ? { data, forms, users, message: "ProtectedAlbumsIdPage" } : null;
+	return {
+		data,
+		forms,
+		users,
+		message: "ProtectedAlbumsIdPage",
+	};
 };
 
 const clientAction = async ({ params, request }: LoaderFunctionArgs) => {
-	const isAuth = authProvider.isAuthenticated;
+	if (!authProvider.isAuthenticated) return false;
+
+	console.log("ProtectedAlbumsIdRoute clientAction (protected.albums.id) isAuth");
 	const body = new URLSearchParams(await request.text());
-	isAuth && (await updateAlbum({ id: params.id, title: body.get("title"), userId: body.get("userId") }));
+	await updateAlbum({
+		id: params.id,
+		title: body.get("title"),
+		userId: body.get("userId"),
+	});
 
 	return redirect(`/albums/${params.id}`);
 };
@@ -72,12 +84,14 @@ type Title = {
 
 const createCrumb = (match: Match<Title>): JSX.Element => {
 	const props = {
-		linkProps: { to: `${match.pathname}` },
-		active: getLocationPath() === match.pathname,
+		props: {
+			linkProps: { to: `${match.pathname}` },
+			active: getLocationPath() === match.pathname,
+		},
+		label: <>{match.data.data.title}</>,
 	};
-	const label = <>{match.data.data.title}</>;
 
-	return <CrumbItem props={props} label={label} />;
+	return <CrumbItem {...props} />;
 };
 
 const handle = {

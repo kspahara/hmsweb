@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { Link, NavLink, Outlet, ScrollRestoration } from "react-router-dom";
+import { NavLink, Outlet, ScrollRestoration } from "react-router-dom";
 import { Button, Form, Container, Navbar, Nav, NavDropdown, Breadcrumb } from "react-bootstrap";
 import { useRootPage } from "../hooks/hooks.ts";
 import { ProgressNav } from "../components/ProgressNav.tsx";
@@ -15,9 +15,7 @@ function HeaderNavigation(): JSX.Element {
 		<>
 			<Navbar expand={"lg"} fixed={"top"} className={"bg-white shadow-sm"}>
 				<Container fluid>
-					<Navbar.Brand as={Link} to={".."}>
-						Template-App
-					</Navbar.Brand>
+					<Navbar.Brand href={".."}>Template-App</Navbar.Brand>
 					<Navbar.Toggle aria-controls={"basic-navbar-nav"} />
 					<Navbar.Collapse id={"basic-navbar-nav"}>
 						<Nav className={"me-auto"}>

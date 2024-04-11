@@ -4,8 +4,8 @@ import { getHinList } from "../../data/hin/hin.ts";
 import { HinIndexPage } from "../../pages/hin/hin._index.tsx";
 import { FormType } from "../../components/CreateForm.tsx";
 
-const getForms = async () => {
-	const forms: FormType[] = [
+const getForms = async (): Promise<FormType[]> => {
+	return [
 		{
 			type: "search",
 			controlId: "keyword",
@@ -68,7 +68,6 @@ const getForms = async () => {
 			optionKey: { key: "han_cd", value: "han_name" },
 		},
 	];
-	return forms;
 };
 
 const clientLoader = async ({ request }: LoaderFunctionArgs) => {
@@ -78,7 +77,7 @@ const clientLoader = async ({ request }: LoaderFunctionArgs) => {
 			return [key, value ?? ""];
 		})
 	);
-	
+
 	return defer({
 		searchParams,
 		hin_cond: getHinCond(),

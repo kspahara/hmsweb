@@ -5,8 +5,10 @@ import { getLocationPath } from "../libs/libs.ts";
 import { LoginPage } from "../pages/login.tsx";
 import { authProvider } from "../provides/auth.ts";
 
+const route_name = "LoginRoute";
+
 const getForms = async (): Promise<FormType[]> => {
-	const forms: FormType[] = [
+	return [
 		{
 			type: "text",
 			controlId: "username",
@@ -27,39 +29,55 @@ const getForms = async (): Promise<FormType[]> => {
 			invalidMessage: "You must provide a password to log in",
 		},
 	];
-	return forms;
 };
 
 const clientLoader = async ({ request }: LoaderFunctionArgs) => {
-	const isAuth = authProvider.isAuthenticated;
-	const from = new URL(request.url).searchParams.get("from") || "/";
+	if (authProvider.isAuthenticated) return console.log(`${route_name} isAuth`), redirect("/");
 
-	return isAuth ? redirect("/") : { from, forms: await getForms(), message: "Login Page" };
+	return {
+		from: new URL(request.url).searchParams.get("from") || "/",
+		forms: await getForms(),
+		message: "Login Page",
+	};
 };
 
 const clientAction = async ({ request }: ActionFunctionArgs) => {
-	const formData = await request.formData();
-	const username: string | null = formData.get("username") as string | null;
-	// 隠しformのredirectToフィールドからリダイレクト先を取得する
-	const redirectTo = formData.get("redirectTo") as string | null;
-	// フォームの入力を検証し、useActionData() で検証エラーを返す
-	if (!username) {
-		return {
-			error: "You must provide a username to log in",
-		};
-	}
-	// サインインし、成功すれば適切な宛先にリダイレクトする
-	try {
-		await authProvider.signin(username);
-	} catch (error) {
-		// TODO ここで無効なユーザー名とパスワードの組み合わせを処理する
-		// この例では、常にエラーを返している
-		return {
-			error: "Invalid login attempt",
-		};
-	}
+	// フォームデータを取得する
+	const getFormData = async (request: Request) => {
+		const formData = await request.formData();
 
-	return redirect(redirectTo || "/");
+		return Object.fromEntries(formData.entries()) as {
+			username: string;
+			password: string;
+			redirectTo: string;
+		};
+	};
+	// ユーザー名とパスワードの検証を行う
+	const validateInput = ({ username, password }: { username: string; password: string }) => {
+		return !username || !password ? { error: "You must provide a username and password to log in" } : null;
+	};
+	// サインインを行う
+	const signIn = async (username: string) => {
+		try {
+			await authProvider.signin(username);
+			return null;
+		} catch (error) {
+			return {
+				error: "Invalid login attempt",
+			};
+		}
+	};
+	// リダイレクトを行う
+	const redirectTo = (redirectTo: string) => {
+		return redirect(redirectTo || "/");
+	};
+
+	const formData = await getFormData(request);
+	const validationError = validateInput(formData);
+	const signInError = !validationError ? await signIn(formData.username) : (console.log("LoginRoute signInError"), null);
+
+	// バリデーションエラーまたはサインインエラーがある場合はエラーメッセージを返す
+	return validationError || signInError || redirectTo(formData.redirectTo);
 };
 
 type Match = {
@@ -68,12 +86,14 @@ type Match = {
 
 const createCrumb = (match: Match): JSX.Element => {
 	const props = {
-		linkProps: { to: `${match.pathname}`, end: true },
-		active: getLocationPath() === match.pathname,
+		props: {
+			linkProps: { to: `${match.pathname}`, end: true },
+			active: getLocationPath() === match.pathname,
+		},
+		label: <>{"Login"}</>,
 	};
-	const label = <>{"Login"}</>;
 
-	return <CrumbItem props={props} label={label} />;
+	return <CrumbItem {...props} />;
 };
 
 const handle = {

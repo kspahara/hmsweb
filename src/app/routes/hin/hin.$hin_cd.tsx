@@ -5,7 +5,9 @@ import { HinDetailPage } from "../../pages/hin/hin.$hin_cd.tsx";
 import { getLocationPath } from "../../libs/libs.ts";
 
 const clientLoader = async ({ params }: LoaderFunctionArgs) => {
-	return { data: await getHinDetail(params.hin_cd) };
+	return {
+		data: await getHinDetail(params.hin_cd),
+	};
 };
 
 /**
@@ -26,12 +28,14 @@ type Hin = {
 
 const createCrumb = (match: Match<Hin>): JSX.Element => {
 	const props = {
-		linkProps: { to: `${match.pathname}` },
-		active: getLocationPath() === match.pathname,
+		props: {
+			linkProps: { to: `${match.pathname}` },
+			active: getLocationPath() === match.pathname,
+		},
+		label: <>{match.data.data.results[0].hin_nm}</>,
 	};
-	const label = <>{match.data.data.results[0].hin_nm}</>;
 
-	return <CrumbItem props={props} label={label} />;
+	return <CrumbItem {...props} />;
 };
 
 const handle = {

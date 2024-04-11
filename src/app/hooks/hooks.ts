@@ -196,3 +196,93 @@ export function useHinDetailPage() {
 		noImage,
 	};
 }
+
+/**
+ * useProtectedAlbumsPage
+ * @returns
+ */
+export function useProtectedAlbumsPage() {
+	const { data, searchParams, forms, searchies, message } = useLoaderData() as {
+		data: Record<string, string>[];
+		searchParams: Record<string, string>;
+		forms: FormType[];
+		searchies: Record<string, string>[];
+		message: string;
+	};
+
+	const [query, setQuery] = useState<Record<string, string>>({
+		...searchParams,
+	});
+
+	useEffect(() => {
+		setQuery({
+			...searchParams,
+		});
+	}, [searchParams]);
+
+	return {
+		data,
+		forms,
+		searchies,
+		message,
+		query,
+		setQuery,
+		submit: useSubmit(),
+	};
+}
+
+/**
+ * useCommentsPage
+ * @returns
+ */
+export function useCommentsPage() {
+	const { data, searchParams, forms, searchies, message } = useLoaderData() as {
+		data: Record<string, string>[];
+		searchParams: Record<string, string>;
+		forms: FormType[];
+		searchies: Record<string, string>[];
+		message: string;
+	};
+
+	const [query, setQuery] = useState<Record<string, string>>({
+		...searchParams,
+	});
+
+	useEffect(() => {
+		setQuery({
+			...searchParams,
+		});
+	}, [searchParams]);
+
+	return {
+		data,
+		forms,
+		searchies,
+		message,
+		query,
+		setQuery,
+		submit: useSubmit(),
+	};
+}
+
+/**
+ * useProtectedAlbumsIdPage
+ * @returns
+ */
+export function useProtectedAlbumsIdPage() {
+	const { data, forms, users, message } = useLoaderData() as {
+		data: Record<string, string>;
+		forms: FormType[];
+		users: Record<string, string>[];
+		message: string;
+	};
+
+	return {
+		data,
+		forms,
+		users,
+		message,
+		isEdit: location.pathname.includes("edit"),
+		navigate: useNavigate(),
+	};
+}

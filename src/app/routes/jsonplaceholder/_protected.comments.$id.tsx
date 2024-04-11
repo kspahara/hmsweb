@@ -1,14 +1,16 @@
 import { LoaderFunctionArgs } from "react-router-dom";
 import { CrumbItem } from "../../components/CrumbItem.tsx";
-import { getComments } from "../../data/jsonplaceholder/comments.ts";
+import { getCommentsDetail } from "../../data/jsonplaceholder/comments.ts";
 import { ProtectedCommentsIdPage } from "../../pages/jsonplaceholder/_protected.comments.$id.tsx";
 import { authProvider } from "../../provides/auth.ts";
 import { FormType } from "../../components/CreateForm.tsx";
 import { getPosts } from "../../data/jsonplaceholder/posts.ts";
 import { getLocationPath } from "../../libs/libs.ts";
 
-const getForms = async () => {
-	const forms: FormType[] = [
+const route_name = "ProtectedCommentsIdRoute";
+
+const getForms = async (): Promise<FormType[]> => {
+	return [
 		{
 			type: "number",
 			controlId: "id",
@@ -50,14 +52,18 @@ const getForms = async () => {
 			optionKey: { key: "id", value: "title" },
 		},
 	];
-	return forms;
 };
 
 const clientLoader = async ({ params }: LoaderFunctionArgs) => {
-	const isAuth = authProvider.isAuthenticated;
-	const [data, forms, posts] = await Promise.all([getComments(params.id), getForms(), getPosts()]);
+	if (!authProvider.isAuthenticated) return console.log(`${route_name} !isAuth`), false;
 
-	return isAuth ? { data, forms, posts } : null;
+	const [data, forms, posts] = await Promise.all([getCommentsDetail(params.id || ""), getForms(), getPosts()]);
+
+	return {
+		data,
+		forms,
+		posts,
+	};
 };
 
 type Match<T> = {
@@ -74,12 +80,14 @@ type Data = {
 
 const createCrumb = (match: Match<Data>): JSX.Element => {
 	const props = {
-		linkProps: { to: `${match.pathname}` },
-		active: getLocationPath() === match.pathname,
+		props: {
+			linkProps: { to: `${match.pathname}` },
+			active: getLocationPath() === match.pathname,
+		},
+		label: <>{match.data.data.name}</>,
 	};
-	const label = <>{match.data.data.name}</>;
 
-	return <CrumbItem props={props} label={label} />;
+	return <CrumbItem {...props} />;
 };
 
 const handle = {
