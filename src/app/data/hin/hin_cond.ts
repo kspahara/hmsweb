@@ -25,5 +25,5 @@ export async function getHinCond() {
 	const res = await fetch(url, param);
 	const data = await handleResponse(res);
 
-	return data;
+	return data.results;
 }

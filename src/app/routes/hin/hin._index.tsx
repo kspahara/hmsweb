@@ -72,17 +72,18 @@ const getForms = async (): Promise<FormType[]> => {
 
 const clientLoader = async ({ request }: LoaderFunctionArgs) => {
 	const search_params = new URL(request.url).searchParams;
-	const searchParams = Object.fromEntries(
-		Array.from(search_params.entries()).map(([key, value]) => {
-			return [key, value ?? ""];
-		})
-	);
+	// const searchParams = Object.fromEntries(
+	// 	Array.from(search_params.entries()).map(([key, value]) => {
+	// 		return [key, value ?? ""];
+	// 	})
+	// );
 
 	return defer({
-		searchParams,
-		searchies: getHinCond(),
 		data: getHinList(search_params),
+		searchParams: Object.fromEntries(search_params.entries()),
 		forms: await getForms(),
+		searchies: getHinCond(),
+		message: "Hin",
 	});
 };
 

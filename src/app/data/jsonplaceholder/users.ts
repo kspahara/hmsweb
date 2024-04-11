@@ -40,7 +40,7 @@ export async function getUsers() {
 	const res = await fetch(url);
 	const data = await handleResponse(res);
 
-	return data;
+	return { userId: data };
 }
 
 /**

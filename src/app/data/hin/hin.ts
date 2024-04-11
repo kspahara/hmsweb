@@ -53,7 +53,13 @@ export async function getHinList(searchParams: URLSearchParams): Promise<Hin[]> 
 	const res = await fetch(url, param);
 	const data = await handleResponse(res);
 
-	return data;
+	// id title に変更
+	// return data.results.map((item: Hin) => ({
+	// 	id: item.hin_cd,
+	// 	title: item.hin_nm,
+	// }));
+
+	return data.results;
 }
 
 /**

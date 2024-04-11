@@ -18,7 +18,7 @@ const getForms = async (): Promise<FormType[]> => {
 		},
 		{
 			as: "select",
-			controlId: "postId",
+			controlId: "userId",
 			name: "postId",
 			label: "User:",
 			placeholder: "All Users",

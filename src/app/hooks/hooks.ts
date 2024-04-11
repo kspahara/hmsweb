@@ -13,7 +13,7 @@ import {
 	useSubmit,
 } from "react-router-dom";
 import { FormType } from "../components/createForm.tsx";
-import { HinCondList } from "../data/hin/hin_cond.ts";
+// import { HinCondList } from "../data/hin/hin_cond.ts";
 import { HinList } from "../data/hin/hin.ts";
 import { IsAuthenticated, UserName } from "../provides/auth.ts";
 import { Link } from "../routes/_index.tsx";
@@ -117,10 +117,10 @@ export function useErrorPage() {
  */
 export function useHinIndexPage() {
 	const { searchies, searchParams, forms, data } = useLoaderData() as {
-		searchies: HinCondList;
+		searchies: Record<string, string>[];
 		searchParams: Record<string, string>;
 		forms: FormType[];
-		data: HinList;
+		data: Record<string, string>[];
 	};
 	const { user } = useRouteLoaderData("root") as {
 		user: string | null;
@@ -133,13 +133,7 @@ export function useHinIndexPage() {
 
 	useEffect(() => {
 		setQuery({
-			keyword: searchParams.keyword ?? "",
-			cat_cd: searchParams.cat_cd ?? "",
-			ext_cat1_cd: searchParams.ext_cat1_cd ?? "",
-			ext_cat2_cd: searchParams.ext_cat2_cd ?? "",
-			ext_cat3_cd: searchParams.ext_cat3_cd ?? "",
-			ext_cat4_cd: searchParams.ext_cat4_cd ?? "",
-			ext_cat5_cd: searchParams.ext_cat5_cd ?? "",
+			...(searchParams ?? {}),
 		});
 	}, [searchParams]);
 
@@ -191,12 +185,14 @@ export function useProtectedAlbumsPage() {
 	};
 
 	const [query, setQuery] = useState<Record<string, string>>({
-		...searchParams,
+		...(searchParams ?? {}),
 	});
+
+	const navigation = useNavigation();
 
 	useEffect(() => {
 		setQuery({
-			...searchParams,
+			...(searchParams ?? {}),
 		});
 	}, [searchParams]);
 
@@ -208,6 +204,9 @@ export function useProtectedAlbumsPage() {
 		query,
 		setQuery,
 		submit: useSubmit(),
+		isSearching: navigation.formData?.get("keyword") != null,
+		isLoading: navigation.state === "loading",
+		type: "list",
 	};
 }
 
@@ -225,12 +224,14 @@ export function useCommentsPage() {
 	};
 
 	const [query, setQuery] = useState<Record<string, string>>({
-		...searchParams,
+		...(searchParams ?? {}),
 	});
+
+	const navigation = useNavigation();
 
 	useEffect(() => {
 		setQuery({
-			...searchParams,
+			...(searchParams ?? {}),
 		});
 	}, [searchParams]);
 
@@ -242,6 +243,9 @@ export function useCommentsPage() {
 		query,
 		setQuery,
 		submit: useSubmit(),
+		isSearching: navigation.formData?.get("keyword") != null,
+		isLoading: navigation.state === "loading",
+		type: "list",
 	};
 }
 

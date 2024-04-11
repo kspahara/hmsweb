@@ -7,13 +7,13 @@ import { useProtectedAlbumsPage } from "../../hooks/hooks.ts";
  * @returns
  */
 export function ProtectedAlbumsPage(): JSX.Element {
-	const props = useProtectedAlbumsPage();
+	const { data, type, message, ...props } = useProtectedAlbumsPage();
 
 	return (
 		<>
 			<section id={"protected-alubums-page"}>
 				<header>
-					<h1 className={"h2"}>{props.message}</h1>
+					<h1 className={"h2"}>{message}</h1>
 					<p>Protected Albums</p>
 					<div id={"search"}>
 						<SearchArea {...props} />
@@ -23,7 +23,7 @@ export function ProtectedAlbumsPage(): JSX.Element {
 				<section>
 					<h2 className={"h3"}>{"Album List"}</h2>
 					<div id={"content"}>
-						<ContentArea data={props.data} />
+						<ContentArea {...{ data, type }} />
 					</div>
 				</section>
 			</section>

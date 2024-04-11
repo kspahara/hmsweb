@@ -22,6 +22,7 @@ export async function getAlbums(searchParams: URLSearchParams): Promise<Album[]>
 	const url = `${apiUrl}/albums?${query}`;
 	const res = await fetch(url);
 	const data = await handleResponse(res);
+
 	return data;
 }
 

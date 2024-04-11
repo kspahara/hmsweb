@@ -1,6 +1,6 @@
 import { Suspense } from "react";
-import { Await, Form } from "react-router-dom";
-import { Badge, Col, Row, Stack } from "react-bootstrap";
+import { Await, Form as RouterForm } from "react-router-dom";
+import { Form, Badge, Col, Row, Stack, Alert } from "react-bootstrap";
 import { CreateForm, FormType } from "./createForm.tsx";
 import { Fallback } from "./fallback.tsx";
 
@@ -10,62 +10,77 @@ type Props = {
 	query: Record<string, string>;
 	setQuery: (query: Record<string, string>) => void;
 	submit: (query: Record<string, string>, options: { replace: boolean }) => void;
+	isSearching: boolean;
 };
 
+/**
+ *
+ * @param props
+ * @returns
+ */
 export function SearchArea(props: Props): JSX.Element {
-	const { forms, searchies, query, setQuery, submit } = props;
+	const { forms, searchies, query, setQuery, submit, isSearching } = props;
 
 	return (
 		<>
-			<Form role="search" onChange={(e) => submit(e.currentTarget, { replace: true })}>
-				<Row className={"g-3"}>
-					<Suspense fallback={<Fallback />}>
-						<Await
-							resolve={searchies}
-							errorElement={<div>Error</div>}
-							children={(searchies): JSX.Element => (
-								<>
-									{forms.map((form, index) => {
-										const { name } = form;
-										return (
-											<Col md key={index}>
-												<CreateForm
-													form={form}
-													value={query[name]}
-													event={(e) => setQuery({ ...query, [name]: e.currentTarget.value })}
-													option={searchies}
-												/>
-											</Col>
-										);
-									})}
-									<Stack direction={"horizontal"} gap={2}>
-										{forms.map((form, index) => {
-											const { name, optionKey } = form;
-											return (
-												query[name] && (
-													<Badge
-														role={"button"}
-														key={index}
-														bg={"secondary"}
-														pill={false}
-														className={"btn mt-3"}
-														onClick={() => {
-															setQuery({ ...query, [name]: "" });
-															submit({ ...query, [name]: "" }, { replace: true });
-														}}
-													>
-														<i className={"bi bi-x me-1"}></i>
-														{optionKey ? searchies.find((item: Record<string, string>) => item.id == query[name])?.name : query[name]}
-													</Badge>
-												)
-											);
-										})}
-									</Stack>
-								</>
-							)}
-						/>
-					</Suspense>
-				</Row>
+			<Form as={RouterForm} role={"search"} onChange={(e) => submit(e.currentTarget, { replace: true })}>
+				<fieldset disabled={isSearching}>
+					<fieldset>
+						<legend className={"h6"}>{"絞り込む"}</legend>
+						<Row className={"gx-2 gy-2"}>
+							<Suspense fallback={<Fallback />}>
+								<Await
+									resolve={searchies}
+									errorElement={<Alert variant={"danger"}>{"Not Found"}</Alert>}
+									children={(searchies) => (
+										<>
+											{forms.map((form, index) => {
+												const { controlId, name } = form;
+												return (
+													<Col key={index} md={controlId === "keyword" ? 12 : 6} lg={controlId === "keyword" ? 12 : 2}>
+														<CreateForm
+															form={form}
+															value={query[name]}
+															event={(e) => setQuery({ ...query, [name]: e.currentTarget.value })}
+															option={searchies[controlId]}
+														/>
+													</Col>
+												);
+											})}
+											<Stack direction={"horizontal"} gap={2}>
+												{forms.map((form, index) => {
+													const { controlId, name, optionKey } = form;
+													const { key, value } = optionKey ?? { key: "", value: "" };
+
+													return (
+														query[name] && (
+															<Badge
+																role={"button"}
+																key={index}
+																bg={"secondary"}
+																pill={false}
+																className={"btn mt-3"}
+																onClick={() => {
+																	setQuery({ ...query, [name]: "" });
+																	submit({ ...query, [name]: "" }, { replace: true });
+																}}
+															>
+																<i className={"bi bi-x me-1"}></i>
+																{key && value
+																	? searchies[controlId].find((item: Record<string, string>) => item[key] == query[name])?.[value]
+																	: query[name]}
+															</Badge>
+														)
+													);
+												})}
+											</Stack>
+										</>
+									)}
+								/>
+							</Suspense>
+						</Row>
+					</fieldset>
+				</fieldset>
 			</Form>
 		</>
 	);
