@@ -1,4 +1,4 @@
-import { createQueryParams, handleResponse } from "../../libs/libs";
+import { handleResponse } from "../../libs/libs";
 
 const apiUrl = import.meta.env.VITE_TEST_API_URL;
 
@@ -26,7 +26,7 @@ export type User = {
 	};
 };
 
-export async function getAuthUser(username: string) {
+export async function getAuthUser(username: User["username"]): Promise<User> {
 	const p_username = username ? `?username=${encodeURIComponent(username)}` : "";
 	const url = `${apiUrl}/users${p_username}`;
 	const res = await fetch(url);
@@ -35,7 +35,15 @@ export async function getAuthUser(username: string) {
 	return data;
 }
 
-export async function getUsers() {
+export async function getUserDetailCond(): Promise<User[]> {
+	const url = `${apiUrl}/users`;
+	const res = await fetch(url);
+	const data = await handleResponse(res);
+
+	return data;
+}
+
+export async function getUsersCond(): Promise<{ userId: User[] }> {
 	const url = `${apiUrl}/users`;
 	const res = await fetch(url);
 	const data = await handleResponse(res);
@@ -43,17 +51,8 @@ export async function getUsers() {
 	return { userId: data };
 }
 
-/**
- *
- * @param searchParams
- * @returns
- */
-export async function getUser(searchParams: URLSearchParams) {
-	const params = Object.fromEntries(searchParams.entries());
-	const query = await createQueryParams(params);
-	const url = `${apiUrl}/users?${query}`;
-	// const p_username = username ? `?username=${encodeURIComponent(username)}` : "";
-	// const url = `${apiUrl}/users${p_username}`;
+export async function getUsers(): Promise<User[]> {
+	const url = `${apiUrl}/users`;
 	const res = await fetch(url);
 	const data = await handleResponse(res);
 

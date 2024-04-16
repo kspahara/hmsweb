@@ -19,9 +19,9 @@ export function ErrorPage(): JSX.Element {
 						<p>
 							<i>{error.name || error.message}</i>
 						</p>
-						<Link to={"/"}>
-							<i className={"bi bi-arrow-left me-1"}></i>
-							{"Return to the top page"}
+						<Link to="/">
+							<i className="bi bi-arrow-left me-1" />
+							Return to the top page
 						</Link>
 					</section>
 				</section>

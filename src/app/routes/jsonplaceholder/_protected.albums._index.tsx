@@ -1,7 +1,7 @@
 import { LoaderFunctionArgs, defer } from "react-router-dom";
 import { FormType } from "../../components/createForm";
 import { getAlbums } from "../../data/jsonplaceholder/albums";
-import { getUsers } from "../../data/jsonplaceholder/users";
+import { getUsersCond } from "../../data/jsonplaceholder/users";
 import { ProtectedAlbumsPage } from "../../pages/jsonplaceholder/_protected.albums._index";
 import { authProvider } from "../../provides/auth";
 
@@ -21,8 +21,8 @@ const getForms = async (): Promise<FormType[]> => {
 			as: "select",
 			controlId: "userId",
 			name: "userId",
-			label: "User:",
-			placeholder: "All Users",
+			label: "UserId:",
+			placeholder: "Select UserId",
 			ariaLabel: "UserId",
 			optionKey: { key: "id", value: "name" },
 		},
@@ -38,8 +38,8 @@ const clientLoader = async ({ request }: LoaderFunctionArgs) => {
 		data: getAlbums(search_params),
 		searchParams: Object.fromEntries(search_params.entries()),
 		forms: await getForms(),
-		searchies: getUsers(),
-		message: "Albums",
+		searchies: getUsersCond(),
+		message: route_name,
 	});
 };
 

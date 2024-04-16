@@ -3,8 +3,8 @@ import { createQueryParams, handleResponse } from "../../libs/libs";
 const apiUrl = import.meta.env.VITE_TEST_API_URL;
 
 export type Comment = {
-	postId: string;
-	id: string;
+	postId: number;
+	id: number;
 	name: string;
 	email: string;
 	body: string;

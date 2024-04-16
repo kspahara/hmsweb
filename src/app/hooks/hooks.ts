@@ -13,8 +13,6 @@ import {
 	useSubmit,
 } from "react-router-dom";
 import { FormType } from "../components/createForm.tsx";
-// import { HinCondList } from "../data/hin/hin_cond.ts";
-import { HinList } from "../data/hin/hin.ts";
 import { IsAuthenticated, UserName } from "../provides/auth.ts";
 import { Link } from "../routes/_index.tsx";
 
@@ -48,6 +46,8 @@ export function useRootPage() {
 		links: Link[];
 	};
 	const fetcher = useFetcher();
+	const index_link = links.find((link) => link.kbn === "index");
+	const allrightsreserved = "© " + new Date().getFullYear() + " - All rights reserved";
 
 	return {
 		user,
@@ -55,6 +55,8 @@ export function useRootPage() {
 		links,
 		isLoggingOut: fetcher.formData != null,
 		FeacherForm: fetcher.Form,
+		index_link,
+		allrightsreserved,
 	};
 }
 
@@ -157,7 +159,7 @@ export function useHinIndexPage() {
  */
 export function useHinDetailPage() {
 	const { data } = useLoaderData() as {
-		data: HinList;
+		data: Record<string, string>;
 	};
 	const { user } = useRouteLoaderData("root") as {
 		user: string | null;
@@ -254,17 +256,17 @@ export function useCommentsPage() {
  * @returns
  */
 export function useProtectedAlbumsIdPage() {
-	const { data, forms, users, message } = useLoaderData() as {
+	const { data, forms, searchies, message } = useLoaderData() as {
 		data: Record<string, string>;
 		forms: FormType[];
-		users: Record<string, string>[];
+		searchies: Record<string, string>[];
 		message: string;
 	};
 
 	return {
 		data,
 		forms,
-		users,
+		searchies,
 		message,
 		isEdit: location.pathname.includes("edit"),
 		navigate: useNavigate(),

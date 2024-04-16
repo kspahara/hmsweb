@@ -18,8 +18,8 @@ export function HinDetailPage(): JSX.Element {
 								navigate(-1);
 							}}
 						>
-							<i className={"bi bi-chevron-left me-1"}></i>
-							{"商品一覧に戻る"}
+							<i className="bi bi-chevron-left me-1" />
+							商品一覧に戻る
 						</Button>
 					</nav>
 				</header>
@@ -82,7 +82,7 @@ export function HinDetailPage(): JSX.Element {
 													<Form.Control type={"number"} placeholder={"数量を入力してください"} defaultValue={1} className={"text-end"} />
 												</FloatingLabel>
 												<Button type={"button"} variant={"primary"}>
-													<i className={"bi bi-cart-plus-fill me-1"}></i>
+													<i className="bi bi-cart-plus-fill me-1" />
 												</Button>
 											</InputGroup>
 										</Form>

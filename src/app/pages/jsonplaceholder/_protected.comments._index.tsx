@@ -11,15 +11,15 @@ export function ProtectedCommentsPage() {
 
 	return (
 		<>
-			<section id={"protexted-comments-page"}>
+			<section id="protexted-comments-page">
 				<header>
-					<h1 className={"h2"}>{message}</h1>
+					<h1 className="h2">{message}</h1>
 					<p>Protected Comments</p>
 					<SearchArea {...props} />
 				</header>
 				<hr />
 				<section>
-					<h2 className={"h3"}>ProtectedCommentsPage</h2>
+					<h2 className="h3">ProtectedCommentsPage</h2>
 					<ContentArea {...{ data, type }} />
 				</section>
 			</section>

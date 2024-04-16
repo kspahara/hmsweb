@@ -3,7 +3,7 @@ import { FormType } from "../../components/createForm";
 import { getComments } from "../../data/jsonplaceholder/comments";
 import { ProtectedCommentsPage } from "../../pages/jsonplaceholder/_protected.comments._index";
 import { authProvider } from "../../provides/auth";
-import { getUsers } from "../../data/jsonplaceholder/users";
+import { getPostsCond } from "../../data/jsonplaceholder/posts";
 
 const route_name = "ProtectedCommentsRoute";
 
@@ -18,12 +18,12 @@ const getForms = async (): Promise<FormType[]> => {
 		},
 		{
 			as: "select",
-			controlId: "userId",
+			controlId: "postId",
 			name: "postId",
-			label: "User:",
-			placeholder: "All Users",
+			label: "Post:",
+			placeholder: "Select Post",
 			ariaLabel: "PostId",
-			optionKey: { key: "id", value: "name" },
+			optionKey: { key: "id", value: "title" },
 		},
 	];
 };
@@ -37,8 +37,8 @@ const clientLoader = async ({ request }: LoaderFunctionArgs) => {
 		data: getComments(search_params),
 		searchParams: Object.fromEntries(search_params.entries()),
 		forms: await getForms(),
-		searchies: getUsers(),
-		message: "Comments",
+		searchies: getPostsCond(),
+		message: route_name,
 	});
 };
 

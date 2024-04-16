@@ -14,8 +14,8 @@ const NoMatchPage = (): JSX.Element => {
 						Error <span className={"text-danger"}>404</span>
 					</h2>
 					<p>
-						<Link to={".."}>
-							<i className={"bi bi-arrow-left me-1"}></i>
+						<Link to="..">
+							<i className="bi bi-arrow-left me-1" />
 							Go to the home
 						</Link>
 					</p>

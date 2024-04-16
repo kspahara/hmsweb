@@ -34,7 +34,7 @@ export function ContentArea(props: Props): JSX.Element {
 											{item.id}
 											<span className="mx-1">:</span>
 											{item.title}
-											<i className="bi bi-chevron-right ms-auto"></i>
+											<i className="bi bi-chevron-right ms-auto" />
 										</ListGroup.Item>
 									))}
 								</ListGroup>
@@ -70,7 +70,7 @@ export function ContentArea(props: Props): JSX.Element {
 																	<Form.Control type="number" placeholder="数量を入力してください" defaultValue={1} className="text-end" />
 																</FloatingLabel>
 																<Button type="button" variant="primary">
-																	<i className="bi bi-cart-plus-fill me-1"></i>
+																	<i className="bi bi-cart-plus-fill me-1" />
 																</Button>
 															</InputGroup>
 														</Form>

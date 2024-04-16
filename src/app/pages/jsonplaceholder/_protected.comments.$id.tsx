@@ -2,21 +2,35 @@ import { Link, Form as RouterForm, useLoaderData, useNavigate } from "react-rout
 import { Button, Card, Form, Stack } from "react-bootstrap";
 import { CreateForm, FormType } from "../../components/createForm.tsx";
 
-export function ProtectedCommentsIdPage() {
-	const { data, forms, posts } = useLoaderData() as { data: Record<string, string>; forms: FormType[]; posts: Record<string, string>[] };
-	const isEdit = location.pathname.includes("edit");
-	const navigate = useNavigate();
-	// console.log("data", data);
-	// console.log("forms", forms);
+function useProtectedCommentsId() {
+	const { data, forms, searchies, message } = useLoaderData() as {
+		data: Record<string, string>;
+		forms: FormType[];
+		searchies: Record<string, string>[];
+		message: string;
+	};
 
-	const FormContents = () => {
+	return {
+		data,
+		forms,
+		searchies,
+		isEdit: location.pathname.includes("edit"),
+		navigate: useNavigate(),
+		message,
+	};
+}
+
+export function ProtectedCommentsIdPage() {
+	const { data, forms, searchies, isEdit, navigate,message } = useProtectedCommentsId();
+
+	const FormContents = (): JSX.Element => {
 		return (
 			<>
 				<Form as={RouterForm} method={"post"} replace={true}>
 					<fieldset disabled={!isEdit}>
 						<Stack gap={3}>
 							{forms.map((form, index) => (
-								<CreateForm key={index} form={form} data={data} option={posts} />
+								<CreateForm key={index} form={form} data={data} option={searchies} />
 							))}
 							<div>
 								<Button variant={"success"} type={"submit"}>
@@ -46,39 +60,33 @@ export function ProtectedCommentsIdPage() {
 	return (
 		<>
 			<section>
-				<h3>ProtectedCommentsIdPage</h3>
-				<nav className={"mb-3"}>
-					<Button
-						type={"button"}
-						variant={"link"}
-						onClick={() => {
-							navigate(-1);
-						}}
-					>
-						Back
-					</Button>
+				<header>
+					<h1 className="h2">{message}</h1>
+					<nav className="mb-3">
+						<Button type="button" variant="link" onClick={() => navigate(-1)}>
+							<i className="bi bi-arrow-left me-1" />
+							Back
+						</Button>
+					</nav>
+				</header>
+				<hr />
+				<section>
+					<h2 className="h3">{data.title}</h2>
 					{isEdit ? (
-						<Button
-							type={"button"}
-							variant={"secondary"}
-							onClick={() => {
-								navigate(-1);
-							}}
-						>
+						<Button type="button" variant="secondary" onClick={() => navigate(-1)}>
 							Cancel
 						</Button>
 					) : (
-						<Link to={"edit"} className={"btn btn-primary"}>
+						<Link to="edit" className="btn btn-primary">
 							Edit
 						</Link>
 					)}
-				</nav>
-				<div className="col-sm-6 mx-auto">
-					<Card body className={"shadow-sm mb-3"}>
-						<Card.Title>{data.id}</Card.Title>
-						{isEdit ? <FormContents /> : <Contents />}
-					</Card>
-				</div>
+					<div className="col-sm-6 mx-auto">
+						<Card body className="shadow-sm mb-3">
+							{isEdit ? <FormContents /> : <Contents />}
+						</Card>
+					</div>
+				</section>
 			</section>
 		</>
 	);

@@ -17,5 +17,22 @@ export async function getPosts(): Promise<Post[]> {
 	const url = `${apiUrl}/posts`;
 	const res = await fetch(url);
 	const data = await handleResponse(res);
+
+	return data;
+}
+
+export async function getPostsCond(): Promise<{ postId: Post[] }> {
+	const url = `${apiUrl}/posts`;
+	const res = await fetch(url);
+	const data = await handleResponse(res);
+
+	return { postId: data };
+}
+
+export async function getPostDetailCond(): Promise<Post[]> {
+	const url = `${apiUrl}/posts`;
+	const res = await fetch(url);
+	const data = await handleResponse(res);
+
 	return data;
 }

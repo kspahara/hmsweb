@@ -1,10 +1,10 @@
 import { LoaderFunctionArgs } from "react-router-dom";
 import { CrumbItem, Match } from "../../components/breadcrumbs.tsx";
+import { FormType } from "../../components/createForm.tsx";
+import { getPostDetailCond } from "../../data/jsonplaceholder/posts.ts";
 import { getCommentsDetail } from "../../data/jsonplaceholder/comments.ts";
 import { ProtectedCommentsIdPage } from "../../pages/jsonplaceholder/_protected.comments.$id.tsx";
 import { authProvider } from "../../provides/auth.ts";
-import { FormType } from "../../components/createForm.tsx";
-import { getPosts } from "../../data/jsonplaceholder/posts.ts";
 import { getLocationPath } from "../../libs/libs.ts";
 
 const route_name = "ProtectedCommentsIdRoute";
@@ -47,7 +47,7 @@ const getForms = async (): Promise<FormType[]> => {
 			controlId: "postId",
 			name: "postId",
 			label: "PostId:",
-			placeholder: "Select PostId",
+			placeholder: "Select Post",
 			ariaLabel: "PostId",
 			optionKey: { key: "id", value: "title" },
 		},
@@ -57,12 +57,13 @@ const getForms = async (): Promise<FormType[]> => {
 const clientLoader = async ({ params }: LoaderFunctionArgs) => {
 	if (!authProvider.isAuthenticated) return console.log(`${route_name} !isAuth`), false;
 
-	const [data, forms, posts] = await Promise.all([getCommentsDetail(params.id || ""), getForms(), getPosts()]);
+	const [data, forms, searchies] = await Promise.all([getCommentsDetail(params.id || ""), getForms(), getPostDetailCond()]);
 
 	return {
 		data,
 		forms,
-		posts,
+		searchies,
+		message: route_name,
 	};
 };
 

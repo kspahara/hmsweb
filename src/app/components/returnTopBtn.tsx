@@ -23,8 +23,9 @@ export function ReturnTopBtn(): JSX.Element {
 					transition: "0.5s",
 				}}
 			>
-				<Button variant={"secondary"} className={"rounded-pill shadow-sm"} onClick={scrollTop} aria-label={"ページ上部へ戻る"} disabled={!isBtnActive}>
-					<i className={"bi bi-arrow-up me-1"}></i>TOP
+				<Button variant="secondary" className="rounded-pill shadow-sm" onClick={scrollTop} aria-label="ページ上部へ戻る" disabled={!isBtnActive}>
+					<i className="bi bi-arrow-up me-1" />
+					TOP
 				</Button>
 			</aside>
 		</>

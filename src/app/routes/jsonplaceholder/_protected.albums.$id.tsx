@@ -3,7 +3,7 @@ import { CrumbItem, Match } from "../../components/breadcrumbs.tsx";
 import { FormType } from "../../components/createForm.tsx";
 import { getAlbumDetail } from "../../data/jsonplaceholder/albums.ts";
 import { updateAlbum } from "../../data/jsonplaceholder/albums.ts";
-import { getUsers } from "../../data/jsonplaceholder/users.ts";
+import { getUserDetailCond } from "../../data/jsonplaceholder/users.ts";
 import { ProtectedAlbumsIdPage } from "../../pages/jsonplaceholder/_protected.albums.$id.tsx";
 import { authProvider } from "../../provides/auth.ts";
 import { getLocationPath } from "../../libs/libs.ts";
@@ -44,20 +44,19 @@ const getForms = async (): Promise<FormType[]> => {
 const clientLoader = async ({ params }: LoaderFunctionArgs) => {
 	if (!authProvider.isAuthenticated) return console.log(`${route_name} !isAuth`), false;
 
-	const [data, forms, users] = await Promise.all([getAlbumDetail(params.id), getForms(), getUsers()]);
+	const [data, forms, searchies] = await Promise.all([getAlbumDetail(params.id || ""), getForms(), getUserDetailCond()]);
 
 	return {
 		data,
 		forms,
-		users,
-		message: "ProtectedAlbumsIdPage",
+		searchies,
+		message: route_name,
 	};
 };
 
 const clientAction = async ({ params, request }: LoaderFunctionArgs) => {
 	if (!authProvider.isAuthenticated) return false;
 
-	console.log("ProtectedAlbumsIdRoute clientAction (protected.albums.id) isAuth");
 	const body = new URLSearchParams(await request.text());
 	await updateAlbum({
 		id: params.id,
@@ -65,7 +64,7 @@ const clientAction = async ({ params, request }: LoaderFunctionArgs) => {
 		userId: body.get("userId"),
 	});
 
-	return redirect(`/albums/${params.id}`);
+	return redirect(`${params.id}`);
 };
 
 const createCrumb = (match: Match<{ title: string }>): JSX.Element => (

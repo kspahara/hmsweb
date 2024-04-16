@@ -23,15 +23,15 @@ export function SearchArea(props: Props): JSX.Element {
 
 	return (
 		<>
-			<Form as={RouterForm} role={"search"} onChange={(e) => submit(e.currentTarget, { replace: true })}>
+			<Form as={RouterForm} role="search" onChange={(e) => submit(e.currentTarget, { replace: true })}>
 				<fieldset disabled={isSearching}>
 					<fieldset>
-						<legend className={"h6"}>{"絞り込む"}</legend>
-						<Row className={"gx-2 gy-2"}>
+						<legend className="h6">絞り込む</legend>
+						<Row className="gx-2 gy-2">
 							<Suspense fallback={<Fallback />}>
 								<Await
 									resolve={searchies}
-									errorElement={<Alert variant={"danger"}>{"Not Found"}</Alert>}
+									errorElement={<Alert variant="danger">Not Found</Alert>}
 									children={(searchies) => (
 										<>
 											{forms.map((form, index) => {
@@ -39,15 +39,17 @@ export function SearchArea(props: Props): JSX.Element {
 												return (
 													<Col key={index} md={controlId === "keyword" ? 12 : 6} lg={controlId === "keyword" ? 12 : 2}>
 														<CreateForm
-															form={form}
-															value={query[name]}
-															event={(e) => setQuery({ ...query, [name]: e.currentTarget.value })}
-															option={searchies[controlId]}
+															{...{
+																form,
+																value: query[name],
+																event: (e) => setQuery({ ...query, [name]: e.currentTarget.value }),
+																option: searchies[controlId],
+															}}
 														/>
 													</Col>
 												);
 											})}
-											<Stack direction={"horizontal"} gap={2}>
+											<Stack direction="horizontal" gap={2}>
 												{forms.map((form, index) => {
 													const { controlId, name, optionKey } = form;
 													const { key, value } = optionKey ?? { key: "", value: "" };
@@ -55,17 +57,17 @@ export function SearchArea(props: Props): JSX.Element {
 													return (
 														query[name] && (
 															<Badge
-																role={"button"}
 																key={index}
-																bg={"secondary"}
+																role="button"
+																bg="secondary"
 																pill={false}
-																className={"btn mt-3"}
+																className="btn mt-3"
 																onClick={() => {
 																	setQuery({ ...query, [name]: "" });
 																	submit({ ...query, [name]: "" }, { replace: true });
 																}}
 															>
-																<i className={"bi bi-x me-1"}></i>
+																<i className="bi bi-x me-1" />
 																{key && value
 																	? searchies[controlId].find((item: Record<string, string>) => item[key] == query[name])?.[value]
 																	: query[name]}

@@ -11,7 +11,7 @@ export type HinCondList = {
 	results: HinCond[];
 };
 
-export async function getHinCond() {
+export async function getHinCond(): Promise<HinCondList> {
 	const url = `${apiUrl}/get-search-hin-cond.php`;
 	const param: RequestInit = {
 		method: "POST",

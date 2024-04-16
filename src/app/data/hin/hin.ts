@@ -2,7 +2,7 @@ import { handleResponse } from "../../libs/libs";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
-type Hin = {
+export type Hin = {
 	atch_filename: string;
 	atch_flg: string;
 	atch_image: string;
@@ -12,7 +12,7 @@ type Hin = {
 	disc_mode: string;
 	disc_per: string;
 	han_name: string;
-	hin_cd: string;
+	hin_cd: string | undefined;
 	hin_nm: string;
 	hosoku1: string;
 	htanka: string;
@@ -34,7 +34,7 @@ export type HinList = {
  * @param searchParams
  * @returns
  */
-export async function getHinList(searchParams: URLSearchParams): Promise<Hin[]> {
+export async function getHinList(searchParams: URLSearchParams): Promise<HinList> {
 	const params_entry = Object.fromEntries(searchParams.entries());
 	const url = `${apiUrl}/get-search-tok_hin.php`;
 	const param: RequestInit = {
@@ -53,12 +53,6 @@ export async function getHinList(searchParams: URLSearchParams): Promise<Hin[]> 
 	const res = await fetch(url, param);
 	const data = await handleResponse(res);
 
-	// id title に変更
-	// return data.results.map((item: Hin) => ({
-	// 	id: item.hin_cd,
-	// 	title: item.hin_nm,
-	// }));
-
 	return data.results;
 }
 
@@ -67,7 +61,7 @@ export async function getHinList(searchParams: URLSearchParams): Promise<Hin[]> 
  * @param p_hin_cd
  * @returns
  */
-export async function getHinDetail(p_hin_cd: string | undefined): Promise<HinList> {
+export async function getHinDetail(p_hin_cd: Hin["hin_cd"]): Promise<HinList> {
 	const url = `${apiUrl}/get-search-tok_hin.php`;
 	const param: RequestInit = {
 		method: "POST",

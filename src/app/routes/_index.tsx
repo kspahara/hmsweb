@@ -42,7 +42,8 @@ const createCrumb = (match: Match<unknown>): JSX.Element => (
 		props={{ linkProps: { to: `${match.pathname}` }, active: getLocationPath() === match.pathname }}
 		label={
 			<>
-				<i className={"bi bi-house-door-fill me-1"}></i>Home
+				<i className="bi bi-house-door-fill me-1" />
+				Home
 			</>
 		}
 	/>

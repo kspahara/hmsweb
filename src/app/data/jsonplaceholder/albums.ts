@@ -31,7 +31,7 @@ export async function getAlbums(searchParams: URLSearchParams): Promise<Album[]>
  * @param params
  * @returns
  */
-export async function cleateAlbum(params: { id: number; title: string }): Promise<Album> {
+export async function cleateAlbum(params: { id: Album["id"]; title: Album["title"] }): Promise<Album> {
 	const url = `${apiUrl}/albums`;
 	const param = {
 		method: "POST",
@@ -79,7 +79,7 @@ export async function updateAlbum(params: { id: string | undefined; title: strin
  * @param id
  * @returns
  */
-export async function getAlbumDetail(id?: string): Promise<Album> {
+export async function getAlbumDetail(id: string): Promise<Album> {
 	const p_id = id ? `/${encodeURIComponent(id)}` : undefined;
 	const url = `${apiUrl}/albums${p_id}`;
 	const res = await fetch(url);

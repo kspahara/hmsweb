@@ -10,21 +10,20 @@ import { useRootPage } from "../hooks/hooks.ts";
  * @returns
  */
 function HeaderNavigation(): JSX.Element {
-	const { user, isAuth, links, isLoggingOut, FeacherForm } = useRootPage();
-	const index_link = links.find((link) => link.kbn === "index");
+	const { user, isAuth, links, isLoggingOut, FeacherForm, index_link } = useRootPage();
 
 	return (
 		<>
-			<Navbar expand={"lg"} fixed={"top"} className={"bg-white shadow-sm"}>
+			<Navbar expand="lg" fixed="top" className="bg-white shadow-sm">
 				<Container fluid>
 					{index_link && (
 						<Navbar.Brand as={NavLink} to={index_link.href}>
 							{index_link.label}
 						</Navbar.Brand>
 					)}
-					<Navbar.Toggle aria-controls={"navbar-nav"} />
-					<Navbar.Collapse id={"navbar-nav"}>
-						<Nav className={"me-auto"}>
+					<Navbar.Toggle aria-controls="navbar-nav" />
+					<Navbar.Collapse id="navbar-nav">
+						<Nav className="me-auto">
 							{links
 								.filter((link) => link.kbn === "public")
 								.map((link, idx: number) => (
@@ -33,7 +32,7 @@ function HeaderNavigation(): JSX.Element {
 									</Nav.Link>
 								))}
 							{isAuth && (
-								<NavDropdown title={"Dropdown"} id={"nav-dropdown"}>
+								<NavDropdown title="Dropdown" id="nav-dropdown">
 									{links
 										.filter((link) => link.kbn === "auth")
 										.map((link, idx: number) => (
@@ -57,12 +56,12 @@ function HeaderNavigation(): JSX.Element {
 							</Nav>
 						) : (
 							<>
-								<Navbar.Text className={"me-2"}>
-									<i className={"bi bi-person-fill me-1"}></i>
+								<Navbar.Text className="me-2">
+									<i className="bi bi-person-fill me-1" />
 									{user}
 								</Navbar.Text>
-								<Form as={FeacherForm} method={"post"} action={"/logout"}>
-									<Button type={"submit"} variant={"outline-secondary"} disabled={isLoggingOut}>
+								<Form as={FeacherForm} method="post" action="/logout">
+									<Button type="submit" variant="outline-secondary" disabled={isLoggingOut}>
 										{isLoggingOut ? "Signing out..." : "Sign out"}
 									</Button>
 								</Form>
@@ -80,14 +79,16 @@ function HeaderNavigation(): JSX.Element {
  * @returns
  */
 export function RootPage(): JSX.Element {
+	const { allrightsreserved } = useRootPage();
+
 	return (
 		<>
-			<header id={"header"}>
+			<header id="header">
 				<HeaderNavigation />
 				<ReturnTopBtn />
 				<ProgressNav />
 			</header>
-			<main id={"main"} style={{ minHeight: "calc(100vh - 4rem)", paddingTop: "5rem" }}>
+			<main id="main" style={{ minHeight: "calc(100vh - 4rem)", paddingTop: "5rem" }}>
 				<Container>
 					<Breadcrumbs />
 					<Outlet />
@@ -96,9 +97,9 @@ export function RootPage(): JSX.Element {
 			</main>
 			<footer>
 				<hr />
-				<p className={"text-center"}>
-					<small className="text-muted">{"© " + new Date().getFullYear() + " - All rights reserved"}</small>
-				</p>
+				<div className="text-center mb-3">
+					<small className="text-muted">{allrightsreserved}</small>
+				</div>
 			</footer>
 		</>
 	);

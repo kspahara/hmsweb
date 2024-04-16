@@ -79,7 +79,7 @@ export function CreateForm({ form, data, option, value, event }: FormProps): JSX
 							onChange={(e: React.ChangeEvent<HTMLSelectElement>) => (event ? event(e) : undefined)}
 							{...rest}
 						>
-							<option value={""}>{placeholder}</option>
+							<option value="">{placeholder}</option>
 							{option?.map((item, index) => (
 								<option key={index} value={optionKey ? item[optionKey.key] : undefined}>
 									{optionKey ? item[optionKey.value] : undefined}
@@ -106,7 +106,7 @@ export function CreateForm({ form, data, option, value, event }: FormProps): JSX
 							pattern={patern}
 							{...rest}
 						/>
-						<Form.Control.Feedback type={"invalid"}>{invalidMessage}</Form.Control.Feedback>
+						<Form.Control.Feedback type="invalid">{invalidMessage}</Form.Control.Feedback>
 					</>
 				)}
 			</FloatingLabel>
