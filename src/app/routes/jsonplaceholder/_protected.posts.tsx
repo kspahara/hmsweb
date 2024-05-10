@@ -1,6 +1,6 @@
-import { getPosts } from "../../data/jsonplaceholder/posts";
-import { ProtectedPostsPage } from "../../pages/jsonplaceholder/_protected.posts";
-import { authProvider } from "../../provides/auth";
+import { getPosts } from "../../data/jsonplaceholder/posts.ts";
+import { ProtectedPostsPage } from "../../pages/jsonplaceholder/_protected.posts.tsx";
+import { authProvider } from "../../provides/auth.ts";
 
 const clientLoader = async () => {
 	const isAuth = authProvider.isAuthenticated;

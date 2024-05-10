@@ -67,17 +67,10 @@ const clientLoader = async ({ params }: LoaderFunctionArgs) => {
 	};
 };
 
-/**
- *
- * @param match
- * @returns
- */
-const createCrumb = (match: Match<{ name: string }>): JSX.Element => (
-	<CrumbItem props={{ linkProps: { to: `${match.pathname}` }, active: getLocationPath() === match.pathname }} label={<>{match.data.data.name}</>} />
-);
-
 const handle = {
-	crumb: createCrumb,
+	crumb: (match: Match<{ name: string }>): JSX.Element => (
+		<CrumbItem props={{ linkProps: { to: `${match.pathname}` }, active: getLocationPath() === match.pathname }} label={<>{match.data.data.name}</>} />
+	),
 };
 
 export function ProtectedCommentsIdRoute(): JSX.Element {

@@ -1,8 +1,8 @@
 import { Suspense } from "react";
-import { Await, Link, Form as RouterForm, useAsyncError } from "react-router-dom";
+import { Await, Link, Form as RouterForm, useAsyncError, useAsyncValue } from "react-router-dom";
 import { Alert, Badge, Button, Card, Col, FloatingLabel, Form, InputGroup, ListGroup, Row } from "react-bootstrap";
-import { Fallback } from "./fallback";
-import { parseInttoStr } from "../libs/libs";
+import { Fallback } from "./fallback.tsx";
+import { parseInttoStr } from "../libs/libs.ts";
 
 type Props = {
 	data: Record<string, string>[];
@@ -13,7 +13,9 @@ type Props = {
 
 const Error = () => {
 	const error = useAsyncError() as Error;
+	const value = useAsyncValue();
 	console.log("error", error);
+	console.log("value", value);
 
 	return (
 		<Alert variant="danger">
@@ -39,6 +41,28 @@ export function ContentArea(props: Props): JSX.Element {
 					resolve={data}
 					errorElement={<Error />}
 					children={(data: Record<string, string>[]) => {
+						const contentListsHin = (
+							<Card className="shadow-sm mb-3">
+								<ListGroup variant="flush">
+									{data.map((item, index) => (
+										<ListGroup.Item key={index} as={Link} to={`${item.den_no}`} className="d-flex" action>
+											<dl>
+												<dt>処理日</dt>
+												<dd>{item.syori_ymd}</dd>
+												<dt>伝票番号</dt>
+												<dd>{item.den_no}</dd>
+												<dt>取引種別</dt>
+												<dd>{item.tori_nm}</dd>
+												<dt>税込額</dt>
+												<dd>&yen;{parseInttoStr(item.zeikomi_gaku)}</dd>
+											</dl>
+											<i className="bi bi-chevron-right ms-auto" />
+										</ListGroup.Item>
+									))}
+								</ListGroup>
+							</Card>
+						);
+
 						const contentLists = (
 							<Card className="shadow-sm mb-3">
 								<ListGroup variant="flush">
@@ -102,7 +126,7 @@ export function ContentArea(props: Props): JSX.Element {
 									<span className="me-1">count:</span>
 									<span>{data.length}</span>
 								</div>
-								<div id="list-body">{type === "list" ? contentLists : contentCards}</div>
+								<div id="list-body">{type === "list" ? contentLists : type === "mypage" ? contentListsHin : contentCards}</div>
 							</>
 						);
 					}}

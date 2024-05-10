@@ -80,12 +80,10 @@ const clientAction = async ({ request }: ActionFunctionArgs) => {
 	return validationError || signInError || redirectTo(formData.redirectTo);
 };
 
-const createCrumb = (match: Match<unknown>): JSX.Element => (
-	<CrumbItem props={{ linkProps: { to: `${match.pathname}`, end: true }, active: getLocationPath() === match.pathname }} label={<>{"Login"}</>} />
-);
-
 const handle = {
-	crumb: createCrumb,
+	crumb: (match: Match<unknown>): JSX.Element => (
+		<CrumbItem props={{ linkProps: { to: `${match.pathname}`, end: true }, active: getLocationPath() === match.pathname }} label={<>{"Login"}</>} />
+	),
 };
 
 export function LoginRoute(): JSX.Element {

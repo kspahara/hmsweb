@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { NavLink } from "react-router-dom";
 import { Breadcrumb } from "react-bootstrap";
-import { useBreadcrumbs } from "../hooks/hooks";
+import { useBreadcrumbs } from "../hooks/hooks.ts";
 
 type Crumb = {
 	handle: {

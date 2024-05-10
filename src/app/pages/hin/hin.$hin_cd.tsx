@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { Form, Button, Col, Row, Image, FloatingLabel, InputGroup, Card } from "react-bootstrap";
-import { BackBtn } from "../../components/BackBtn";
-import { useHinDetailPage } from "../../hooks/hooks";
+import { BackBtn } from "../../components/BackBtn.tsx";
+import { useHinDetailPage } from "../../hooks/hooks.ts";
 
 export function HinDetailPage(): JSX.Element {
 	const { user, item, noImage } = useHinDetailPage();

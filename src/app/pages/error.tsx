@@ -1,6 +1,6 @@
 import { Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { useErrorPage } from "../hooks/hooks";
+import { useErrorPage } from "../hooks/hooks.ts";
 
 export function ErrorPage(): JSX.Element {
 	const { error } = useErrorPage();

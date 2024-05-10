@@ -10,12 +10,10 @@ const clientLoader = async ({ params }: LoaderFunctionArgs) => {
 	};
 };
 
-const createCrumb = (match: Match<{ results: { hin_nm: string }[] }>): JSX.Element => (
-	<CrumbItem props={{ linkProps: { to: `${match.pathname}` }, active: getLocationPath() === match.pathname }} label={<>{match.data.data.results[0].hin_nm}</>} />
-);
-
 const handle = {
-	crumb: createCrumb,
+	crumb: (match: Match<{ results: { hin_nm: string }[] }>): JSX.Element => (
+		<CrumbItem props={{ linkProps: { to: `${match.pathname}` }, active: getLocationPath() === match.pathname }} label={<>{match.data.data.results[0].hin_nm}</>} />
+	),
 };
 
 /**

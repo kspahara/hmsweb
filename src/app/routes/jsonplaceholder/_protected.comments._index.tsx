@@ -1,9 +1,9 @@
 import { LoaderFunctionArgs, defer } from "react-router-dom";
-import { FormType } from "../../components/createForm";
-import { getComments } from "../../data/jsonplaceholder/comments";
-import { ProtectedCommentsPage } from "../../pages/jsonplaceholder/_protected.comments._index";
-import { authProvider } from "../../provides/auth";
-import { getPostsCond } from "../../data/jsonplaceholder/posts";
+import { FormType } from "../../components/createForm.tsx";
+import { getComments } from "../../data/jsonplaceholder/comments.ts";
+import { ProtectedCommentsPage } from "../../pages/jsonplaceholder/_protected.comments._index.tsx";
+import { authProvider } from "../../provides/auth.ts";
+import { getPostsCond } from "../../data/jsonplaceholder/posts.ts";
 
 const route_name = "ProtectedCommentsRoute";
 

@@ -1,4 +1,4 @@
-import { handleResponse } from "../../libs/libs";
+import { handleResponse } from "../../libs/libs.ts";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 

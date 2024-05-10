@@ -1,6 +1,6 @@
-import { getUsers } from "../../data/jsonplaceholder/users";
-import { ProtectedUsersPage } from "../../pages/jsonplaceholder/_protected.users";
-import { authProvider } from "../../provides/auth";
+import { getUsers } from "../../data/jsonplaceholder/users.ts";
+import { ProtectedUsersPage } from "../../pages/jsonplaceholder/_protected.users.tsx";
+import { authProvider } from "../../provides/auth.ts";
 
 const clientLoader = async () => {
 	const isAuth = authProvider.isAuthenticated;

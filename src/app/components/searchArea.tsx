@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { Await, Form as RouterForm, useAsyncError } from "react-router-dom";
+import { Await, Form as RouterForm, useAsyncError, useAsyncValue } from "react-router-dom";
 import { Form, Badge, Col, Row, Stack, Alert } from "react-bootstrap";
 import { CreateForm, FormType } from "./createForm.tsx";
 import { Fallback } from "./fallback.tsx";
@@ -15,7 +15,9 @@ type Props = {
 
 const Error = () => {
 	const error = useAsyncError() as Error;
+	const value = useAsyncValue();
 	console.log("error", error);
+	console.log("value", value);
 
 	return (
 		<Alert variant="danger">

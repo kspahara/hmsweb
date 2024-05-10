@@ -163,6 +163,45 @@ export function useHinDetailPage() {
 }
 
 /**
+ * useProtectedMypagePage
+ * @returns
+ */
+export function useProtectedMypagePage() {
+	const { data, searchParams, forms, searchies, message } = useLoaderData() as {
+		data: Record<string, string>[];
+		searchParams: Record<string, string>;
+		forms: FormType[];
+		searchies: Record<string, string>[];
+		message: string;
+	};
+
+	const [query, setQuery] = useState<Record<string, string>>({
+		...(searchParams ?? {}),
+	});
+
+	const navigation = useNavigation();
+
+	useEffect(() => {
+		setQuery({
+			...(searchParams ?? {}),
+		});
+	}, [searchParams]);
+
+	return {
+		data,
+		forms,
+		searchies,
+		message,
+		query,
+		setQuery,
+		submit: useSubmit(),
+		isSearching: navigation.formData?.get("keyword") != null,
+		isLoading: navigation.state === "loading",
+		type: "mypage",
+	};
+}
+
+/**
  * useProtectedAlbumsPage
  * @returns
  */
@@ -237,6 +276,27 @@ export function useCommentsPage() {
 		isSearching: navigation.formData?.get("keyword") != null,
 		isLoading: navigation.state === "loading",
 		type: "list",
+	};
+}
+
+/**
+ * useProtectedMypageIdPage
+ * @returns
+ */
+export function useProtectedMypageIdPage() {
+	const { data, forms, searchies, message } = useLoaderData() as {
+		data: Record<string, string>;
+		forms: FormType[];
+		searchies: Record<string, string>[];
+		message: string;
+	};
+
+	return {
+		data,
+		forms,
+		searchies,
+		message,
+		isEdit: location.pathname.includes("edit"),
 	};
 }
 

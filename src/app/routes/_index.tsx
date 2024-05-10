@@ -19,6 +19,7 @@ const getLinks = async (): Promise<Link[]> => {
 		{ href: "/", label: "HMS-App", kbn: "index" },
 		{ href: "/hin", label: "Item", kbn: "public" },
 		{ href: "/login", label: "Login", kbn: "not_auth" },
+		{ href: "/mypage", label: "Mypage", kbn: "auth" },
 		{ href: "/albums", label: "Albums List", kbn: "auth" },
 		{ href: "/comments", label: "Comments List", kbn: "auth" },
 		{ href: "/photos", label: "Photos List", kbn: "auth" },
@@ -38,20 +39,18 @@ const clientLoader = async () => {
 	};
 };
 
-const createCrumb = (match: Match<unknown>): JSX.Element => (
-	<CrumbItem
-		props={{ linkProps: { to: `${match.pathname}` }, active: getLocationPath() === match.pathname }}
-		label={
-			<>
-				<i className="bi bi-house-door-fill me-1" />
-				Home
-			</>
-		}
-	/>
-);
-
 const handle = {
-	crumb: createCrumb,
+	crumb: (match: Match<unknown>): JSX.Element => (
+		<CrumbItem
+			props={{ linkProps: { to: `${match.pathname}` }, active: getLocationPath() === match.pathname }}
+			label={
+				<>
+					<i className="bi bi-house-door-fill me-1" />
+					Home
+				</>
+			}
+		/>
+	),
 };
 
 export function RootRoute(): JSX.Element {

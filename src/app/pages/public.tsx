@@ -1,4 +1,4 @@
-import { usePublicPage } from "../hooks/hooks";
+import { usePublicPage } from "../hooks/hooks.ts";
 
 export function PublicPage(): JSX.Element {
 	const { user, message } = usePublicPage();

@@ -1,11 +1,11 @@
 import { LoaderFunctionArgs, defer } from "react-router-dom";
-import { FormType } from "../../components/createForm";
-import { getAlbums } from "../../data/jsonplaceholder/albums.ts";
-import { getUsersCond } from "../../data/jsonplaceholder/users.ts";
-import { ProtectedAlbumsPage } from "../../pages/jsonplaceholder/_protected.albums._index.tsx";
+import { FormType } from "../../components/createForm.tsx";
+import { getMypage } from "../../data/hin/mypage.ts";
+// import { getUsersCond } from "../../data/hin/users.ts";
+import { ProtectedMypagePage } from "../../pages/hin/_protected.mypage._index.tsx";
 import { authProvider } from "../../provides/auth.ts";
 
-const route_name = "ProtectedAlbumsRoute";
+const route_name = "ProtectedMypageRoute";
 
 // TODO
 const getForms = async (): Promise<FormType[]> => {
@@ -35,16 +35,16 @@ const clientLoader = async ({ request }: LoaderFunctionArgs) => {
 	const search_params = new URL(request.url).searchParams;
 
 	return defer({
-		data: getAlbums(search_params),
+		data: getMypage(search_params),
 		searchParams: Object.fromEntries(search_params.entries()),
 		forms: await getForms(),
-		searchies: getUsersCond(),
+		searchies: [],
 		message: route_name,
 	});
 };
 
-export function ProtectedAlbumsRoute(): JSX.Element {
-	return <ProtectedAlbumsPage />;
+export function ProtectedMypageRoute(): JSX.Element {
+	return <ProtectedMypagePage />;
 }
 
-ProtectedAlbumsRoute.loader = clientLoader;
+ProtectedMypageRoute.loader = clientLoader;

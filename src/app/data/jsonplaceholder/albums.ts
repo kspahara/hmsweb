@@ -1,4 +1,4 @@
-import { createQueryParams, handleResponse } from "../../libs/libs";
+import { createQueryParams, handleResponse } from "../../libs/libs.ts";
 
 const apiUrl = import.meta.env.VITE_TEST_API_URL;
 
