@@ -1,87 +1,63 @@
+import { Fragment } from "react";
 import { Form, Button, Col, Row, Image, FloatingLabel, InputGroup, Card } from "react-bootstrap";
+import { BackBtn } from "../../components/BackBtn";
 import { useHinDetailPage } from "../../hooks/hooks";
 
 export function HinDetailPage(): JSX.Element {
-	const { user, item, navigate, noImage } = useHinDetailPage();
+	const { user, item, noImage } = useHinDetailPage();
+	const itemSrc = item.atch_flg === "1" ? `data:image/jpeg;base64,${item.atch_image}` : `${noImage}`;
+	const itemDetails = [
+		{ label: "商品番号：", value: item.hin_cd ? item.hin_cd : "-" },
+		{ label: "商品名：", value: item.hin_nm ? item.hin_nm : "-" },
+		{ label: "単価：", value: `¥${item.tanka ? parseInt(item.tanka).toLocaleString() : "-"}` },
+		{ label: "ページ数：", value: item.density ? item.density : "-" },
+		{ label: "判型：", value: item.size_cd ? item.size_cd : "-" },
+		{ label: "付属品等：", value: item.hosoku1 ? item.hosoku1 : "-" },
+	];
 
 	return (
 		<>
 			<section>
 				<header>
-					<h1 className={"h2"}>{"商品詳細"}</h1>
-					<p>{"商品の詳細を表示します。"}</p>
-					<nav className={"mb-2"}>
-						<Button
-							type={"button"}
-							variant={"link"}
-							onClick={() => {
-								navigate(-1);
-							}}
-						>
-							<i className="bi bi-chevron-left me-1" />
-							商品一覧に戻る
-						</Button>
+					<h1 className="h2">商品詳細</h1>
+					<p>商品の詳細を表示します。</p>
+					<nav className="mb-2">
+						<BackBtn label="商品一覧に戻る" />
 					</nav>
 				</header>
 				<hr />
-				<section id={"hin-detail-contents"}>
-					<h2 className={"h4 mb-3"}>{item.hin_nm}</h2>
-					<Card className={"shadow-sm"}>
+				<section id="hin-detail-contents">
+					<h2 className="h4 mb-3">{item.hin_nm}</h2>
+					<Card className="shadow-sm">
 						<Card.Body>
 							<Row>
 								<Col sm={5} md={4} lg={3}>
-									<div className={"mb-3"}>
-										<Image src={item.atch_flg === "1" ? `data:image/jpeg;base64,${item.atch_image}` : `${noImage}`} alt="image" fluid thumbnail />
+									<div className="mb-3">
+										<Image src={itemSrc} alt="image" fluid thumbnail />
 									</div>
 								</Col>
 								<Col>
 									<Card.Title>{item.hin_nm}</Card.Title>
-									<Row as={"dl"}>
-										<Col as={"dt"} md={3} className={"text-sm-end"}>
-											{"商品番号："}
-										</Col>
-										<Col as={"dd"} md={9}>
-											{item.hin_cd}
-										</Col>
-										<Col as={"dt"} md={3} className={"text-sm-end"}>
-											{"商品名："}
-										</Col>
-										<Col as={"dd"} md={9}>
-											{item.hin_nm}
-										</Col>
-										<Col as={"dt"} md={3} className={"text-sm-end"}>
-											{"単価："}
-										</Col>
-										<Col as={"dd"} md={9}>
-											&yen;{parseInt(item.tanka).toLocaleString()}
-										</Col>
-										<Col as={"dt"} md={3} className={"text-sm-end"}>
-											{"ページ数："}
-										</Col>
-										<Col as={"dd"} md={9}>
-											{!item.density ? "-" : item.density}
-										</Col>
-										<Col as={"dt"} md={3} className={"text-sm-end"}>
-											{"判型："}
-										</Col>
-										<Col as={"dd"} md={9}>
-											{!item.size_cd ? "-" : item.size_cd}
-										</Col>
-										<Col as={"dt"} md={3} className={"text-sm-end"}>
-											{"付属品等："}
-										</Col>
-										<Col as={"dd"} md={9}>
-											{!item.hosoku1 ? "-" : item.hosoku1}
-										</Col>
+									<Row as="dl">
+										{itemDetails.map((detail, index) => (
+											<Fragment key={index}>
+												<Col as="dt" md={3} className="text-sm-end">
+													{detail.label}
+												</Col>
+												<Col as="dd" md={9}>
+													{detail.value}
+												</Col>
+											</Fragment>
+										))}
 									</Row>
 
 									{user && (
 										<Form>
 											<InputGroup>
-												<FloatingLabel controlId={`suryo`} label={"数量"}>
-													<Form.Control type={"number"} placeholder={"数量を入力してください"} defaultValue={1} className={"text-end"} />
+												<FloatingLabel controlId="suryo" label="数量">
+													<Form.Control type="number" placeholder="数量を入力してください" defaultValue={1} className="text-end" />
 												</FloatingLabel>
-												<Button type={"button"} variant={"primary"}>
+												<Button type="button" variant="primary">
 													<i className="bi bi-cart-plus-fill me-1" />
 												</Button>
 											</InputGroup>
@@ -92,8 +68,8 @@ export function HinDetailPage(): JSX.Element {
 						</Card.Body>
 						{item.biko1 && (
 							<Card.Body>
-								<section className={"_mb-3"}>
-									<h2 className={"h4 border-bottom border-secondary"}>{"商品詳細"}</h2>
+								<section>
+									<h2 className="h4 border-bottom border-secondary">商品詳細</h2>
 									<p>{item.biko1}</p>
 								</section>
 							</Card.Body>

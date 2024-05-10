@@ -26,7 +26,7 @@ export type User = {
 	};
 };
 
-export async function getAuthUser(username: User["username"]): Promise<User> {
+export async function getAuthUser(username: User["username"]): Promise<User[]> {
 	const p_username = username ? `?username=${encodeURIComponent(username)}` : "";
 	const url = `${apiUrl}/users${p_username}`;
 	const res = await fetch(url);

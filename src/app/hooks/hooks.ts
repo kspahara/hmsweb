@@ -1,17 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-	useActionData,
-	useFetchers,
-	useFetcher,
-	useLoaderData,
-	useMatches,
-	useNavigate,
-	useNavigation,
-	useRevalidator,
-	useRouteError,
-	useRouteLoaderData,
-	useSubmit,
-} from "react-router-dom";
+import { useActionData, useFetchers, useFetcher, useLoaderData, useMatches, useNavigation, useRevalidator, useRouteError, useRouteLoaderData, useSubmit } from "react-router-dom";
 import { FormType } from "../components/createForm.tsx";
 import { IsAuthenticated, UserName } from "../provides/auth.ts";
 import { Link } from "../routes/_index.tsx";
@@ -159,7 +147,9 @@ export function useHinIndexPage() {
  */
 export function useHinDetailPage() {
 	const { data } = useLoaderData() as {
-		data: Record<string, string>;
+		data: {
+			results: Record<string, string>[];
+		};
 	};
 	const { user } = useRouteLoaderData("root") as {
 		user: string | null;
@@ -168,7 +158,6 @@ export function useHinDetailPage() {
 	return {
 		user,
 		item: data.results[0],
-		navigate: useNavigate(),
 		noImage,
 	};
 }
@@ -226,14 +215,14 @@ export function useCommentsPage() {
 	};
 
 	const [query, setQuery] = useState<Record<string, string>>({
-		...(searchParams ?? {}),
+		...searchParams,
 	});
 
 	const navigation = useNavigation();
 
 	useEffect(() => {
 		setQuery({
-			...(searchParams ?? {}),
+			...searchParams,
 		});
 	}, [searchParams]);
 
@@ -269,7 +258,6 @@ export function useProtectedAlbumsIdPage() {
 		searchies,
 		message,
 		isEdit: location.pathname.includes("edit"),
-		navigate: useNavigate(),
 	};
 }
 

@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { Await, Link, Form as RouterForm } from "react-router-dom";
+import { Await, Link, Form as RouterForm, useAsyncError } from "react-router-dom";
 import { Alert, Badge, Button, Card, Col, FloatingLabel, Form, InputGroup, ListGroup, Row } from "react-bootstrap";
 import { Fallback } from "./fallback";
 import { parseInttoStr } from "../libs/libs";
@@ -11,6 +11,18 @@ type Props = {
 	type?: string;
 };
 
+const Error = () => {
+	const error = useAsyncError() as Error;
+	console.log("error", error);
+
+	return (
+		<Alert variant="danger">
+			<i className="bi bi-exclamation-triangle-fill me-1" />
+			{error.name} : {error.message}
+		</Alert>
+	);
+};
+
 /**
  *
  * @param props
@@ -20,11 +32,12 @@ export function ContentArea(props: Props): JSX.Element {
 	const { data, user, noImage, type } = props;
 
 	return (
-		<>
-			<Suspense fallback={<Fallback />}>
+		<Suspense
+			fallback={<Fallback />}
+			children={
 				<Await
 					resolve={data}
-					errorElement={<Alert variant="danger">Not Found</Alert>}
+					errorElement={<Error />}
 					children={(data: Record<string, string>[]) => {
 						const contentLists = (
 							<Card className="shadow-sm mb-3">
@@ -94,7 +107,7 @@ export function ContentArea(props: Props): JSX.Element {
 						);
 					}}
 				/>
-			</Suspense>
-		</>
+			}
+		/>
 	);
 }

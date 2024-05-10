@@ -1,6 +1,7 @@
-import { Link, Form as RouterForm, useLoaderData, useNavigate } from "react-router-dom";
+import { Link, Form as RouterForm, useLoaderData } from "react-router-dom";
 import { Button, Card, Form, Stack } from "react-bootstrap";
 import { CreateForm, FormType } from "../../components/createForm.tsx";
+import { BackBtn } from "../../components/BackBtn.tsx";
 
 function useProtectedCommentsId() {
 	const { data, forms, searchies, message } = useLoaderData() as {
@@ -15,13 +16,12 @@ function useProtectedCommentsId() {
 		forms,
 		searchies,
 		isEdit: location.pathname.includes("edit"),
-		navigate: useNavigate(),
 		message,
 	};
 }
 
 export function ProtectedCommentsIdPage() {
-	const { data, forms, searchies, isEdit, navigate,message } = useProtectedCommentsId();
+	const { data, forms, searchies, isEdit, message } = useProtectedCommentsId();
 
 	const FormContents = (): JSX.Element => {
 		return (
@@ -63,19 +63,14 @@ export function ProtectedCommentsIdPage() {
 				<header>
 					<h1 className="h2">{message}</h1>
 					<nav className="mb-3">
-						<Button type="button" variant="link" onClick={() => navigate(-1)}>
-							<i className="bi bi-arrow-left me-1" />
-							Back
-						</Button>
+						<BackBtn label="Back" />
 					</nav>
 				</header>
 				<hr />
 				<section>
 					<h2 className="h3">{data.title}</h2>
 					{isEdit ? (
-						<Button type="button" variant="secondary" onClick={() => navigate(-1)}>
-							Cancel
-						</Button>
+						<BackBtn variant="secondary" label="Cancel" />
 					) : (
 						<Link to="edit" className="btn btn-primary">
 							Edit
