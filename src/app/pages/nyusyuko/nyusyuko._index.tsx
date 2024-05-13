@@ -1,8 +1,9 @@
 import { useProtectedNyusyukoPage } from "../../hooks/hooks.ts";
-import { ContentArea } from "../../components/contentArea.tsx";
+// import { ContentArea } from "../../components/contentArea.tsx";
 import { SearchArea } from "../../components/searchArea.tsx";
-import { Card, ListGroup } from "react-bootstrap";
-import { Link } from "react-router-dom";
+// import { Card, ListGroup } from "react-bootstrap";
+// import { Link } from "react-router-dom";
+import { ContentAreaHacyu } from "../../components/contentAreaHacyu.tsx";
 
 /**
  * HinIndexPage
@@ -22,7 +23,7 @@ export function ProtectedNyusyukoPage(): JSX.Element {
     type,
   } = useProtectedNyusyukoPage();
 
-//   console.log(data);
+  // console.log(data);
 
   return (
     <>
@@ -67,14 +68,44 @@ export function ProtectedNyusyukoPage(): JSX.Element {
           </div>
         </section> */}
 
-        <section id="hin-contents">
+        {/* <section id="hin-contents">
           <h2 className="h3 mb-3">商品一覧</h2>
           <div id="hin-contents-page" className={isLoading ? "loading" : ""}>
-            <ContentArea {...{ data, user, type }} />
+            <Card className="shadow-sm mb-3">
+              <ListGroup variant="flush">
+                {Object.entries(data).map(
+                  ([date, items]: [string, unknown], index) => (
+                    <Card key={index} className="shadow-sm mb-3">
+                      <Card.Header>{date}</Card.Header>
+                      <ListGroup variant="flush">
+                        {(items as Record<string, string>[]).map(
+                          (item: Record<string, string>, itemIndex: number) => (
+                            <ListGroup.Item
+                              key={itemIndex}
+                              as={Link}
+                              to={`${item.den_no}`}
+                              className="d-flex"
+                              action
+                            >
+                              <span>{item.den_no}</span>
+                              <i className="bi bi-chevron-right ms-auto" />
+                            </ListGroup.Item>
+                          )
+                        )}
+                      </ListGroup>
+                    </Card>
+                  )
+                )}
+              </ListGroup>
+            </Card>
+          </div>
+        </section> */}
+
+        <section id="hin-contents">
+          <div id="hin-contents-page" className={isLoading ? "loading" : ""}>
+            <ContentAreaHacyu {...{ data, user, type }} />
           </div>
         </section>
-
-
       </section>
     </>
   );

@@ -64,9 +64,5 @@ export async function getHacyuzan(
   const res = await fetch(url, param);
   const data = await handleResponse(res);
 
-  // console.log(data);
-
-  // console.log(data);
-
-  return data.results.hacyuzan_list;
+  return data.results.hacyuzan_listz;
 }
