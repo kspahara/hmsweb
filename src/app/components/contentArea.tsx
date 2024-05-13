@@ -1,28 +1,45 @@
 import { Suspense } from "react";
-import { Await, Link, Form as RouterForm, useAsyncError, useAsyncValue } from "react-router-dom";
-import { Alert, Badge, Button, Card, Col, FloatingLabel, Form, InputGroup, ListGroup, Row } from "react-bootstrap";
+import {
+  Await,
+  Link,
+  Form as RouterForm,
+  useAsyncError,
+  useAsyncValue,
+} from "react-router-dom";
+import {
+  Alert,
+  Badge,
+  Button,
+  Card,
+  Col,
+  FloatingLabel,
+  Form,
+  InputGroup,
+  ListGroup,
+  Row,
+} from "react-bootstrap";
 import { Fallback } from "./fallback.tsx";
 import { parseInttoStr } from "../libs/libs.ts";
 
 type Props = {
-	data: Record<string, string>[];
-	user?: string | null;
-	noImage?: string;
-	type?: string;
+  data: Record<string, string>[];
+  user?: string | null;
+  noImage?: string;
+  type?: string;
 };
 
 const Error = () => {
-	const error = useAsyncError() as Error;
-	const value = useAsyncValue();
-	console.log("error", error);
-	console.log("value", value);
+  const error = useAsyncError() as Error;
+  const value = useAsyncValue();
+  console.log("error", error);
+  console.log("value", value);
 
-	return (
-		<Alert variant="danger">
-			<i className="bi bi-exclamation-triangle-fill me-1" />
-			{error.name} : {error.message}
-		</Alert>
-	);
+  return (
+    <Alert variant="danger">
+      <i className="bi bi-exclamation-triangle-fill me-1" />
+      {error.name} : {error.message}
+    </Alert>
+  );
 };
 
 /**
@@ -31,107 +48,167 @@ const Error = () => {
  * @returns
  */
 export function ContentArea(props: Props): JSX.Element {
-	const { data, user, noImage, type } = props;
+  const { data, user, noImage, type } = props;
 
-	return (
-		<Suspense
-			fallback={<Fallback />}
-			children={
-				<Await
-					resolve={data}
-					errorElement={<Error />}
-					children={(data: Record<string, string>[]) => {
-						const contentListsHin = (
-							<Card className="shadow-sm mb-3">
-								<ListGroup variant="flush">
-									{data.map((item, index) => (
-										<ListGroup.Item key={index} as={Link} to={`${item.den_no}`} className="d-flex" action>
-											<dl>
-												<dt>処理日</dt>
-												<dd>{item.syori_ymd}</dd>
-												<dt>伝票番号</dt>
-												<dd>{item.den_no}</dd>
-												<dt>取引種別</dt>
-												<dd>{item.tori_nm}</dd>
-												<dt>税込額</dt>
-												<dd>&yen;{parseInttoStr(item.zeikomi_gaku)}</dd>
-											</dl>
-											<i className="bi bi-chevron-right ms-auto" />
-										</ListGroup.Item>
-									))}
-								</ListGroup>
-							</Card>
-						);
+  console.log(data);
 
-						const contentLists = (
-							<Card className="shadow-sm mb-3">
-								<ListGroup variant="flush">
-									{data.map((item, index) => (
-										<ListGroup.Item key={index} as={Link} to={`${item.id}`} className="d-flex" action>
-											{item.id}
-											<span className="mx-1">:</span>
-											{item.title}
-											<i className="bi bi-chevron-right ms-auto" />
-										</ListGroup.Item>
-									))}
-								</ListGroup>
-							</Card>
-						);
+  return (
+    <Suspense
+      fallback={<Fallback />}
+      children={
+        <Await
+          resolve={data}
+          errorElement={<Error />}
+          children={(data: Record<string, string>[]) => {
+            const contentListsHin = (
+              <Card className="shadow-sm mb-3">
+                <ListGroup variant="flush">
+                  {data.map((item, index) => (
+                    <ListGroup.Item
+                      key={index}
+                      as={Link}
+                      to={`${item.den_no}`}
+                      className="d-flex"
+                      action
+                    >
+                      <dl>
+                        <dt>処理日</dt>
+                        <dd>{item.syori_ymd}</dd>
+                        <dt>伝票番号</dt>
+                        <dd>{item.den_no}</dd>
+                        <dt>取引種別</dt>
+                        <dd>{item.tori_nm}</dd>
+                        <dt>税込額</dt>
+                        <dd>&yen;{parseInttoStr(item.zeikomi_gaku)}</dd>
+                      </dl>
+                      <i className="bi bi-chevron-right ms-auto" />
+                    </ListGroup.Item>
+                  ))}
+                </ListGroup>
+              </Card>
+            );
 
-						const contentCards = (
-							<Row lg={5} xl={6} className="gx-2 gy-3">
-								{data.map((post, index) => (
-									<Col key={index} xs={6} sm={4} md={3} xl={2}>
-										<Card className="h-100 shadow-sm">
-											<Link to={`/hin/${post.hin_cd}`} className="h-100 d-flex flex-column text-reset text-decoration-none">
-												<Card.Img
-													decoding="async"
-													loading="lazy"
-													variant="top"
-													src={post.atch_flg === "1" ? `data:image/jpeg;base64,${post.atch_image}` : `${noImage}`}
-												/>
-												<Card.Body className="d-flex flex-column p-2">
-													<Card.Title className="h6">
-														<Badge bg="info">{post.han_name}</Badge>
-														<div>{post.hin_nm}</div>
-													</Card.Title>
-													<Card.Text className="h6 mt-auto text-end">&yen;{parseInttoStr(post.tanka)}</Card.Text>
-												</Card.Body>
-											</Link>
-											{user && (
-												<Card.Footer className="p-2 bg-transparent">
-													<div className="d-grid">
-														<Form as={RouterForm}>
-															<InputGroup>
-																<FloatingLabel controlId={`suryo${index}`} label="数量">
-																	<Form.Control type="number" placeholder="数量を入力してください" defaultValue={1} className="text-end" />
-																</FloatingLabel>
-																<Button type="button" variant="primary">
-																	<i className="bi bi-cart-plus-fill me-1" />
-																</Button>
-															</InputGroup>
-														</Form>
-													</div>
-												</Card.Footer>
-											)}
-										</Card>
-									</Col>
-								))}
-							</Row>
-						);
+            const contentLists = (
+              <Card className="shadow-sm mb-3">
+                <ListGroup variant="flush">
+                  {data.map((item, index) => (
+                    <ListGroup.Item
+                      key={index}
+                      as={Link}
+                      to={`${item.id}`}
+                      className="d-flex"
+                      action
+                    >
+                      {item.id}
+                      <span className="mx-1">:</span>
+                      {item.title}
+                      <i className="bi bi-chevron-right ms-auto" />
+                    </ListGroup.Item>
+                  ))}
+                </ListGroup>
+              </Card>
+            );
 
-						return (
-							<>
-								<div id="list-header" className="text-end mb-2">
-									<span className="me-1">count:</span>
-									<span>{data.length}</span>
-								</div>
-								<div id="list-body">{type === "list" ? contentLists : type === "mypage" ? contentListsHin : contentCards}</div>
-							</>
-						);
-					}}
-				/>
-			}
-		/>
-	);
+            const contentCards = (
+              <Row lg={5} xl={6} className="gx-2 gy-3">
+                {data.map((post, index) => (
+                  <Col key={index} xs={6} sm={4} md={3} xl={2}>
+                    <Card className="h-100 shadow-sm">
+                      <Link
+                        to={`/hin/${post.hin_cd}`}
+                        className="h-100 d-flex flex-column text-reset text-decoration-none"
+                      >
+                        <Card.Img
+                          decoding="async"
+                          loading="lazy"
+                          variant="top"
+                          src={
+                            post.atch_flg === "1"
+                              ? `data:image/jpeg;base64,${post.atch_image}`
+                              : `${noImage}`
+                          }
+                        />
+                        <Card.Body className="d-flex flex-column p-2">
+                          <Card.Title className="h6">
+                            <Badge bg="info">{post.han_name}</Badge>
+                            <div>{post.hin_nm}</div>
+                          </Card.Title>
+                          <Card.Text className="h6 mt-auto text-end">
+                            &yen;{parseInttoStr(post.tanka)}
+                          </Card.Text>
+                        </Card.Body>
+                      </Link>
+                      {user && (
+                        <Card.Footer className="p-2 bg-transparent">
+                          <div className="d-grid">
+                            <Form as={RouterForm}>
+                              <InputGroup>
+                                <FloatingLabel
+                                  controlId={`suryo${index}`}
+                                  label="数量"
+                                >
+                                  <Form.Control
+                                    type="number"
+                                    placeholder="数量を入力してください"
+                                    defaultValue={1}
+                                    className="text-end"
+                                  />
+                                </FloatingLabel>
+                                <Button type="button" variant="primary">
+                                  <i className="bi bi-cart-plus-fill me-1" />
+                                </Button>
+                              </InputGroup>
+                            </Form>
+                          </div>
+                        </Card.Footer>
+                      )}
+                    </Card>
+                  </Col>
+                ))}
+              </Row>
+            );
+
+            const contentLists_hacyu = (
+              <Card className="shadow-sm mb-3">
+                <ListGroup variant="flush">
+                  {data.map((item, index) => (
+                    <ListGroup.Item
+                      key={index}
+                      as={Link}
+                      to={`${item.den_no}`}
+                      className="d-flex"
+                      action
+                    >
+                      {item.id}
+                      <span className="mx-1">:</span>
+                      {item.title}
+                      <i className="bi bi-chevron-right ms-auto" />
+                    </ListGroup.Item>
+                  ))}
+                </ListGroup>
+              </Card>
+            );
+
+            return (
+              <>
+                <div id="list-header" className="text-end mb-2">
+                  <span className="me-1">count:</span>
+                  <span>{data.length}</span>
+                </div>
+                <div id="list-body">
+                  {type === "list"
+                    ? contentLists
+                    : type === "mypage"
+                    ? contentListsHin
+                    : type === "hacyu"
+                    ? contentLists_hacyu
+                    : contentCards}
+                </div>
+              </>
+            );
+          }}
+        />
+      }
+    />
+  );
 }

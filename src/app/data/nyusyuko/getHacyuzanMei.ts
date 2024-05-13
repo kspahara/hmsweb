@@ -53,8 +53,6 @@ export async function getHinList(searchParams: URLSearchParams): Promise<HinList
 	const res = await fetch(url, param);
 	const data = await handleResponse(res);
 
-	console.log(data);
-
 	return data.results;
 }
 

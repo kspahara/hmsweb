@@ -1,5 +1,16 @@
 import { useEffect, useState } from "react";
-import { useActionData, useFetchers, useFetcher, useLoaderData, useMatches, useNavigation, useRevalidator, useRouteError, useRouteLoaderData, useSubmit } from "react-router-dom";
+import {
+  useActionData,
+  useFetchers,
+  useFetcher,
+  useLoaderData,
+  useMatches,
+  useNavigation,
+  useRevalidator,
+  useRouteError,
+  useRouteLoaderData,
+  useSubmit,
+} from "react-router-dom";
 import { FormType } from "../components/createForm.tsx";
 import { IsAuthenticated, UserName } from "../provides/auth.ts";
 import { Link } from "../routes/_index.tsx";
@@ -13,14 +24,16 @@ const isDebugMode = import.meta.env.VITE_DEBBUG === "true";
  * @returns
  */
 export function useProgressNav() {
-	const fetchers = useFetchers();
+  const fetchers = useFetchers();
 
-	return {
-		navigation: useNavigation(),
-		revalidator: useRevalidator(),
-		fetcherInProgress: fetchers.some((f) => ["loading", "submitting"].includes(f.state)),
-		isDebugMode,
-	};
+  return {
+    navigation: useNavigation(),
+    revalidator: useRevalidator(),
+    fetcherInProgress: fetchers.some((f) =>
+      ["loading", "submitting"].includes(f.state)
+    ),
+    isDebugMode,
+  };
 }
 
 /**
@@ -28,24 +41,25 @@ export function useProgressNav() {
  * @returns
  */
 export function useRootPage() {
-	const { user, isAuth, links } = useLoaderData() as {
-		user: UserName;
-		isAuth: IsAuthenticated;
-		links: Link[];
-	};
-	const fetcher = useFetcher();
-	const index_link = links.find((link) => link.kbn === "index");
-	const allrightsreserved = "© " + new Date().getFullYear() + " - All rights reserved";
+  const { user, isAuth, links } = useLoaderData() as {
+    user: UserName;
+    isAuth: IsAuthenticated;
+    links: Link[];
+  };
+  const fetcher = useFetcher();
+  const index_link = links.find((link) => link.kbn === "index");
+  const allrightsreserved =
+    "© " + new Date().getFullYear() + " - All rights reserved";
 
-	return {
-		user,
-		isAuth,
-		links,
-		isLoggingOut: fetcher.formData != null,
-		FeacherForm: fetcher.Form,
-		index_link,
-		allrightsreserved,
-	};
+  return {
+    user,
+    isAuth,
+    links,
+    isLoggingOut: fetcher.formData != null,
+    FeacherForm: fetcher.Form,
+    index_link,
+    allrightsreserved,
+  };
 }
 
 /**
@@ -53,24 +67,24 @@ export function useRootPage() {
  * @returns
  */
 export function useLogin() {
-	const { from, forms, message } = useLoaderData() as {
-		from: string;
-		forms: FormType[];
-		message: string;
-	};
-	const navigation = useNavigation();
+  const { from, forms, message } = useLoaderData() as {
+    from: string;
+    forms: FormType[];
+    message: string;
+  };
+  const navigation = useNavigation();
 
-	const [validated, setValidated] = useState(false);
+  const [validated, setValidated] = useState(false);
 
-	return {
-		from,
-		forms,
-		message,
-		actionData: useActionData() as { error: string } | undefined,
-		isLoggingIn: navigation.formData?.get("username") != null,
-		validated,
-		setValidated,
-	};
+  return {
+    from,
+    forms,
+    message,
+    actionData: useActionData() as { error: string } | undefined,
+    isLoggingIn: navigation.formData?.get("username") != null,
+    validated,
+    setValidated,
+  };
 }
 
 /**
@@ -78,17 +92,17 @@ export function useLogin() {
  * @returns
  */
 export function usePublicPage() {
-	const { user } = useRouteLoaderData("root") as {
-		user: string | null;
-	};
-	const { message } = useLoaderData() as {
-		message: string;
-	};
+  const { user } = useRouteLoaderData("root") as {
+    user: string | null;
+  };
+  const { message } = useLoaderData() as {
+    message: string;
+  };
 
-	return {
-		user,
-		message,
-	};
+  return {
+    user,
+    message,
+  };
 }
 
 /**
@@ -96,9 +110,9 @@ export function usePublicPage() {
  * @returns
  */
 export function useErrorPage() {
-	return {
-		error: useRouteError() as Error,
-	};
+  return {
+    error: useRouteError() as Error,
+  };
 }
 
 /**
@@ -106,39 +120,39 @@ export function useErrorPage() {
  * @returns
  */
 export function useHinIndexPage() {
-	const { searchies, searchParams, forms, data } = useLoaderData() as {
-		searchies: Record<string, string>[];
-		searchParams: Record<string, string>;
-		forms: FormType[];
-		data: Record<string, string>[];
-	};
-	const { user } = useRouteLoaderData("root") as {
-		user: string | null;
-	};
-	const navigation = useNavigation();
+  const { searchies, searchParams, forms, data } = useLoaderData() as {
+    searchies: Record<string, string>[];
+    searchParams: Record<string, string>;
+    forms: FormType[];
+    data: Record<string, string>[];
+  };
+  const { user } = useRouteLoaderData("root") as {
+    user: string | null;
+  };
+  const navigation = useNavigation();
 
-	const [query, setQuery] = useState<Record<string, string>>({
-		...(searchParams ?? {}),
-	});
+  const [query, setQuery] = useState<Record<string, string>>({
+    ...(searchParams ?? {}),
+  });
 
-	useEffect(() => {
-		setQuery({
-			...(searchParams ?? {}),
-		});
-	}, [searchParams]);
+  useEffect(() => {
+    setQuery({
+      ...(searchParams ?? {}),
+    });
+  }, [searchParams]);
 
-	return {
-		searchies,
-		forms,
-		data,
-		user,
-		query,
-		setQuery,
-		submit: useSubmit(),
-		isSearching: navigation.formData?.get("keyword") != null,
-		isLoading: navigation.state === "loading",
-		noImage,
-	};
+  return {
+    searchies,
+    forms,
+    data,
+    user,
+    query,
+    setQuery,
+    submit: useSubmit(),
+    isSearching: navigation.formData?.get("keyword") != null,
+    isLoading: navigation.state === "loading",
+    noImage,
+  };
 }
 
 /**
@@ -146,20 +160,61 @@ export function useHinIndexPage() {
  * @returns
  */
 export function useHinDetailPage() {
-	const { data } = useLoaderData() as {
-		data: {
-			results: Record<string, string>[];
-		};
-	};
-	const { user } = useRouteLoaderData("root") as {
-		user: string | null;
-	};
+  const { data } = useLoaderData() as {
+    data: {
+      results: Record<string, string>[];
+    };
+  };
+  const { user } = useRouteLoaderData("root") as {
+    user: string | null;
+  };
 
-	return {
-		user,
-		item: data.results[0],
-		noImage,
-	};
+  return {
+    user,
+    item: data.results,
+    noImage,
+  };
+}
+
+/**
+ * useProtectedNyusyukoPage
+ * @returns
+ */
+export function useProtectedNyusyukoPage() {
+  const { searchies, searchParams, forms, data } = useLoaderData() as {
+    searchies: Record<string, string>[];
+    searchParams: Record<string, string>;
+    forms: FormType[];
+    data: Record<string, string>[];
+  };
+  const { user } = useRouteLoaderData("root") as {
+    user: string | null;
+  };
+  const navigation = useNavigation();
+
+  const [query, setQuery] = useState<Record<string, string>>({
+    ...(searchParams ?? {}),
+  });
+
+  useEffect(() => {
+    setQuery({
+      ...(searchParams ?? {}),
+    });
+  }, [searchParams]);
+
+  return {
+    searchies,
+    forms,
+    data,
+    user,
+    query,
+    setQuery,
+    submit: useSubmit(),
+    isSearching: navigation.formData?.get("keyword") != null,
+    isLoading: navigation.state === "loading",
+    noImage,
+    type: "hacyu",
+  };
 }
 
 /**
@@ -167,38 +222,38 @@ export function useHinDetailPage() {
  * @returns
  */
 export function useProtectedMypagePage() {
-	const { data, searchParams, forms, searchies, message } = useLoaderData() as {
-		data: Record<string, string>[];
-		searchParams: Record<string, string>;
-		forms: FormType[];
-		searchies: Record<string, string>[];
-		message: string;
-	};
+  const { data, searchParams, forms, searchies, message } = useLoaderData() as {
+    data: Record<string, string>[];
+    searchParams: Record<string, string>;
+    forms: FormType[];
+    searchies: Record<string, string>[];
+    message: string;
+  };
 
-	const [query, setQuery] = useState<Record<string, string>>({
-		...(searchParams ?? {}),
-	});
+  const [query, setQuery] = useState<Record<string, string>>({
+    ...(searchParams ?? {}),
+  });
 
-	const navigation = useNavigation();
+  const navigation = useNavigation();
 
-	useEffect(() => {
-		setQuery({
-			...(searchParams ?? {}),
-		});
-	}, [searchParams]);
+  useEffect(() => {
+    setQuery({
+      ...(searchParams ?? {}),
+    });
+  }, [searchParams]);
 
-	return {
-		data,
-		forms,
-		searchies,
-		message,
-		query,
-		setQuery,
-		submit: useSubmit(),
-		isSearching: navigation.formData?.get("keyword") != null,
-		isLoading: navigation.state === "loading",
-		type: "mypage",
-	};
+  return {
+    data,
+    forms,
+    searchies,
+    message,
+    query,
+    setQuery,
+    submit: useSubmit(),
+    isSearching: navigation.formData?.get("keyword") != null,
+    isLoading: navigation.state === "loading",
+    type: "mypage",
+  };
 }
 
 /**
@@ -206,38 +261,38 @@ export function useProtectedMypagePage() {
  * @returns
  */
 export function useProtectedAlbumsPage() {
-	const { data, searchParams, forms, searchies, message } = useLoaderData() as {
-		data: Record<string, string>[];
-		searchParams: Record<string, string>;
-		forms: FormType[];
-		searchies: Record<string, string>[];
-		message: string;
-	};
+  const { data, searchParams, forms, searchies, message } = useLoaderData() as {
+    data: Record<string, string>[];
+    searchParams: Record<string, string>;
+    forms: FormType[];
+    searchies: Record<string, string>[];
+    message: string;
+  };
 
-	const [query, setQuery] = useState<Record<string, string>>({
-		...(searchParams ?? {}),
-	});
+  const [query, setQuery] = useState<Record<string, string>>({
+    ...(searchParams ?? {}),
+  });
 
-	const navigation = useNavigation();
+  const navigation = useNavigation();
 
-	useEffect(() => {
-		setQuery({
-			...(searchParams ?? {}),
-		});
-	}, [searchParams]);
+  useEffect(() => {
+    setQuery({
+      ...(searchParams ?? {}),
+    });
+  }, [searchParams]);
 
-	return {
-		data,
-		forms,
-		searchies,
-		message,
-		query,
-		setQuery,
-		submit: useSubmit(),
-		isSearching: navigation.formData?.get("keyword") != null,
-		isLoading: navigation.state === "loading",
-		type: "list",
-	};
+  return {
+    data,
+    forms,
+    searchies,
+    message,
+    query,
+    setQuery,
+    submit: useSubmit(),
+    isSearching: navigation.formData?.get("keyword") != null,
+    isLoading: navigation.state === "loading",
+    type: "list",
+  };
 }
 
 /**
@@ -245,38 +300,38 @@ export function useProtectedAlbumsPage() {
  * @returns
  */
 export function useCommentsPage() {
-	const { data, searchParams, forms, searchies, message } = useLoaderData() as {
-		data: Record<string, string>[];
-		searchParams: Record<string, string>;
-		forms: FormType[];
-		searchies: Record<string, string>[];
-		message: string;
-	};
+  const { data, searchParams, forms, searchies, message } = useLoaderData() as {
+    data: Record<string, string>[];
+    searchParams: Record<string, string>;
+    forms: FormType[];
+    searchies: Record<string, string>[];
+    message: string;
+  };
 
-	const [query, setQuery] = useState<Record<string, string>>({
-		...searchParams,
-	});
+  const [query, setQuery] = useState<Record<string, string>>({
+    ...searchParams,
+  });
 
-	const navigation = useNavigation();
+  const navigation = useNavigation();
 
-	useEffect(() => {
-		setQuery({
-			...searchParams,
-		});
-	}, [searchParams]);
+  useEffect(() => {
+    setQuery({
+      ...searchParams,
+    });
+  }, [searchParams]);
 
-	return {
-		data,
-		forms,
-		searchies,
-		message,
-		query,
-		setQuery,
-		submit: useSubmit(),
-		isSearching: navigation.formData?.get("keyword") != null,
-		isLoading: navigation.state === "loading",
-		type: "list",
-	};
+  return {
+    data,
+    forms,
+    searchies,
+    message,
+    query,
+    setQuery,
+    submit: useSubmit(),
+    isSearching: navigation.formData?.get("keyword") != null,
+    isLoading: navigation.state === "loading",
+    type: "list",
+  };
 }
 
 /**
@@ -284,20 +339,20 @@ export function useCommentsPage() {
  * @returns
  */
 export function useProtectedMypageIdPage() {
-	const { data, forms, searchies, message } = useLoaderData() as {
-		data: Record<string, string>;
-		forms: FormType[];
-		searchies: Record<string, string>[];
-		message: string;
-	};
+  const { data, forms, searchies, message } = useLoaderData() as {
+    data: Record<string, string>;
+    forms: FormType[];
+    searchies: Record<string, string>[];
+    message: string;
+  };
 
-	return {
-		data,
-		forms,
-		searchies,
-		message,
-		isEdit: location.pathname.includes("edit"),
-	};
+  return {
+    data,
+    forms,
+    searchies,
+    message,
+    isEdit: location.pathname.includes("edit"),
+  };
 }
 
 /**
@@ -305,24 +360,24 @@ export function useProtectedMypageIdPage() {
  * @returns
  */
 export function useProtectedAlbumsIdPage() {
-	const { data, forms, searchies, message } = useLoaderData() as {
-		data: Record<string, string>;
-		forms: FormType[];
-		searchies: Record<string, string>[];
-		message: string;
-	};
+  const { data, forms, searchies, message } = useLoaderData() as {
+    data: Record<string, string>;
+    forms: FormType[];
+    searchies: Record<string, string>[];
+    message: string;
+  };
 
-	return {
-		data,
-		forms,
-		searchies,
-		message,
-		isEdit: location.pathname.includes("edit"),
-	};
+  return {
+    data,
+    forms,
+    searchies,
+    message,
+    isEdit: location.pathname.includes("edit"),
+  };
 }
 
 export function useBreadcrumbs() {
-	const matches = useMatches();
+  const matches = useMatches();
 
-	return { matches };
+  return { matches };
 }

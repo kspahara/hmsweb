@@ -27,6 +27,7 @@ const getLinks = async (): Promise<Link[]> => {
 		{ href: "/todos", label: "Todos List", kbn: "auth" },
 		{ href: "/users", label: "Users List", kbn: "auth" },
 		{ href: "/network", label: "Network List", kbn: "auth" },
+		{ href: "/nyusyuko", label: "nyusyukolist", kbn: "auth" },
 	];
 };
 

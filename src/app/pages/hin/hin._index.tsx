@@ -9,6 +9,7 @@ import { SearchArea } from "../../components/searchArea.tsx";
 export function HinIndexPage(): JSX.Element {
 	const { searchies, forms, query, setQuery, submit, isSearching, isLoading, data, user, noImage } = useHinIndexPage();
 
+	console.log(data);
 	return (
 		<>
 			<section>
