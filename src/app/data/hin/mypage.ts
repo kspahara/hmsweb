@@ -28,7 +28,7 @@ export async function getMypage(searchParams: URLSearchParams): Promise<[]> {
 		},
 		body: JSON.stringify({
 			tok_cd: "00030", // TODO
-			token_id: "37b541d6cde030b8a88f0ad64a13b463", // TODO
+			token_id: "6ba222afa616aff5c7f32c0bbca8a4f8", // TODO
 			limit: 10,
 			...params_entry,
 		}),

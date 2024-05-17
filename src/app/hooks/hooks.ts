@@ -338,7 +338,7 @@ export function useCommentsPage() {
  * useProtectedMypageIdPage
  * @returns
  */
-export function useProtectedMypageIdPage() {
+export function useProtectedMypageDenNoPage() {
   const { data, forms, searchies, message } = useLoaderData() as {
     data: Record<string, string>;
     forms: FormType[];

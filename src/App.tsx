@@ -104,6 +104,40 @@ const router = [
 				errorElement: <ErrorPage />,
 				children: [
 					{
+						id: "protected-mypage-layout",
+						path: "mypage",
+						async lazy() {
+							const { handle } = await import("./app/routes/hin/_protected.mypage.tsx");
+							return {
+								handle: handle,
+							};
+						},
+						errorElement: <ErrorPage />,
+						children: [
+							{
+								index: true,
+								async lazy() {
+									const { ProtectedMypageRoute } = await import("./app/routes/hin/_protected.mypage._index.tsx");
+									return {
+										loader: ProtectedMypageRoute.loader,
+										element: <ProtectedMypageRoute />,
+									};
+								},
+							},
+							{
+								path: ":den_no/edit?",
+								async lazy() {
+									const { ProtectedMypageDenNoRoute } = await import("./app/routes/hin/_protected.mypage.$den_no.tsx");
+									return {
+										loader: ProtectedMypageDenNoRoute.loader,
+										handle: ProtectedMypageDenNoRoute.handle,
+										element: <ProtectedMypageDenNoRoute />,
+									};
+								},
+							},
+						],
+					},
+					{
 						id: "protected-albums-layout",
 						path: "albums",
 						async lazy() {
@@ -253,21 +287,21 @@ const router = [
  * @returns
  */
 export default function App(): JSX.Element {
-  return (
-    <RouterProvider
-      router={createBrowserRouter(router, {
-        basename: "/base/",
-        future: {
-          v7_fetcherPersist: true,
-          v7_normalizeFormMethod: true,
-          // v7_partialHydration: true,
-          // v7_prependBasename: true,
-          v7_relativeSplatPath: true,
-        },
-        window: window,
-      })}
-      fallbackElement={<Fallback />}
-      future={{ v7_startTransition: true }}
-    />
-  );
+	return (
+		<RouterProvider
+			router={createBrowserRouter(router, {
+				basename: "/base/",
+				future: {
+					v7_fetcherPersist: true,
+					v7_normalizeFormMethod: true,
+					// v7_partialHydration: true,
+					// v7_prependBasename: true,
+					v7_relativeSplatPath: true,
+				},
+				window: window,
+			})}
+			fallbackElement={<Fallback />}
+			future={{ v7_startTransition: true }}
+		/>
+	);
 }

@@ -1,11 +1,11 @@
 import { Link, Form as RouterForm } from "react-router-dom";
 import { Button, Card, Form, Stack } from "react-bootstrap";
 import { CreateForm } from "../../components/createForm.tsx";
-import { useProtectedMypageIdPage } from "../../hooks/hooks.ts";
+import { useProtectedMypageDenNoPage } from "../../hooks/hooks.ts";
 import { BackBtn } from "../../components/BackBtn.tsx";
 
-export function ProtectedMypageIdPage(): JSX.Element {
-	const { data, forms, searchies, message, isEdit } = useProtectedMypageIdPage();
+export function ProtectedMypageDenNoPage(): JSX.Element {
+	const { data, forms, searchies, message, isEdit } = useProtectedMypageDenNoPage();
 
 	const FormContents = (): JSX.Element => {
 		return (

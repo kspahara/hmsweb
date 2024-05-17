@@ -3,7 +3,7 @@ import { CrumbItem, Match } from "../../components/breadcrumbs.tsx";
 import { FormType } from "../../components/createForm.tsx";
 import { getDenDetail } from "../../data/hin/mypage.ts";
 // import { getUserDetailCond } from "../../data/hin/users.ts";
-import { ProtectedMypageIdPage } from "../../pages/hin/_protected.mypage.$den_no.tsx";
+import { ProtectedMypageDenNoPage } from "../../pages/hin/_protected.mypage.$den_no.tsx";
 import { authProvider } from "../../provides/auth.ts";
 import { getLocationPath } from "../../libs/libs.ts";
 
@@ -59,9 +59,9 @@ const handle = {
 	),
 };
 
-export function ProtectedMypageIdRoute(): JSX.Element {
-	return <ProtectedMypageIdPage />;
+export function ProtectedMypageDenNoRoute(): JSX.Element {
+	return <ProtectedMypageDenNoPage />;
 }
 
-ProtectedMypageIdRoute.loader = clientLoader;
-ProtectedMypageIdRoute.handle = handle;
+ProtectedMypageDenNoRoute.loader = clientLoader;
+ProtectedMypageDenNoRoute.handle = handle;
