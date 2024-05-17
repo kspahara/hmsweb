@@ -168,3 +168,28 @@ export async function updateHinEntryCart(formData: FormData) {
 
 	return data;
 }
+
+/**
+ *
+ * @param searchParams
+ * @returns
+ */
+export async function getCartCount() {
+	const url = `${apiUrl}/get-cart.php`;
+	const param: RequestInit = {
+		method: "POST",
+		mode: "cors",
+		credentials: "same-origin",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+			tok_cd: authProvider.usercd,
+			token_id: authProvider.token_id,
+		}),
+	};
+	const res = await fetch(url, param);
+	const data = await handleResponse(res);
+
+	return data.results;
+}

@@ -4,13 +4,14 @@ import { ProgressNav } from "../components/progressNav.tsx";
 import { Breadcrumbs } from "../components/breadcrumbs.tsx";
 import { ReturnTopBtn } from "../components/returnTopBtn.tsx";
 import { useRootPage } from "../hooks/hooks.ts";
+import { CartSummary } from "../components/CartSummary.tsx";
 
 /**
  * HeaderNavigation
  * @returns
  */
 function HeaderNavigation(): JSX.Element {
-	const { user, isAuth, links, isLoggingOut, FeacherForm, index_link } = useRootPage();
+	const { user, isAuth, links, isLoggingOut, FeacherForm, index_link, cart_data } = useRootPage();
 
 	return (
 		<>
@@ -66,6 +67,9 @@ function HeaderNavigation(): JSX.Element {
 								<Navbar.Text className="me-2">
 									<i className="bi bi-person-fill me-1" />
 									{user}
+								</Navbar.Text>
+								<Navbar.Text className="me-2">
+									<CartSummary data={cart_data} />
 								</Navbar.Text>
 								<Form as={FeacherForm} method="post" action="/logout">
 									<Button type="submit" variant="outline-secondary" disabled={isLoggingOut}>

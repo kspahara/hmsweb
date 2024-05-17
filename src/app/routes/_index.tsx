@@ -2,6 +2,7 @@ import { CrumbItem, Match } from "../components/breadcrumbs.tsx";
 import { RootPage } from "../pages/_index.tsx";
 import { authProvider } from "../provides/auth.ts";
 import { getLocationPath } from "../libs/libs.ts";
+import { getCartCount } from "../data/hin/hin.ts";
 
 // const paths = ["/", "/hin", "/login", "/albums", "/comments", "/photos", "/posts", "/todos", "/users"] as const;
 /**
@@ -11,7 +12,7 @@ export type Link = {
 	// href: (typeof paths)[number];
 	href: string;
 	label: string;
-	kbn: "index" | "public" | "not_auth"| "not_auth_user" | "auth" | "auth_user";
+	kbn: "index" | "public" | "not_auth" | "not_auth_user" | "auth" | "auth_user";
 };
 
 const getLinks = async (): Promise<Link[]> => {
@@ -33,12 +34,15 @@ const getLinks = async (): Promise<Link[]> => {
 };
 
 const clientLoader = async () => {
-	console.log("RootRoute username", authProvider.username);
+	const isAuth = authProvider.isAuthenticated;
+	// console.log("RootRoute username", authProvider.username);
+
 	return {
 		// ログインしている場合、rootルートは常にauthProviderを返す
 		user: authProvider.username,
 		isAuth: authProvider.isAuthenticated,
 		links: await getLinks(),
+		cart_data: isAuth ? await getCartCount() : null,
 	};
 };
 
