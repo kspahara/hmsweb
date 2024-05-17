@@ -56,7 +56,7 @@ export function ContentArea(props: Props): JSX.Element {
 								<ListGroup variant="flush">
 									{data.map((item, index) => (
 										<ListGroup.Item key={index} as={Link} to={`${item.den_no}`} className="d-flex" action>
-											<dl>
+											<dl className="mb-0">
 												<dt>処理日</dt>
 												<dd>{item.syori_ymd}</dd>
 												<dt>伝票番号</dt>

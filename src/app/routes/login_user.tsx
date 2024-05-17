@@ -69,7 +69,9 @@ const clientAction = async ({ request }: ActionFunctionArgs) => {
 	};
 	// リダイレクトを行う
 	const redirectTo = (redirectTo: string) => {
-		return redirect(redirectTo || "/");
+		console.log("LoginRoute redirectTo", redirectTo);
+
+		return redirectTo === "/" ? redirect("/mypage") : redirect(redirectTo || "/");
 	};
 
 	const formData = await getFormData(request);

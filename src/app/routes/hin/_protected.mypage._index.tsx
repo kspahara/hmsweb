@@ -12,19 +12,10 @@ const getForms = async (): Promise<FormType[]> => {
 	return [
 		{
 			type: "search",
-			controlId: "title",
-			name: "title",
-			label: "Title:",
-			placeholder: "Title",
-		},
-		{
-			as: "select",
-			controlId: "userId",
-			name: "userId",
-			label: "UserId:",
-			placeholder: "Select UserId",
-			ariaLabel: "UserId",
-			optionKey: { key: "id", value: "name" },
+			controlId: "ymd_fr",
+			name: "ymd_fr",
+			label: "処理日:",
+			placeholder: "処理日",
 		},
 	];
 };
