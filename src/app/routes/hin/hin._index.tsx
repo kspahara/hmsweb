@@ -1,6 +1,6 @@
 import { LoaderFunctionArgs, ActionFunctionArgs, defer } from "react-router-dom";
 import { getHinCond } from "../../data/hin/hin_cond.ts";
-import { deleteHinFavorite, getHinList, updateHinFavorite } from "../../data/hin/hin.ts";
+import { deleteHinFavorite, getHinList, updateHinFavorite, updateHinEntryCart } from "../../data/hin/hin.ts";
 import { HinIndexPage } from "../../pages/hin/hin._index.tsx";
 import { FormType } from "../../components/createForm.tsx";
 
@@ -90,9 +90,17 @@ const clientLoader = async ({ request }: LoaderFunctionArgs) => {
 };
 const clientAction = async ({ request }: ActionFunctionArgs) => {
 	const formData = await request.formData();
-	const isFavorite = formData.get("hin_attr_cd") === "1";
+	const formType = formData.get("form_type");
+	const isFavorite = formType === "favorite";
+	const updateFav = isFavorite && formData.get("hin_attr_cd") === "1";
+	const deleteFav = isFavorite && formData.get("hin_attr_cd") === "0";
+	const isCart = formType === "cart";
+	const isUpdateFav = isFavorite && updateFav;
+	const isDeleteFav = isFavorite && deleteFav;
 
-	return isFavorite ? updateHinFavorite(formData) : deleteHinFavorite(formData);
+	const runAction = isUpdateFav ? updateHinFavorite(formData) : isDeleteFav ? deleteHinFavorite(formData) : isCart ? updateHinEntryCart(formData) : null;
+
+	return runAction;
 };
 
 /**

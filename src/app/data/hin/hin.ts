@@ -86,10 +86,10 @@ export async function getHinDetail(p_hin_cd: Hin["hin_cd"]): Promise<HinList> {
 
 /**
  *
- * @param 
+ * @param
  * @returns
  */
-export async function updateHinFavorite(formData: FormData){
+export async function updateHinFavorite(formData: FormData) {
 	const url = `${apiUrl}/entry-tok-hin-attr.php`;
 	const param: RequestInit = {
 		method: "POST",
@@ -114,10 +114,10 @@ export async function updateHinFavorite(formData: FormData){
 
 /**
  *
- * @param 
+ * @param
  * @returns
  */
-export async function deleteHinFavorite(formData: FormData){
+export async function deleteHinFavorite(formData: FormData) {
 	const url = `${apiUrl}/delete-tok-hin-attr.php`;
 	const param: RequestInit = {
 		method: "POST",
@@ -131,6 +131,35 @@ export async function deleteHinFavorite(formData: FormData){
 			token_id: authProvider.token_id,
 			hin_cd: formData.get("hin_cd"),
 			hin_attr_cd: "1",
+			login_id: authProvider.usercd,
+		}),
+	};
+	const res = await fetch(url, param);
+	const data = await handleResponse(res);
+
+	return data;
+}
+
+/**
+ *
+ * @param
+ * @returns
+ */
+export async function updateHinEntryCart(formData: FormData) {
+	const url = `${apiUrl}/entry-cart.php`;
+	const param: RequestInit = {
+		method: "POST",
+		mode: "cors",
+		credentials: "same-origin",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+			s_id: "0",
+			tok_cd: authProvider.usercd,
+			token_id: authProvider.token_id,
+			hin_cd: formData.get("hin_cd"),
+			suryo: formData.get("suryo"),
 			login_id: authProvider.usercd,
 		}),
 	};

@@ -2,7 +2,6 @@ import { Suspense } from "react";
 import {
 	Await,
 	Link,
-	Form as RouterForm,
 	useAsyncError,
 	useAsyncValue,
 	useFetcher,
@@ -112,32 +111,41 @@ export function ContentArea(props: Props): JSX.Element {
 											{user && (
 												<Card.Footer className="p-2 bg-transparent">
 													<div className="d-grid">
-														<Form as={FeacherForm} method="post">
+														<Form as={FeacherForm} method="post" name="form_favorite">
 															<Button
 																type="submit"
 																name="hin_attr_cd"
 																value={post.hin_attr_cd === "1" ? "0" : "1"}
 																variant={post.hin_attr_cd === "1" ? "warning" : "secondary"}
 																aria-label={post.hin_attr_cd === "1" ? "お気に入りを外す" : "お気に入りに追加"}
-																className="btn btn-sm lh-sm mb-1 w-100"
+																className="btn btn-sm lh-sm mb-2 w-100"
 															>
 																<i className="bi bi-star-fill me-1" />
 																{post.hin_attr_cd === "1" ? "お気に入り" : "お気に入りに追加"}
 															</Button>
+															<input type="hidden" name="form_type" value="favorite" />
 															<input type="hidden" name="hin_cd" value={post.hin_cd} />
 														</Form>
-														<Form as={RouterForm}>
+														<Form as={FeacherForm} method="post" name="form_cart">
 															<InputGroup>
 																<FloatingLabel controlId={`suryo${index}`} label="数量">
-																	<Form.Control type="number" placeholder="数量を入力してください" defaultValue={1} className="text-end" />
+																	<Form.Control
+																		type="number"
+																		name="suryo"
+																		placeholder="数量を入力してください"
+																		defaultValue={1}
+																		className="text-end"
+																	/>
 																</FloatingLabel>
-																<Button type="button" variant="primary" className="lh-sm">
+																<Button type="submit" variant="primary" className="lh-sm">
 																	<div>
 																		<small className="">カートに入れる</small>
 																	</div>
 																	<i className="bi bi-cart-plus-fill" />
 																</Button>
 															</InputGroup>
+															<input type="hidden" name="form_type" value="cart" />
+															<input type="hidden" name="hin_cd" value={post.hin_cd} />
 														</Form>
 													</div>
 												</Card.Footer>

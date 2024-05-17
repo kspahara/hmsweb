@@ -312,7 +312,7 @@ export default function App(): JSX.Element {
 	return (
 		<RouterProvider
 			router={createBrowserRouter(router, {
-				basename: "/base/",
+				basename: "/new-hp/",
 				future: {
 					v7_fetcherPersist: true,
 					v7_normalizeFormMethod: true,
