@@ -13,6 +13,13 @@ export function ProgressNav(): JSX.Element | null {
 				{navigation.state !== "idle" && <small>Navigation in progress...</small>}
 				{revalidator.state !== "idle" && <small>Revalidation in progress...</small>}
 				{fetcherInProgress && <small>Fetcher in progress...</small>}
+				{/* localstrage */}
+				<small className="text-muted">
+					<div>{`isAuthenticated: ${localStorage.getItem("isAuthenticated")} `}</div>
+					<div>{`usercd: ${localStorage.getItem("usercd")} `}</div>
+					<div>{`username: ${localStorage.getItem("username")} `}</div>
+					<div>{`token_id: ${localStorage.getItem("token_id")} `}</div>
+				</small>
 			</fieldset>
 		</>
 	) : null;

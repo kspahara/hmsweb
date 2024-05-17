@@ -1,6 +1,6 @@
-import { LoaderFunctionArgs, defer } from "react-router-dom";
+import { LoaderFunctionArgs, ActionFunctionArgs, defer } from "react-router-dom";
 import { getHinCond } from "../../data/hin/hin_cond.ts";
-import { getHinList } from "../../data/hin/hin.ts";
+import { deleteHinFavorite, getHinList, updateHinFavorite } from "../../data/hin/hin.ts";
 import { HinIndexPage } from "../../pages/hin/hin._index.tsx";
 import { FormType } from "../../components/createForm.tsx";
 
@@ -67,16 +67,18 @@ const getForms = async (): Promise<FormType[]> => {
 			ariaLabel: "Grade",
 			optionKey: { key: "han_cd", value: "han_name" },
 		},
+		{
+			type: "checkbox",
+			controlId: "hin_attr_cd",
+			name: "hin_attr_cd",
+			label: "お気に入り",
+			placeholder: "",
+		},
 	];
 };
 
 const clientLoader = async ({ request }: LoaderFunctionArgs) => {
 	const search_params = new URL(request.url).searchParams;
-	// const searchParams = Object.fromEntries(
-	// 	Array.from(search_params.entries()).map(([key, value]) => {
-	// 		return [key, value ?? ""];
-	// 	})
-	// );
 
 	return defer({
 		data: getHinList(search_params),
@@ -85,6 +87,12 @@ const clientLoader = async ({ request }: LoaderFunctionArgs) => {
 		searchies: getHinCond(),
 		message: "Hin",
 	});
+};
+const clientAction = async ({ request }: ActionFunctionArgs) => {
+	const formData = await request.formData();
+	const isFavorite = formData.get("hin_attr_cd") === "1";
+
+	return isFavorite ? updateHinFavorite(formData) : deleteHinFavorite(formData);
 };
 
 /**
@@ -96,3 +104,4 @@ export function HinIndexRoute(): JSX.Element {
 }
 
 HinIndexRoute.loader = clientLoader;
+HinIndexRoute.action = clientAction;

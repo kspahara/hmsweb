@@ -53,6 +53,13 @@ function HeaderNavigation(): JSX.Element {
 											{link.label}
 										</Nav.Link>
 									))}
+								{links
+									.filter((link) => link.kbn === "not_auth_user")
+									.map((link, idx: number) => (
+										<Nav.Link key={idx} as={NavLink} to={link.href}>
+											{link.label}
+										</Nav.Link>
+									))}
 							</Nav>
 						) : (
 							<>
@@ -61,6 +68,11 @@ function HeaderNavigation(): JSX.Element {
 									{user}
 								</Navbar.Text>
 								<Form as={FeacherForm} method="post" action="/logout">
+									<Button type="submit" variant="outline-secondary" disabled={isLoggingOut}>
+										{isLoggingOut ? "Signing out..." : "Sign out"}
+									</Button>
+								</Form>
+								<Form as={FeacherForm} method="post" action="/logout_user">
 									<Button type="submit" variant="outline-secondary" disabled={isLoggingOut}>
 										{isLoggingOut ? "Signing out..." : "Sign out"}
 									</Button>

@@ -42,6 +42,7 @@ const router = [
 							const { HinIndexRoute } = await import("./app/routes/hin/hin._index.tsx");
 							return {
 								loader: HinIndexRoute.loader,
+								action: HinIndexRoute.action,
 								element: <HinIndexRoute />,
 							};
 						},
@@ -261,9 +262,30 @@ const router = [
 				},
 			},
 			{
+				path: "login_user",
+				async lazy() {
+					const { LoginUserRoute } = await import("./app/routes/login_user.tsx");
+					return {
+						loader: LoginUserRoute.loader,
+						action: LoginUserRoute.action,
+						handle: LoginUserRoute.handle,
+						element: <LoginUserRoute />,
+					};
+				},
+			},
+			{
 				path: "logout",
 				async lazy() {
 					const { clientAction } = await import("./app/routes/logout.tsx");
+					return {
+						action: clientAction,
+					};
+				},
+			},
+			{
+				path: "logout_user",
+				async lazy() {
+					const { clientAction } = await import("./app/routes/logout_user.tsx");
 					return {
 						action: clientAction,
 					};

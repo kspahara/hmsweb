@@ -63,6 +63,31 @@ export function useRootPage() {
 }
 
 /**
+ * useLoginUser
+ * @returns
+ */
+export function useLoginUser() {
+  const { from, forms, message } = useLoaderData() as {
+    from: string;
+    forms: FormType[];
+    message: string;
+  };
+  const navigation = useNavigation();
+
+  const [validated, setValidated] = useState(false);
+
+  return {
+    from,
+    forms,
+    message,
+    actionData: useActionData() as { error: string } | undefined,
+    isLoggingIn: navigation.formData?.get("username") != null,
+    validated,
+    setValidated,
+  };
+}
+
+/**
  * useLogin
  * @returns
  */
@@ -171,7 +196,7 @@ export function useHinDetailPage() {
 
   return {
     user,
-    item: data.results,
+    item: data.results[0],
     noImage,
   };
 }

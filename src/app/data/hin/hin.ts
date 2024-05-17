@@ -1,4 +1,5 @@
 import { handleResponse } from "../../libs/libs.ts";
+import { authProvider } from "../../provides/auth.ts";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -23,6 +24,7 @@ export type Hin = {
 	uchi_tanka: string;
 	zei_kbn: string;
 	zei_rate: string;
+	hin_attr_cd: string;
 };
 
 export type HinList = {
@@ -45,15 +47,13 @@ export async function getHinList(searchParams: URLSearchParams): Promise<HinList
 			"Content-Type": "application/json",
 		},
 		body: JSON.stringify({
-			tok_cd: "", // TODO
-			token_id: "", // TODO
+			tok_cd: authProvider.usercd,
+			token_id: authProvider.token_id,
 			...params_entry,
 		}),
 	};
 	const res = await fetch(url, param);
 	const data = await handleResponse(res);
-
-	console.log(data);
 
 	return data.results;
 }
@@ -73,7 +73,65 @@ export async function getHinDetail(p_hin_cd: Hin["hin_cd"]): Promise<HinList> {
 			"Content-Type": "application/json",
 		},
 		body: JSON.stringify({
+			tok_cd: authProvider.usercd,
+			token_id: authProvider.token_id,
 			hin_cd: p_hin_cd,
+		}),
+	};
+	const res = await fetch(url, param);
+	const data = await handleResponse(res);
+
+	return data;
+}
+
+/**
+ *
+ * @param 
+ * @returns
+ */
+export async function updateHinFavorite(formData: FormData){
+	const url = `${apiUrl}/entry-tok-hin-attr.php`;
+	const param: RequestInit = {
+		method: "POST",
+		mode: "cors",
+		credentials: "same-origin",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+			tok_cd: authProvider.usercd,
+			token_id: authProvider.token_id,
+			hin_cd: formData.get("hin_cd"),
+			hin_attr_cd: "1",
+			login_id: authProvider.usercd,
+		}),
+	};
+	const res = await fetch(url, param);
+	const data = await handleResponse(res);
+
+	return data;
+}
+
+/**
+ *
+ * @param 
+ * @returns
+ */
+export async function deleteHinFavorite(formData: FormData){
+	const url = `${apiUrl}/delete-tok-hin-attr.php`;
+	const param: RequestInit = {
+		method: "POST",
+		mode: "cors",
+		credentials: "same-origin",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+			tok_cd: authProvider.usercd,
+			token_id: authProvider.token_id,
+			hin_cd: formData.get("hin_cd"),
+			hin_attr_cd: "1",
+			login_id: authProvider.usercd,
 		}),
 	};
 	const res = await fetch(url, param);

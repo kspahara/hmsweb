@@ -11,7 +11,7 @@ export type Link = {
 	// href: (typeof paths)[number];
 	href: string;
 	label: string;
-	kbn: "index" | "public" | "not_auth" | "auth";
+	kbn: "index" | "public" | "not_auth"| "not_auth_user" | "auth" | "auth_user";
 };
 
 const getLinks = async (): Promise<Link[]> => {
@@ -19,6 +19,7 @@ const getLinks = async (): Promise<Link[]> => {
 		{ href: "/", label: "HMS-App", kbn: "index" },
 		{ href: "/hin", label: "Item", kbn: "public" },
 		{ href: "/login", label: "Login", kbn: "not_auth" },
+		{ href: "/login_user", label: "User Login", kbn: "not_auth_user" },
 		{ href: "/mypage", label: "Mypage", kbn: "auth" },
 		{ href: "/albums", label: "Albums List", kbn: "auth" },
 		{ href: "/comments", label: "Comments List", kbn: "auth" },
@@ -32,6 +33,7 @@ const getLinks = async (): Promise<Link[]> => {
 };
 
 const clientLoader = async () => {
+	console.log("RootRoute username", authProvider.username);
 	return {
 		// ログインしている場合、rootルートは常にauthProviderを返す
 		user: authProvider.username,

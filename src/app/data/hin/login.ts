@@ -1,19 +1,14 @@
 import { handleResponse } from "../../libs/libs.ts";
-// import { authProvider } from "../../provides/auth.ts";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
-type HinCond = {
-	han_cd: string;
-	han_name: string;
-};
-
-export type HinCondList = {
-	results: HinCond[];
-};
-
-export async function getHinCond(): Promise<HinCondList> {
-	const url = `${apiUrl}/get-search-hin-cond.php`;
+/**
+ *
+ * @param 
+ * @returns
+ */
+export async function getLoginTokui(p_email: string, p_password: string) {
+	const url = `${apiUrl}/login-tokui.php`;
 	const param: RequestInit = {
 		method: "POST",
 		mode: "cors",
@@ -21,7 +16,10 @@ export async function getHinCond(): Promise<HinCondList> {
 		headers: {
 			"Content-Type": "application/json",
 		},
-		body: JSON.stringify({}),
+		body: JSON.stringify({
+			email: p_email,
+			user_pass: p_password,
+		}),
 	};
 	const res = await fetch(url, param);
 	const data = await handleResponse(res);

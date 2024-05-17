@@ -1,7 +1,7 @@
 import { handleResponse } from "../../libs/libs.ts";
 
 // const apiUrl = import.meta.env.VITE_API_URL;
-const apiUrl_M = import.meta.env.VITE_API_URL_M;
+const apiUrl = import.meta.env.VITE_API_URL_M;
 
 type HacyuzanLists = {
   row_cnt: string;
@@ -47,7 +47,7 @@ export async function getHacyuzan(
   searchParams: URLSearchParams
 ): Promise<HacyuzanData> {
   const params_entry = Object.fromEntries(searchParams.entries());
-  const url = `${apiUrl_M}/get-search-hacyuzan.php`;
+  const url = `${apiUrl}/get-search-hacyuzan.php`;
   const param: RequestInit = {
     method: "POST",
     mode: "cors",

@@ -68,48 +68,63 @@ export function CreateForm({ form, data, option, value, event }: FormProps): JSX
 
 	return (
 		<>
-			<FloatingLabel controlId={controlId} label={label}>
-				{as === "select" ? (
-					<>
-						<Form.Select
-							aria-label={ariaLabel}
-							name={name}
-							defaultValue={data?.[controlId]}
-							value={value}
-							onChange={(e: React.ChangeEvent<HTMLSelectElement>) => (event ? event(e) : undefined)}
-							{...rest}
-						>
-							<option value="">{placeholder}</option>
-							{option?.map((item, index) => (
-								<option key={index} value={optionKey ? item[optionKey.key] : undefined}>
-									{optionKey ? item[optionKey.value] : undefined}
-								</option>
-							))}
-						</Form.Select>
-					</>
-				) : (
-					<>
-						<Form.Control
-							type={type}
-							name={name}
-							placeholder={placeholder}
-							autoComplete={autoComplete}
-							required={required}
-							disabled={disabled}
-							readOnly={readOnly}
-							plaintext={plaintext}
-							value={value}
-							defaultValue={data?.[controlId]}
-							onChange={(e: React.ChangeEvent<HTMLInputElement>) => (event ? event(e) : undefined)}
-							min={min}
-							max={max}
-							pattern={patern}
-							{...rest}
-						/>
-						<Form.Control.Feedback type="invalid">{invalidMessage}</Form.Control.Feedback>
-					</>
-				)}
-			</FloatingLabel>
+			{type === "checkbox" || type === "radio" ? (
+				<>
+					<Form.Check
+						type={type}
+						id={controlId}
+						name={name}
+						label={label}
+						value="1"
+						checked={value === "1"}
+						onChange={(e: React.ChangeEvent<HTMLInputElement>) => (event ? event(e) : undefined)}
+						{...rest}
+					/>
+				</>
+			) : (
+				<FloatingLabel controlId={controlId} label={label}>
+					{as === "select" ? (
+						<>
+							<Form.Select
+								aria-label={ariaLabel}
+								name={name}
+								defaultValue={data?.[controlId]}
+								value={value}
+								onChange={(e: React.ChangeEvent<HTMLSelectElement>) => (event ? event(e) : undefined)}
+								{...rest}
+							>
+								<option value="">{placeholder}</option>
+								{option?.map((item, index) => (
+									<option key={index} value={optionKey ? item[optionKey.key] : undefined}>
+										{optionKey ? item[optionKey.value] : undefined}
+									</option>
+								))}
+							</Form.Select>
+						</>
+					) : (
+						<>
+							<Form.Control
+								type={type}
+								name={name}
+								placeholder={placeholder}
+								autoComplete={autoComplete}
+								required={required}
+								disabled={disabled}
+								readOnly={readOnly}
+								plaintext={plaintext}
+								value={value}
+								defaultValue={data?.[controlId]}
+								onChange={(e: React.ChangeEvent<HTMLInputElement>) => (event ? event(e) : undefined)}
+								min={min}
+								max={max}
+								pattern={patern}
+								{...rest}
+							/>
+							<Form.Control.Feedback type="invalid">{invalidMessage}</Form.Control.Feedback>
+						</>
+					)}
+				</FloatingLabel>
+			)}
 		</>
 	);
 }

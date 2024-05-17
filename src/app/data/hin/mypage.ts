@@ -1,4 +1,5 @@
 import { handleResponse } from "../../libs/libs.ts";
+import { authProvider } from "../../provides/auth.ts";
 
 const apiUrl = import.meta.env.VITE_APP_API_ADDRESS;
 
@@ -27,8 +28,8 @@ export async function getMypage(searchParams: URLSearchParams): Promise<[]> {
 			"Content-Type": "application/json",
 		},
 		body: JSON.stringify({
-			tok_cd: "00030", // TODO
-			token_id: "6ba222afa616aff5c7f32c0bbca8a4f8", // TODO
+			tok_cd: authProvider.usercd,
+			token_id: authProvider.token_id,
 			limit: 10,
 			...params_entry,
 		}),
