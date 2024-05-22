@@ -1,7 +1,6 @@
 import { LoaderFunctionArgs, defer } from "react-router-dom";
 import { FormType } from "../../components/createForm.tsx";
 import { getMypage } from "../../data/hin/mypage.ts";
-// import { getUsersCond } from "../../data/hin/users.ts";
 import { ProtectedMypagePage } from "../../pages/hin/_protected.mypage._index.tsx";
 import { authProvider } from "../../provides/auth.ts";
 
@@ -11,7 +10,7 @@ const route_name = "ProtectedMypageRoute";
 const getForms = async (): Promise<FormType[]> => {
 	return [
 		{
-			type: "search",
+			type: "date",
 			controlId: "ymd_fr",
 			name: "ymd_fr",
 			label: "処理日:",

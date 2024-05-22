@@ -1,24 +1,15 @@
 import { handleResponse } from "../../libs/libs.ts";
+import { authProvider } from "../../provides/auth.ts";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
 /**
- * Album
- */
-export type Album = {
-	userId: number;
-	id: number;
-	title: string;
-};
-
-/**
  *
- * @param searchParams
+ * @param
  * @returns
  */
-export async function getMypage(searchParams: URLSearchParams): Promise<[]> {
-	const params_entry = Object.fromEntries(searchParams.entries());
-	const url = `${apiUrl}/get-tokui-tor-rireki.php`;
+export async function getCart() {
+	const url = `${apiUrl}/get-cart.php`;
 	const param: RequestInit = {
 		method: "POST",
 		mode: "cors",
@@ -27,10 +18,8 @@ export async function getMypage(searchParams: URLSearchParams): Promise<[]> {
 			"Content-Type": "application/json",
 		},
 		body: JSON.stringify({
-			tok_cd: "00030", // TODO
-			token_id: "37b541d6cde030b8a88f0ad64a13b463", // TODO
-			limit: 10,
-			...params_entry,
+			tok_cd: authProvider.usercd,
+			token_id: authProvider.token_id,
 		}),
 	};
 	const res = await fetch(url, param);
@@ -41,11 +30,11 @@ export async function getMypage(searchParams: URLSearchParams): Promise<[]> {
 
 /**
  *
- * @param id
+ * @param
  * @returns
  */
-export async function getDenDetail(den_no: string): Promise<[]> {
-	const url = `${apiUrl}/get-uri.php`;
+export async function deleteCart(formData: FormData) {
+	const url = `${apiUrl}/delete-cart.php`;
 	const param: RequestInit = {
 		method: "POST",
 		mode: "cors",
@@ -54,9 +43,11 @@ export async function getDenDetail(den_no: string): Promise<[]> {
 			"Content-Type": "application/json",
 		},
 		body: JSON.stringify({
-			tok_cd: "00030", // TODO
-			token_id: "37b541d6cde030b8a88f0ad64a13b463", // TODO
-			den_no: den_no,
+			s_id: authProvider.session_id,
+			tok_cd: authProvider.usercd,
+			token_id: authProvider.token_id,
+			row_no: formData.get("row_no"),
+			login_id: authProvider.usercd,
 		}),
 	};
 	const res = await fetch(url, param);

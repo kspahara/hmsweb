@@ -18,7 +18,9 @@ export function ProgressNav(): JSX.Element | null {
 					<div>{`isAuthenticated: ${localStorage.getItem("isAuthenticated")} `}</div>
 					<div>{`usercd: ${localStorage.getItem("usercd")} `}</div>
 					<div>{`username: ${localStorage.getItem("username")} `}</div>
+					<div>{`user_kind: ${localStorage.getItem("user_kind")} `}</div>
 					<div>{`token_id: ${localStorage.getItem("token_id")} `}</div>
+					<div>{`session_id: ${localStorage.getItem("session_id")} `}</div>
 				</small>
 			</fieldset>
 		</>

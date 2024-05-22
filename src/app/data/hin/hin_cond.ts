@@ -1,5 +1,4 @@
 import { handleResponse } from "../../libs/libs.ts";
-// import { authProvider } from "../../provides/auth.ts";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 

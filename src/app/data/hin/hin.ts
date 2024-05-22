@@ -155,7 +155,7 @@ export async function updateHinEntryCart(formData: FormData) {
 			"Content-Type": "application/json",
 		},
 		body: JSON.stringify({
-			s_id: "0",
+			s_id: authProvider.session_id,
 			tok_cd: authProvider.usercd,
 			token_id: authProvider.token_id,
 			hin_cd: formData.get("hin_cd"),

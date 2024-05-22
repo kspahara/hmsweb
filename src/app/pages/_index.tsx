@@ -24,7 +24,7 @@ function HeaderNavigation(): JSX.Element {
 					)}
 					<Navbar.Toggle aria-controls="navbar-nav" />
 					<Navbar.Collapse id="navbar-nav">
-						<Nav className="me-auto">
+						<Nav variant="underline" className="me-auto">
 							{links
 								.filter((link) => link.kbn === "public")
 								.map((link, idx: number) => (
@@ -46,7 +46,7 @@ function HeaderNavigation(): JSX.Element {
 						</Nav>
 						{/* 右側 */}
 						{!isAuth ? (
-							<Nav>
+							<Nav variant="underline">
 								{links
 									.filter((link) => link.kbn === "not_auth")
 									.map((link, idx: number) => (
@@ -68,9 +68,14 @@ function HeaderNavigation(): JSX.Element {
 									<i className="bi bi-person-fill me-1" />
 									{user}
 								</Navbar.Text>
-								<Navbar.Text className="me-2">
-									<CartSummary data={cart_data} />
-								</Navbar.Text>
+								<Nav variant="underline" className="me-2">
+									<Nav.Link as={NavLink} to={"/cart"}>
+										<CartSummary data={cart_data} />
+									</Nav.Link>
+									<Nav.Link as={NavLink} to={"/mypage"}>
+										Mypage
+									</Nav.Link>
+								</Nav>
 								<Form as={FeacherForm} method="post" action="/logout">
 									<Button type="submit" variant="outline-secondary" disabled={isLoggingOut}>
 										{isLoggingOut ? "Signing out..." : "Sign out"}

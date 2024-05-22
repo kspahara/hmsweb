@@ -7,37 +7,10 @@ import { ProtectedMypageDenNoPage } from "../../pages/hin/_protected.mypage.$den
 import { authProvider } from "../../provides/auth.ts";
 import { getLocationPath } from "../../libs/libs.ts";
 
-const route_name = "ProtectedMypageIdRoute";
+const route_name = "ProtectedMypageDenNoRoute";
 
 const getForms = async (): Promise<FormType[]> => {
-	return [
-		{
-			type: "number",
-			controlId: "id",
-			name: "id",
-			label: "Id:",
-			placeholder: "Id",
-			disabled: true,
-			readOnly: true,
-			plaintext: true,
-		},
-		{
-			type: "text",
-			controlId: "title",
-			name: "title",
-			label: "Title:",
-			placeholder: "Title",
-		},
-		{
-			as: "select",
-			controlId: "userId",
-			name: "userId",
-			label: "UserId:",
-			placeholder: "Select UserId",
-			ariaLabel: "UserId",
-			optionKey: { key: "id", value: "name" },
-		},
-	];
+	return [];
 };
 
 const clientLoader = async ({ params }: LoaderFunctionArgs) => {
@@ -54,8 +27,8 @@ const clientLoader = async ({ params }: LoaderFunctionArgs) => {
 };
 
 const handle = {
-	crumb: (match: Match<{ title: string }>): JSX.Element => (
-		<CrumbItem props={{ linkProps: { to: `${match.pathname}` }, active: getLocationPath() === match.pathname }} label={<>{match.data.data.title}</>} />
+	crumb: (match: Match<{ details: { den_no: string }[] }>): JSX.Element => (
+		<CrumbItem props={{ linkProps: { to: `${match.pathname}` }, active: getLocationPath() === match.pathname }} label={<>{match.data.data.details[0].den_no}</>} />
 	),
 };
 

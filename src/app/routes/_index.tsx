@@ -21,7 +21,6 @@ const getLinks = async (): Promise<Link[]> => {
 		{ href: "/hin", label: "Item", kbn: "public" },
 		{ href: "/login", label: "Login", kbn: "not_auth" },
 		{ href: "/login_user", label: "User Login", kbn: "not_auth_user" },
-		{ href: "/mypage", label: "Mypage", kbn: "auth" },
 		{ href: "/albums", label: "Albums List", kbn: "auth" },
 		{ href: "/comments", label: "Comments List", kbn: "auth" },
 		{ href: "/photos", label: "Photos List", kbn: "auth" },

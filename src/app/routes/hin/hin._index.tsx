@@ -98,7 +98,7 @@ const clientAction = async ({ request }: ActionFunctionArgs) => {
 	const isUpdateFav = isFavorite && updateFav;
 	const isDeleteFav = isFavorite && deleteFav;
 
-	const runAction = isUpdateFav ? updateHinFavorite(formData) : isDeleteFav ? deleteHinFavorite(formData) : isCart ? updateHinEntryCart(formData) : null;
+	const runAction = isUpdateFav ? await updateHinFavorite(formData) : isDeleteFav ? await deleteHinFavorite(formData) : isCart ? await updateHinEntryCart(formData) : null;
 
 	return runAction;
 };

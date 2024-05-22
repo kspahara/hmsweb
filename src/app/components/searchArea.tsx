@@ -1,8 +1,9 @@
 import { Suspense } from "react";
 import { Await, Form as RouterForm, useAsyncError, useAsyncValue } from "react-router-dom";
-import { Form, Badge, Col, Row, Stack, Alert } from "react-bootstrap";
+import { Form, Badge, Col, Row, Stack, Alert, ToggleButton, ButtonGroup } from "react-bootstrap";
 import { CreateForm, FormType } from "./createForm.tsx";
 import { Fallback } from "./fallback.tsx";
+import { ToggleButtonType } from "react-bootstrap/esm/ToggleButton";
 
 type Props = {
 	forms: FormType[];
@@ -34,6 +35,42 @@ const Error = () => {
  */
 export function SearchArea(props: Props): JSX.Element {
 	const { forms, searchies, query, setQuery, submit, isSearching } = props;
+
+	//TODO
+	type ButtonType = {
+		id: string;
+		value: string;
+		label: string;
+		variant: string;
+		type: ToggleButtonType;
+		name: string;
+	}[];
+	const buttons: ButtonType = [
+		{
+			id: "limit-10",
+			value: "10",
+			label: "10",
+			variant: "outline-secondary",
+			type: "radio",
+			name: "limit",
+		},
+		{
+			id: "limit-100",
+			value: "100",
+			label: "100",
+			variant: "outline-secondary",
+			type: "radio",
+			name: "limit",
+		},
+		{
+			id: "limit-all",
+			value: "",
+			label: "All",
+			variant: "outline-secondary",
+			type: "radio",
+			name: "limit",
+		},
+	];
 
 	return (
 		<>
@@ -93,6 +130,25 @@ export function SearchArea(props: Props): JSX.Element {
 														);
 													})}
 												</Stack>
+												{/* TODO */}
+												<Col md={12} lg={2}>
+													<ButtonGroup aria-label="Basic example">
+														{buttons.map((button) => (
+															<ToggleButton
+																key={button.id}
+																id={button.id}
+																type={button.type}
+																name={button.name}
+																variant={button.variant}
+																checked={query.limit === button.value}
+																value={button.value}
+																onChange={(e) => setQuery({ ...query, limit: e.currentTarget.value })}
+															>
+																{button.label}
+															</ToggleButton>
+														))}
+													</ButtonGroup>
+												</Col>
 											</>
 										)}
 									/>

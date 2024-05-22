@@ -93,7 +93,6 @@ const router = [
 					},
 				],
 			},
-
 			{
 				id: "pathless-protected-layout",
 				async lazy() {
@@ -104,6 +103,30 @@ const router = [
 				},
 				errorElement: <ErrorPage />,
 				children: [
+					{
+						id: "protected-cart-layout",
+						path: "cart",
+						async lazy() {
+							const { handle } = await import("./app/routes/hin/_protected.cart.tsx");
+							return {
+								handle: handle,
+							};
+						},
+						errorElement: <ErrorPage />,
+						children: [
+							{
+								index: true,
+								async lazy() {
+									const { ProtectedCartRoute } = await import("./app/routes/hin/_protected.cart._index.tsx");
+									return {
+										loader: ProtectedCartRoute.loader,
+										action: ProtectedCartRoute.action,
+										element: <ProtectedCartRoute />,
+									};
+								},
+							},
+						],
+					},
 					{
 						id: "protected-mypage-layout",
 						path: "mypage",

@@ -16,6 +16,7 @@ type Props = {
 	user?: string | null;
 	noImage?: string;
 	type?: string;
+	fetcherInProgress?: boolean;
 };
 
 const Error = () => {
@@ -38,7 +39,7 @@ const Error = () => {
  * @returns
  */
 export function ContentArea(props: Props): JSX.Element {
-	const { data, user, noImage, type } = props;
+	const { data, user, noImage, type, fetcherInProgress } = props;
 	// const submit = useSubmit();
 	const fetcher = useFetcher();
 	const FeacherForm = fetcher.Form;
@@ -121,7 +122,7 @@ export function ContentArea(props: Props): JSX.Element {
 																className="btn btn-sm lh-sm mb-2 w-100"
 															>
 																<i className="bi bi-star-fill me-1" />
-																{post.hin_attr_cd === "1" ? "お気に入り" : "お気に入りに追加"}
+																{fetcherInProgress ? "処理中" : post.hin_attr_cd === "1" ? "お気に入りを外す" : "お気に入りに追加"}
 															</Button>
 															<input type="hidden" name="form_type" value="favorite" />
 															<input type="hidden" name="hin_cd" value={post.hin_cd} />
@@ -137,7 +138,7 @@ export function ContentArea(props: Props): JSX.Element {
 																		className="text-end"
 																	/>
 																</FloatingLabel>
-																<Button type="submit" variant="primary" className="lh-sm">
+																<Button type="submit" name="hin_cd" value={post.hin_cd} variant="primary" className="lh-sm">
 																	<div>
 																		<small className="">カートに入れる</small>
 																	</div>
@@ -145,7 +146,6 @@ export function ContentArea(props: Props): JSX.Element {
 																</Button>
 															</InputGroup>
 															<input type="hidden" name="form_type" value="cart" />
-															<input type="hidden" name="hin_cd" value={post.hin_cd} />
 														</Form>
 													</div>
 												</Card.Footer>

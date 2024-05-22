@@ -235,9 +235,13 @@ export function useProtectedNyusyukoPage() {
  * useProtectedMypagePage
  * @returns
  */
-export function useProtectedMypagePage() {
+export function useProtectedCartPage() {
 	const { data, searchParams, forms, searchies, message } = useLoaderData() as {
-		data: Record<string, string>[];
+		data: {
+			head: Record<string, string>;
+			details: Record<string, string>[];
+			nonyus: Record<string, string>[];
+		};
 		searchParams: Record<string, string>;
 		forms: FormType[];
 		searchies: Record<string, string>[];
@@ -247,7 +251,7 @@ export function useProtectedMypagePage() {
 	const [query, setQuery] = useState<Record<string, string>>({
 		...(searchParams ?? {}),
 	});
-
+	const fetchers = useFetchers();
 	const navigation = useNavigation();
 
 	useEffect(() => {
@@ -266,6 +270,46 @@ export function useProtectedMypagePage() {
 		submit: useSubmit(),
 		isSearching: navigation.formData?.get("keyword") != null,
 		isLoading: navigation.state === "loading",
+		fetcherInProgress: fetchers.some((f) => ["loading", "submitting"].includes(f.state)),
+	};
+}
+
+/**
+ * useProtectedMypagePage
+ * @returns
+ */
+export function useProtectedMypagePage() {
+	const { data, searchParams, forms, searchies, message } = useLoaderData() as {
+		data: Record<string, string>[];
+		searchParams: Record<string, string>;
+		forms: FormType[];
+		searchies: Record<string, string>[];
+		message: string;
+	};
+
+	const [query, setQuery] = useState<Record<string, string>>({
+		...(searchParams ?? {}),
+	});
+	const fetchers = useFetchers();
+	const navigation = useNavigation();
+
+	useEffect(() => {
+		setQuery({
+			...(searchParams ?? {}),
+		});
+	}, [searchParams]);
+
+	return {
+		data,
+		forms,
+		searchies,
+		message,
+		query,
+		setQuery,
+		submit: useSubmit(),
+		isSearching: navigation.formData?.get("keyword") != null,
+		isLoading: navigation.state === "loading",
+		fetcherInProgress: fetchers.some((f) => ["loading", "submitting"].includes(f.state)),
 		type: "mypage",
 	};
 }
@@ -354,7 +398,7 @@ export function useCommentsPage() {
  */
 export function useProtectedMypageDenNoPage() {
 	const { data, forms, searchies, message } = useLoaderData() as {
-		data: Record<string, string>;
+		data: { details: Record<string, string>[] };
 		forms: FormType[];
 		searchies: Record<string, string>[];
 		message: string;

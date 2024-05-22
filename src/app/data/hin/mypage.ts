@@ -1,16 +1,7 @@
 import { handleResponse } from "../../libs/libs.ts";
 import { authProvider } from "../../provides/auth.ts";
 
-const apiUrl = import.meta.env.VITE_APP_API_ADDRESS;
-
-/**
- * Album
- */
-export type Album = {
-	userId: number;
-	id: number;
-	title: string;
-};
+const apiUrl = import.meta.env.VITE_API_URL;
 
 /**
  *
@@ -30,8 +21,9 @@ export async function getMypage(searchParams: URLSearchParams): Promise<[]> {
 		body: JSON.stringify({
 			tok_cd: authProvider.usercd,
 			token_id: authProvider.token_id,
-			limit: 10,
-			...params_entry,
+			ymd_fr: params_entry.ymd_fr ? params_entry.ymd_fr.replace(/-/g, "") : "",//TODO
+			limit: params_entry.limit,
+			// ...params_entry,
 		}),
 	};
 	const res = await fetch(url, param);
@@ -55,8 +47,8 @@ export async function getDenDetail(den_no: string): Promise<[]> {
 			"Content-Type": "application/json",
 		},
 		body: JSON.stringify({
-			tok_cd: "00030", // TODO
-			token_id: "37b541d6cde030b8a88f0ad64a13b463", // TODO
+			tok_cd: authProvider.usercd,
+			token_id: authProvider.token_id,
 			den_no: den_no,
 		}),
 	};
