@@ -1,13 +1,13 @@
-import { useLoaderData} from "react-router-dom"
+// import { useLoaderData} from "react-router-dom"
 export function NetWorkIdPage () {
-    const {message} =useLoaderData()
+    // const {message} =useLoaderData()
 
     return (<>
-    {message}
+    {/* {message} */}
     
       <section id={"protected-network-detail-page"}>
         <header>
-          <h1 className={"h2"}>{message}</h1>
+          {/* <h1 className={"h2"}>{message}</h1> */}
           <p>Protected Network Detail</p>
           <div id={"search"}>
           </div>

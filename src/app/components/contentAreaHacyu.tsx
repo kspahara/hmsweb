@@ -1,34 +1,20 @@
 import { Suspense } from "react";
-import {
-	Await,
-	Link,
-	// Form as RouterForm,
-	useAsyncError,
-	useAsyncValue,
-} from "react-router-dom";
-import {
-	Alert,
-	// Badge,
-	// Button,
-	Card,
-	// Col,
-	// FloatingLabel,
-	// Form,
-	// InputGroup,
-	ListGroup,
-	// Row,
-} from "react-bootstrap";
+import { Await, Link, useAsyncError, useAsyncValue } from "react-router-dom";
+import { Alert, Card, ListGroup } from "react-bootstrap";
 import { Fallback } from "./fallback.tsx";
-// import { parseInttoStr } from "../libs/libs.ts";
+
+type Item = {
+	den_no: string;
+	[key: string]: string;
+};
 
 type Props = {
-	data: Record<string, string>[];
+	data: Record<string, Item[]>;
 	user?: string | null;
 	noImage?: string;
 	type?: string;
 };
 
-	
 const Error = () => {
 	const error = useAsyncError() as Error;
 	const value = useAsyncValue();
@@ -52,59 +38,45 @@ export function ContentAreaHacyu(props: Props): JSX.Element {
 	const { data } = props;
 
 	return (
-		<Suspense
-			fallback={<Fallback />}
-			children={
-				<Await
-					resolve={data}
-					errorElement={<Error />}
-					children={(data: Record<string, string>[]) => {
-						const hacyu_list = Object.entries(data);
-						console.log("hacyu_list", hacyu_list);
-						const contentLists_hacyu = (
-							<Card className="shadow-sm mb-3">
+		<Suspense fallback={<Fallback />}>
+			<Await resolve={data} errorElement={<Error />}>
+				{(resolvedData: Record<string, Item[]>) => {
+					const hacyu_list = Object.entries(resolvedData);
+					console.log("hacyu_list", hacyu_list);
+
+					const contentLists_hacyu = hacyu_list.map(
+						([date, items], index) => (
+							<Card key={index} className="shadow-sm mb-3">
+								<Card.Header>{date}</Card.Header>
 								<ListGroup variant="flush">
-									{hacyu_list.map((item, index) => (
-										<ListGroup.Item key={index} as={Link} to={`${item.den_no}`} className="d-flex" action>
-											{item.den_no}
-											<span className="mx-1">:</span>
-											{item.title}
+									{items.map((item, itemIndex) => (
+										<ListGroup.Item
+											key={itemIndex}
+											as={Link}
+											to={`${item.den_no}`}
+											className="d-flex"
+											action
+										>
+											<span>{item.den_no}</span>
 											<i className="bi bi-chevron-right ms-auto" />
 										</ListGroup.Item>
 									))}
 								</ListGroup>
 							</Card>
-							// <Card className="shadow-sm mb-3">
-							// 	<ListGroup variant="flush">
-							// 		{Object.entries(data).map(([date, items]: [string, unknown], index) => (
-							// 			<Card key={index} className="_shadow-sm mb-3">
-							// 				<Card.Header>{date}</Card.Header>
-							// 				<ListGroup variant="flush">
-							// 					{(items as Record<string, string>[]).map((item: Record<string, string>, itemIndex: number) => (
-							// 						<ListGroup.Item key={itemIndex} as={Link} to={`${item.den_no}`} className="d-flex" action>
-							// 							<span>{item.den_no}</span>
-							// 							<i className="bi bi-chevron-right ms-auto" />
-							// 						</ListGroup.Item>
-							// 					))}
-							// 				</ListGroup>
-							// 			</Card>
-							// 		))}
-							// 	</ListGroup>
-							// </Card>
-						);
+						)
+					);
 
-						return (
-							<>
-								<div id="list-header" className="text-end mb-2">
-									<span className="me-1">count:</span>
-									<span>{data.length}</span>
-								</div>
-								<div id="list-body">{contentLists_hacyu}</div>
-							</>
-						);
-					}}
-				/>
-			}
-		/>
+					return (
+						<>
+							<div id="list-header" className="text-end mb-2">
+								<span className="me-1">count:</span>
+								<span>{hacyu_list.length}</span>
+							</div>
+							<div id="list-body">{contentLists_hacyu}</div>
+						</>
+					);
+				}}
+			</Await>
+		</Suspense>
 	);
 }

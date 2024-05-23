@@ -1,5 +1,16 @@
 import { useEffect, useState } from "react";
-import { useActionData, useFetchers, useFetcher, useLoaderData, useMatches, useNavigation, useRevalidator, useRouteError, useRouteLoaderData, useSubmit } from "react-router-dom";
+import {
+	useActionData,
+	useFetchers,
+	useFetcher,
+	useLoaderData,
+	useMatches,
+	useNavigation,
+	useRevalidator,
+	useRouteError,
+	useRouteLoaderData,
+	useSubmit,
+} from "react-router-dom";
 import { FormType } from "../components/createForm.tsx";
 import { IsAuthenticated, UserName } from "../provides/auth.ts";
 import { Link } from "../routes/_index.tsx";
@@ -19,7 +30,9 @@ export function useProgressNav() {
 	return {
 		navigation: useNavigation(),
 		revalidator: useRevalidator(),
-		fetcherInProgress: fetchers.some((f) => ["loading", "submitting"].includes(f.state)),
+		fetcherInProgress: fetchers.some((f) =>
+			["loading", "submitting"].includes(f.state)
+		),
 		isDebugMode,
 	};
 }
@@ -37,7 +50,8 @@ export function useRootPage() {
 	};
 	const fetcher = useFetcher();
 	const index_link = links.find((link) => link.kbn === "index");
-	const allrightsreserved = "© " + new Date().getFullYear() + " - All rights reserved";
+	const allrightsreserved =
+		"© " + new Date().getFullYear() + " - All rights reserved";
 
 	return {
 		user,
@@ -194,12 +208,18 @@ export function useHinDetailPage() {
  * useProtectedNyusyukoPage
  * @returns
  */
+type Item = {
+	den_no: string;
+	[key: string]: string;
+};
+
 export function useProtectedNyusyukoPage() {
 	const { searchies, searchParams, forms, data } = useLoaderData() as {
 		searchies: Record<string, string>[];
 		searchParams: Record<string, string>;
 		forms: FormType[];
-		data: Record<string, string>[];
+		// data: Record<string, string>[];
+		data: Record<string, Item[]>;
 	};
 	const { user } = useRouteLoaderData("root") as {
 		user: string | null;
@@ -236,17 +256,18 @@ export function useProtectedNyusyukoPage() {
  * @returns
  */
 export function useProtectedCartPage() {
-	const { data, searchParams, forms, searchies, message } = useLoaderData() as {
-		data: {
-			head: Record<string, string>;
-			details: Record<string, string>[];
-			nonyus: Record<string, string>[];
+	const { data, searchParams, forms, searchies, message } =
+		useLoaderData() as {
+			data: {
+				head: Record<string, string>;
+				details: Record<string, string>[];
+				nonyus: Record<string, string>[];
+			};
+			searchParams: Record<string, string>;
+			forms: FormType[];
+			searchies: Record<string, string>[];
+			message: string;
 		};
-		searchParams: Record<string, string>;
-		forms: FormType[];
-		searchies: Record<string, string>[];
-		message: string;
-	};
 
 	const [query, setQuery] = useState<Record<string, string>>({
 		...(searchParams ?? {}),
@@ -270,7 +291,9 @@ export function useProtectedCartPage() {
 		submit: useSubmit(),
 		isSearching: navigation.formData?.get("keyword") != null,
 		isLoading: navigation.state === "loading",
-		fetcherInProgress: fetchers.some((f) => ["loading", "submitting"].includes(f.state)),
+		fetcherInProgress: fetchers.some((f) =>
+			["loading", "submitting"].includes(f.state)
+		),
 	};
 }
 
@@ -279,13 +302,14 @@ export function useProtectedCartPage() {
  * @returns
  */
 export function useProtectedMypagePage() {
-	const { data, searchParams, forms, searchies, message } = useLoaderData() as {
-		data: Record<string, string>[];
-		searchParams: Record<string, string>;
-		forms: FormType[];
-		searchies: Record<string, string>[];
-		message: string;
-	};
+	const { data, searchParams, forms, searchies, message } =
+		useLoaderData() as {
+			data: Record<string, string>[];
+			searchParams: Record<string, string>;
+			forms: FormType[];
+			searchies: Record<string, string>[];
+			message: string;
+		};
 
 	const [query, setQuery] = useState<Record<string, string>>({
 		...(searchParams ?? {}),
@@ -309,7 +333,9 @@ export function useProtectedMypagePage() {
 		submit: useSubmit(),
 		isSearching: navigation.formData?.get("keyword") != null,
 		isLoading: navigation.state === "loading",
-		fetcherInProgress: fetchers.some((f) => ["loading", "submitting"].includes(f.state)),
+		fetcherInProgress: fetchers.some((f) =>
+			["loading", "submitting"].includes(f.state)
+		),
 		type: "mypage",
 	};
 }
@@ -319,13 +345,14 @@ export function useProtectedMypagePage() {
  * @returns
  */
 export function useProtectedAlbumsPage() {
-	const { data, searchParams, forms, searchies, message } = useLoaderData() as {
-		data: Record<string, string>[];
-		searchParams: Record<string, string>;
-		forms: FormType[];
-		searchies: Record<string, string>[];
-		message: string;
-	};
+	const { data, searchParams, forms, searchies, message } =
+		useLoaderData() as {
+			data: Record<string, string>[];
+			searchParams: Record<string, string>;
+			forms: FormType[];
+			searchies: Record<string, string>[];
+			message: string;
+		};
 
 	const [query, setQuery] = useState<Record<string, string>>({
 		...(searchParams ?? {}),
@@ -358,13 +385,14 @@ export function useProtectedAlbumsPage() {
  * @returns
  */
 export function useCommentsPage() {
-	const { data, searchParams, forms, searchies, message } = useLoaderData() as {
-		data: Record<string, string>[];
-		searchParams: Record<string, string>;
-		forms: FormType[];
-		searchies: Record<string, string>[];
-		message: string;
-	};
+	const { data, searchParams, forms, searchies, message } =
+		useLoaderData() as {
+			data: Record<string, string>[];
+			searchParams: Record<string, string>;
+			forms: FormType[];
+			searchies: Record<string, string>[];
+			message: string;
+		};
 
 	const [query, setQuery] = useState<Record<string, string>>({
 		...searchParams,
