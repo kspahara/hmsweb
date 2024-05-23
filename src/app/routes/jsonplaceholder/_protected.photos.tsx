@@ -3,13 +3,13 @@ import { ProtectedPhotosPage } from "../../pages/jsonplaceholder/_protected.phot
 import { authProvider } from "../../provides/auth.ts";
 
 const clientLoader = async () => {
-	const isAuth = authProvider.isAuthenticated;
+  const isAuth = authProvider.isAuthenticated;
 
-	return isAuth ? { data: await getPhotos() } : null;
+  return isAuth ? { data: await getPhotos() } : null;
 };
 
 export function ProtectedPhotosRoute(): JSX.Element {
-	return <ProtectedPhotosPage />;
+  return <ProtectedPhotosPage />;
 }
 
 ProtectedPhotosRoute.loader = clientLoader;

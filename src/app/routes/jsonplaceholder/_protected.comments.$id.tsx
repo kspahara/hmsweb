@@ -10,71 +10,71 @@ import { getLocationPath } from "../../libs/libs.ts";
 const route_name = "ProtectedCommentsIdRoute";
 
 const getForms = async (): Promise<FormType[]> => {
-	return [
-		{
-			type: "number",
-			controlId: "id",
-			name: "id",
-			label: "Id:",
-			placeholder: "Id",
-			disabled: true,
-			readOnly: true,
-			plaintext: true,
-		},
-		{
-			type: "text",
-			controlId: "name",
-			name: "name",
-			label: "Name:",
-			placeholder: "Name",
-		},
-		{
-			type: "text",
-			controlId: "email",
-			name: "email",
-			label: "Email:",
-			placeholder: "Email",
-		},
-		{
-			type: "text",
-			controlId: "body",
-			name: "body",
-			label: "Body:",
-			placeholder: "Body",
-		},
-		{
-			as: "select",
-			controlId: "postId",
-			name: "postId",
-			label: "PostId:",
-			placeholder: "Select Post",
-			ariaLabel: "PostId",
-			optionKey: { key: "id", value: "title" },
-		},
-	];
+  return [
+    {
+      type: "number",
+      controlId: "id",
+      name: "id",
+      label: "Id:",
+      placeholder: "Id",
+      disabled: true,
+      readOnly: true,
+      plaintext: true,
+    },
+    {
+      type: "text",
+      controlId: "name",
+      name: "name",
+      label: "Name:",
+      placeholder: "Name",
+    },
+    {
+      type: "text",
+      controlId: "email",
+      name: "email",
+      label: "Email:",
+      placeholder: "Email",
+    },
+    {
+      type: "text",
+      controlId: "body",
+      name: "body",
+      label: "Body:",
+      placeholder: "Body",
+    },
+    {
+      as: "select",
+      controlId: "postId",
+      name: "postId",
+      label: "PostId:",
+      placeholder: "Select Post",
+      ariaLabel: "PostId",
+      optionKey: { key: "id", value: "title" },
+    },
+  ];
 };
 
 const clientLoader = async ({ params }: LoaderFunctionArgs) => {
-	if (!authProvider.isAuthenticated) return console.log(`${route_name} !isAuth`), false;
+  if (!authProvider.isAuthenticated) return console.log(`${route_name} !isAuth`), false;
 
-	const [data, forms, searchies] = await Promise.all([getCommentsDetail(params.id || ""), getForms(), getPostDetailCond()]);
+  const [data, forms, searchies] = await Promise.all([getCommentsDetail(params.id || ""), getForms(), getPostDetailCond()]);
 
-	return {
-		data,
-		forms,
-		searchies,
-		message: route_name,
-	};
+  return {
+    data,
+    forms,
+    searchies,
+    message: route_name,
+  };
 };
 
 const handle = {
-	crumb: (match: Match<{ name: string }>): JSX.Element => (
-		<CrumbItem props={{ linkProps: { to: `${match.pathname}` }, active: getLocationPath() === match.pathname }} label={<>{match.data.data.name}</>} />
-	),
+  crumb: (match: Match<{ name: string }>): JSX.Element => (
+    <CrumbItem props={{ linkProps: { to: `${match.pathname}` }, active: getLocationPath() === match.pathname }} label={<>{match.data.data.name}</>} />
+  ),
 };
 
 export function ProtectedCommentsIdRoute(): JSX.Element {
-	return <ProtectedCommentsIdPage />;
+  return <ProtectedCommentsIdPage />;
 }
 
 ProtectedCommentsIdRoute.loader = clientLoader;

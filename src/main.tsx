@@ -6,7 +6,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import "./app/assets/index.css";
 
 createRoot(document.getElementById("root")!).render(
-	<StrictMode>
-		<App />
-	</StrictMode>
+  <StrictMode>
+    <App />
+  </StrictMode>
 );

@@ -3,13 +3,13 @@ import { ProtectedTodosPage } from "../../pages/jsonplaceholder/_protected.todos
 import { authProvider } from "../../provides/auth.ts";
 
 const clientLoader = async () => {
-	const isAuth = authProvider.isAuthenticated;
+  const isAuth = authProvider.isAuthenticated;
 
-	return isAuth ? { data: await getTodos() } : null;
+  return isAuth ? { data: await getTodos() } : null;
 };
 
 export function ProtectedTodosRoute(): JSX.Element {
-	return <ProtectedTodosPage />;
+  return <ProtectedTodosPage />;
 }
 
 ProtectedTodosRoute.loader = clientLoader;

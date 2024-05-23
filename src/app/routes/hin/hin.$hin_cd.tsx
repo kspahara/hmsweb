@@ -5,15 +5,15 @@ import { HinDetailPage } from "../../pages/hin/hin.$hin_cd.tsx";
 import { getLocationPath } from "../../libs/libs.ts";
 
 const clientLoader = async ({ params }: LoaderFunctionArgs) => {
-	return {
-		data: await getHinDetail(params.hin_cd),
-	};
+  return {
+    data: await getHinDetail(params.hin_cd),
+  };
 };
 
 const handle = {
-	crumb: (match: Match<{ results: { hin_nm: string }[] }>): JSX.Element => (
-		<CrumbItem props={{ linkProps: { to: `${match.pathname}` }, active: getLocationPath() === match.pathname }} label={<>{match.data.data.results[0].hin_nm}</>} />
-	),
+  crumb: (match: Match<{ results: { hin_nm: string }[] }>): JSX.Element => (
+    <CrumbItem props={{ linkProps: { to: `${match.pathname}` }, active: getLocationPath() === match.pathname }} label={<>{match.data.data.results[0].hin_nm}</>} />
+  ),
 };
 
 /**
@@ -21,7 +21,7 @@ const handle = {
  * @returns
  */
 export function HinDetailRoute(): JSX.Element {
-	return <HinDetailPage />;
+  return <HinDetailPage />;
 }
 
 HinDetailRoute.loader = clientLoader;

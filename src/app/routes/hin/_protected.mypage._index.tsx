@@ -8,33 +8,33 @@ const route_name = "ProtectedMypageRoute";
 
 // TODO
 const getForms = async (): Promise<FormType[]> => {
-	return [
-		{
-			type: "date",
-			controlId: "ymd_fr",
-			name: "ymd_fr",
-			label: "処理日:",
-			placeholder: "処理日",
-		},
-	];
+  return [
+    {
+      type: "date",
+      controlId: "ymd_fr",
+      name: "ymd_fr",
+      label: "処理日:",
+      placeholder: "処理日",
+    },
+  ];
 };
 
 const clientLoader = async ({ request }: LoaderFunctionArgs) => {
-	if (!authProvider.isAuthenticated) return console.log(`${route_name} !isAuth false`), false;
+  if (!authProvider.isAuthenticated) return console.log(`${route_name} !isAuth false`), false;
 
-	const search_params = new URL(request.url).searchParams;
+  const search_params = new URL(request.url).searchParams;
 
-	return defer({
-		data: getMypage(search_params),
-		searchParams: Object.fromEntries(search_params.entries()),
-		forms: await getForms(),
-		searchies: [],
-		message: route_name,
-	});
+  return defer({
+    data: getMypage(search_params),
+    searchParams: Object.fromEntries(search_params.entries()),
+    forms: await getForms(),
+    searchies: [],
+    message: route_name,
+  });
 };
 
 export function ProtectedMypageRoute(): JSX.Element {
-	return <ProtectedMypagePage />;
+  return <ProtectedMypagePage />;
 }
 
 ProtectedMypageRoute.loader = clientLoader;

@@ -9,27 +9,27 @@ const apiUrl = import.meta.env.VITE_API_URL;
  * @returns
  */
 export async function getMypage(searchParams: URLSearchParams): Promise<[]> {
-	const params_entry = Object.fromEntries(searchParams.entries());
-	const url = `${apiUrl}/get-tokui-tor-rireki.php`;
-	const param: RequestInit = {
-		method: "POST",
-		mode: "cors",
-		credentials: "same-origin",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify({
-			tok_cd: authProvider.usercd,
-			token_id: authProvider.token_id,
-			ymd_fr: params_entry.ymd_fr ? params_entry.ymd_fr.replace(/-/g, "") : "",//TODO
-			limit: params_entry.limit,
-			// ...params_entry,
-		}),
-	};
-	const res = await fetch(url, param);
-	const data = await handleResponse(res);
+  const params_entry = Object.fromEntries(searchParams.entries());
+  const url = `${apiUrl}/get-tokui-tor-rireki.php`;
+  const param: RequestInit = {
+    method: "POST",
+    mode: "cors",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      tok_cd: authProvider.usercd,
+      token_id: authProvider.token_id,
+      ymd_fr: params_entry.ymd_fr ? params_entry.ymd_fr.replace(/-/g, "") : "", //TODO
+      limit: params_entry.limit,
+      // ...params_entry,
+    }),
+  };
+  const res = await fetch(url, param);
+  const data = await handleResponse(res);
 
-	return data.results;
+  return data.results;
 }
 
 /**
@@ -38,22 +38,22 @@ export async function getMypage(searchParams: URLSearchParams): Promise<[]> {
  * @returns
  */
 export async function getDenDetail(den_no: string): Promise<[]> {
-	const url = `${apiUrl}/get-uri.php`;
-	const param: RequestInit = {
-		method: "POST",
-		mode: "cors",
-		credentials: "same-origin",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify({
-			tok_cd: authProvider.usercd,
-			token_id: authProvider.token_id,
-			den_no: den_no,
-		}),
-	};
-	const res = await fetch(url, param);
-	const data = await handleResponse(res);
+  const url = `${apiUrl}/get-uri.php`;
+  const param: RequestInit = {
+    method: "POST",
+    mode: "cors",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      tok_cd: authProvider.usercd,
+      token_id: authProvider.token_id,
+      den_no: den_no,
+    }),
+  };
+  const res = await fetch(url, param);
+  const data = await handleResponse(res);
 
-	return data.results;
+  return data.results;
 }

@@ -1,9 +1,9 @@
 import { PublicPage } from "../pages/public.tsx";
 
 const clientLoader = () => {
-	return {
-		message: "Public Page",
-	};
+  return {
+    message: "Public Page",
+  };
 };
 
 /**
@@ -11,7 +11,7 @@ const clientLoader = () => {
  * @returns
  */
 export function PublicRoute(): JSX.Element {
-	return <PublicPage />;
+  return <PublicPage />;
 }
 
 PublicRoute.loader = clientLoader;

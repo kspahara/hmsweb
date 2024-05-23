@@ -9,42 +9,42 @@ const route_name = "ProtectedAlbumsRoute";
 
 // TODO
 const getForms = async (): Promise<FormType[]> => {
-	return [
-		{
-			type: "search",
-			controlId: "title",
-			name: "title",
-			label: "Title:",
-			placeholder: "Title",
-		},
-		{
-			as: "select",
-			controlId: "userId",
-			name: "userId",
-			label: "UserId:",
-			placeholder: "Select UserId",
-			ariaLabel: "UserId",
-			optionKey: { key: "id", value: "name" },
-		},
-	];
+  return [
+    {
+      type: "search",
+      controlId: "title",
+      name: "title",
+      label: "Title:",
+      placeholder: "Title",
+    },
+    {
+      as: "select",
+      controlId: "userId",
+      name: "userId",
+      label: "UserId:",
+      placeholder: "Select UserId",
+      ariaLabel: "UserId",
+      optionKey: { key: "id", value: "name" },
+    },
+  ];
 };
 
 const clientLoader = async ({ request }: LoaderFunctionArgs) => {
-	if (!authProvider.isAuthenticated) return console.log(`${route_name} !isAuth false`), false;
+  if (!authProvider.isAuthenticated) return console.log(`${route_name} !isAuth false`), false;
 
-	const search_params = new URL(request.url).searchParams;
+  const search_params = new URL(request.url).searchParams;
 
-	return defer({
-		data: getAlbums(search_params),
-		searchParams: Object.fromEntries(search_params.entries()),
-		forms: await getForms(),
-		searchies: getUsersCond(),
-		message: route_name,
-	});
+  return defer({
+    data: getAlbums(search_params),
+    searchParams: Object.fromEntries(search_params.entries()),
+    forms: await getForms(),
+    searchies: getUsersCond(),
+    message: route_name,
+  });
 };
 
 export function ProtectedAlbumsRoute(): JSX.Element {
-	return <ProtectedAlbumsPage />;
+  return <ProtectedAlbumsPage />;
 }
 
 ProtectedAlbumsRoute.loader = clientLoader;

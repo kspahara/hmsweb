@@ -8,42 +8,42 @@ import { getPostsCond } from "../../data/jsonplaceholder/posts.ts";
 const route_name = "ProtectedCommentsRoute";
 
 const getForms = async (): Promise<FormType[]> => {
-	return [
-		{
-			type: "search",
-			controlId: "name",
-			name: "name",
-			label: "Name:",
-			placeholder: "Name",
-		},
-		{
-			as: "select",
-			controlId: "postId",
-			name: "postId",
-			label: "Post:",
-			placeholder: "Select Post",
-			ariaLabel: "PostId",
-			optionKey: { key: "id", value: "title" },
-		},
-	];
+  return [
+    {
+      type: "search",
+      controlId: "name",
+      name: "name",
+      label: "Name:",
+      placeholder: "Name",
+    },
+    {
+      as: "select",
+      controlId: "postId",
+      name: "postId",
+      label: "Post:",
+      placeholder: "Select Post",
+      ariaLabel: "PostId",
+      optionKey: { key: "id", value: "title" },
+    },
+  ];
 };
 
 const clientLoader = async ({ request }: LoaderFunctionArgs) => {
-	if (!authProvider.isAuthenticated) return console.log(`${route_name} !isAuth`), false;
+  if (!authProvider.isAuthenticated) return console.log(`${route_name} !isAuth`), false;
 
-	const search_params = new URL(request.url).searchParams;
+  const search_params = new URL(request.url).searchParams;
 
-	return defer({
-		data: getComments(search_params),
-		searchParams: Object.fromEntries(search_params.entries()),
-		forms: await getForms(),
-		searchies: getPostsCond(),
-		message: route_name,
-	});
+  return defer({
+    data: getComments(search_params),
+    searchParams: Object.fromEntries(search_params.entries()),
+    forms: await getForms(),
+    searchies: getPostsCond(),
+    message: route_name,
+  });
 };
 
 export function ProtectedCommentsRoute(): JSX.Element {
-	return <ProtectedCommentsPage />;
+  return <ProtectedCommentsPage />;
 }
 
 ProtectedCommentsRoute.loader = clientLoader;

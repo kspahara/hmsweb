@@ -3,11 +3,11 @@ import { createQueryParams, handleResponse } from "../../libs/libs.ts";
 const apiUrl = import.meta.env.VITE_TEST_API_URL;
 
 export type Comment = {
-	postId: number;
-	id: number;
-	name: string;
-	email: string;
-	body: string;
+  postId: number;
+  id: number;
+  name: string;
+  email: string;
+  body: string;
 };
 
 /**
@@ -16,17 +16,17 @@ export type Comment = {
  * @returns
  */
 export async function getComments(searchParams: URLSearchParams): Promise<Comment[]> {
-	const params = Object.fromEntries(searchParams.entries());
-	const query = await createQueryParams(params);
-	const url = `${apiUrl}/comments?${query}`;
-	const res = await fetch(url);
-	const data = await handleResponse(res);
+  const params = Object.fromEntries(searchParams.entries());
+  const query = await createQueryParams(params);
+  const url = `${apiUrl}/comments?${query}`;
+  const res = await fetch(url);
+  const data = await handleResponse(res);
 
-	// id title に変更
-	return data.map((item: Comment) => ({
-		id: item.id,
-		title: item.name,
-	}));
+  // id title に変更
+  return data.map((item: Comment) => ({
+    id: item.id,
+    title: item.name,
+  }));
 }
 
 /**
@@ -35,9 +35,9 @@ export async function getComments(searchParams: URLSearchParams): Promise<Commen
  * @returns
  */
 export async function getCommentsDetail(id: string): Promise<Comment> {
-	const url = `${apiUrl}/comments/${encodeURIComponent(id)}`;
-	const res = await fetch(url);
-	const data = await handleResponse(res);
+  const url = `${apiUrl}/comments/${encodeURIComponent(id)}`;
+  const res = await fetch(url);
+  const data = await handleResponse(res);
 
-	return data;
+  return data;
 }
