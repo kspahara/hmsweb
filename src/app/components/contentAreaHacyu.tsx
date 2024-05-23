@@ -28,6 +28,7 @@ type Props = {
 	type?: string;
 };
 
+	
 const Error = () => {
 	const error = useAsyncError() as Error;
 	const value = useAsyncValue();
