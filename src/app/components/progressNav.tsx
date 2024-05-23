@@ -1,4 +1,5 @@
 import { useProgressNav } from "../hooks/hooks.ts";
+import { authProvider } from "../provides/auth.ts";
 
 /**
  * ProgressNav
@@ -15,12 +16,13 @@ export function ProgressNav(): JSX.Element | null {
         {fetcherInProgress && <small>Fetcher in progress...</small>}
         {/* localstrage */}
         <small className="text-muted">
-          <div>{`isAuthenticated: ${localStorage.getItem("isAuthenticated")} `}</div>
-          <div>{`usercd: ${localStorage.getItem("usercd")} `}</div>
-          <div>{`username: ${localStorage.getItem("username")} `}</div>
-          <div>{`user_kind: ${localStorage.getItem("user_kind")} `}</div>
-          <div>{`token_id: ${localStorage.getItem("token_id")} `}</div>
-          <div>{`session_id: ${localStorage.getItem("session_id")} `}</div>
+          <div>{`isAuthenticated: ${authProvider.isAuthenticated}`}</div>
+          <div>{`user_cd: ${authProvider.user_cd}`}</div>
+          <div>{`user_name: ${authProvider.user_name}`}</div>
+          <div>{`user_kind: ${authProvider.user_kind}`}</div>
+          <div>{`token_id: ${authProvider.token_id}`}</div>
+          <div>{`session_id: ${authProvider.session_id}`}</div>
+          <div>{`tok_cd: ${authProvider.tok_cd}`}</div>
         </small>
       </fieldset>
     </>

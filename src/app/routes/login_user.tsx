@@ -59,7 +59,7 @@ const clientAction = async ({ request }: ActionFunctionArgs) => {
   // サインインを行う
   const signInUser = async (email: string, password: string) => {
     try {
-      await authProvider.signinUser(email, password);
+      await authProvider.signInUser(email, password);
       return null;
     } catch (error) {
       return {
@@ -71,6 +71,7 @@ const clientAction = async ({ request }: ActionFunctionArgs) => {
   const redirectTo = (redirectTo: string) => {
     console.log("LoginRoute redirectTo", redirectTo);
 
+    // return redirectTo === "/" ? redirect("/mypage_admin") : redirect(redirectTo || "/");
     return redirectTo === "/" ? redirect("/mypage") : redirect(redirectTo || "/");
   };
 

@@ -64,7 +64,7 @@ const clientAction = async ({ params, request }: LoaderFunctionArgs) => {
     userId: body.get("userId"),
   });
 
-  return redirect(`${params.id}`);
+  return redirect(`../${params.id}`);
 };
 
 const handle = {

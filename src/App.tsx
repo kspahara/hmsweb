@@ -159,6 +159,41 @@ const router = [
                   };
                 },
               },
+              {
+                path: "mypage_admin",
+                async lazy() {
+                  const { ProtectedMypageAdminRoute } = await import("./app/routes/hin/_protected.mypage_admin._index.tsx");
+                  return {
+                    loader: ProtectedMypageAdminRoute.loader,
+                    action: ProtectedMypageAdminRoute.action,
+                    element: <ProtectedMypageAdminRoute />,
+                  };
+                },
+              },
+              // {
+              //   id: "protected-mypage_admin-layout",
+              //   path: "mypage_admin",
+              //   async lazy() {
+              //     const { handle } = await import("./app/routes/hin/_protected.mypage_admin.tsx");
+              //     return {
+              //       handle: handle,
+              //     };
+              //   },
+              //   errorElement: <ErrorPage />,
+              //   children: [
+              //     {
+              //       index: true,
+              //       async lazy() {
+              //         const { ProtectedMypageAdminRoute } = await import("./app/routes/hin/_protected.mypage_admin._index.tsx");
+              //         return {
+              //           loader: ProtectedMypageAdminRoute.loader,
+              //           action: ProtectedMypageAdminRoute.action,
+              //           element: <ProtectedMypageAdminRoute />,
+              //         };
+              //       },
+              //     },
+              //   ],
+              // },
             ],
           },
           {
@@ -309,6 +344,15 @@ const router = [
         path: "logout_user",
         async lazy() {
           const { clientAction } = await import("./app/routes/logout_user.tsx");
+          return {
+            action: clientAction,
+          };
+        },
+      },
+      {
+        path: "remove_tok_cd",
+        async lazy() {
+          const { clientAction } = await import("./app/routes/hin/remove_tok_cd.tsx");
           return {
             action: clientAction,
           };

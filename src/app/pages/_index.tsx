@@ -1,10 +1,26 @@
-import { NavLink, Outlet, ScrollRestoration } from "react-router-dom";
-import { Button, Form, Container, Navbar, Nav, NavDropdown } from "react-bootstrap";
+import { Suspense } from "react";
+import { Await, NavLink, Outlet, ScrollRestoration, useAsyncError, useAsyncValue } from "react-router-dom";
+import { Button, Form, Container, Navbar, Nav, NavDropdown, Alert } from "react-bootstrap";
 import { ProgressNav } from "../components/progressNav.tsx";
 import { Breadcrumbs } from "../components/breadcrumbs.tsx";
 import { ReturnTopBtn } from "../components/returnTopBtn.tsx";
-import { useRootPage } from "../hooks/hooks.ts";
 import { CartSummary } from "../components/CartSummary.tsx";
+import { Fallback } from "../components/fallback.tsx";
+import { useRootPage } from "../hooks/hooks.ts";
+
+const Error = () => {
+  const error = useAsyncError() as Error;
+  const value = useAsyncValue();
+  console.log("error", error);
+  console.log("value", value);
+
+  return (
+    <Alert variant="danger">
+      <i className="bi bi-exclamation-triangle-fill me-1" />
+      {error.name} : {error.message}
+    </Alert>
+  );
+};
 
 /**
  * HeaderNavigation
@@ -52,6 +68,7 @@ function HeaderNavigation(): JSX.Element {
                   .map((link, idx: number) => (
                     <Nav.Link key={idx} as={NavLink} to={link.href}>
                       {link.label}
+                      <i className="bi bi-arrow-right ms-1" />
                     </Nav.Link>
                   ))}
                 {links
@@ -59,6 +76,7 @@ function HeaderNavigation(): JSX.Element {
                   .map((link, idx: number) => (
                     <Nav.Link key={idx} as={NavLink} to={link.href}>
                       {link.label}
+                      <i className="bi bi-arrow-right ms-1" />
                     </Nav.Link>
                   ))}
               </Nav>
@@ -70,7 +88,10 @@ function HeaderNavigation(): JSX.Element {
                 </Navbar.Text>
                 <Nav variant="underline" className="me-2">
                   <Nav.Link as={NavLink} to={"/cart"}>
-                    <CartSummary data={cart_data} />
+                    <Suspense
+                      fallback={<Fallback />}
+                      children={<Await resolve={cart_data} errorElement={<Error />} children={(cart_data) => <CartSummary data={cart_data} />} />}
+                    />
                   </Nav.Link>
                   <Nav.Link as={NavLink} to={"/mypage"}>
                     Mypage

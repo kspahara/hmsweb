@@ -16,7 +16,6 @@ type Props = {
   user?: string | null;
   noImage?: string;
   type?: string;
-  fetcherInProgress?: boolean;
 };
 
 const Error = () => {
@@ -39,10 +38,11 @@ const Error = () => {
  * @returns
  */
 export function ContentArea(props: Props): JSX.Element {
-  const { data, user, noImage, type, fetcherInProgress } = props;
+  const { data, user, noImage, type } = props;
   // const submit = useSubmit();
   const fetcher = useFetcher();
   const FeacherForm = fetcher.Form;
+  const isFeaching = fetcher.state === "loading";
 
   return (
     <Suspense
@@ -52,6 +52,24 @@ export function ContentArea(props: Props): JSX.Element {
           resolve={data}
           errorElement={<Error />}
           children={(data: Record<string, string>[]) => {
+            const contentAdminLists = (
+              <Card className="shadow-sm mb-3">
+                <ListGroup variant="flush">
+                  {data.map((item, index) => (
+                    <ListGroup.Item key={index} className="d-flex align-items-center">
+                      {item.id}
+                      <span className="mx-1">:</span>
+                      {item.title}
+                      <Button type="submit" size="sm" name="tok_cd" value={item.id} variant="primary" className="ms-auto text-nowrap">
+                        <i className="bi bi-pencil-fill me-1" />
+                        編集
+                      </Button>
+                    </ListGroup.Item>
+                  ))}
+                </ListGroup>
+              </Card>
+            );
+
             const contentListsHin = (
               <Card className="shadow-sm mb-3">
                 <ListGroup variant="flush">
@@ -108,33 +126,49 @@ export function ContentArea(props: Props): JSX.Element {
                         <Card.Footer className="p-2 bg-transparent">
                           <div className="d-grid">
                             <Form as={FeacherForm} method="post" name="form_favorite">
-                              <Button
-                                type="submit"
-                                name="hin_attr_cd"
-                                value={post.hin_attr_cd === "1" ? "0" : "1"}
-                                variant={post.hin_attr_cd === "1" ? "warning" : "secondary"}
-                                aria-label={post.hin_attr_cd === "1" ? "お気に入りを外す" : "お気に入りに追加"}
-                                className="btn btn-sm lh-sm mb-2 w-100"
-                              >
-                                <i className="bi bi-star-fill me-1" />
-                                {fetcherInProgress ? "処理中" : post.hin_attr_cd === "1" ? "お気に入りを外す" : "お気に入りに追加"}
-                              </Button>
-                              <input type="hidden" name="form_type" value="favorite" />
-                              <input type="hidden" name="hin_cd" value={post.hin_cd} />
+                              <fieldset disabled={isFeaching}>
+                                <Button
+                                  type="submit"
+                                  name="hin_attr_cd"
+                                  value={post.hin_attr_cd === "1" ? "0" : "1"}
+                                  variant={post.hin_attr_cd === "1" ? "warning" : "secondary"}
+                                  aria-label={post.hin_attr_cd === "1" ? "お気に入りを外す" : "お気に入りに追加"}
+                                  className="btn btn-sm lh-sm mb-2 w-100"
+                                >
+                                  {isFeaching ? (
+                                    <Fallback variant={post.hin_attr_cd === "1" ? "dark" : "light"} />
+                                  ) : (
+                                    <>
+                                      <i className="bi bi-star-fill me-1" />
+                                      {post.hin_attr_cd === "1" ? "お気に入りを外す" : "お気に入りに追加"}
+                                    </>
+                                  )}
+                                </Button>
+                                <input type="hidden" name="form_type" value="favorite" />
+                                <input type="hidden" name="hin_cd" value={post.hin_cd} />
+                              </fieldset>
                             </Form>
                             <Form as={FeacherForm} method="post" name="form_cart">
-                              <InputGroup>
-                                <FloatingLabel controlId={`suryo${index}`} label="数量">
-                                  <Form.Control type="number" name="suryo" placeholder="数量を入力してください" defaultValue={1} className="text-end" />
-                                </FloatingLabel>
-                                <Button type="submit" name="hin_cd" value={post.hin_cd} variant="primary" className="lh-sm">
-                                  <div>
-                                    <small className="">カートに入れる</small>
-                                  </div>
-                                  <i className="bi bi-cart-plus-fill" />
-                                </Button>
-                              </InputGroup>
-                              <input type="hidden" name="form_type" value="cart" />
+                              <fieldset disabled={isFeaching}>
+                                <InputGroup>
+                                  <FloatingLabel controlId={`suryo${index}`} label="数量">
+                                    <Form.Control type="number" name="suryo" placeholder="数量を入力してください" defaultValue={1} className="text-end" />
+                                  </FloatingLabel>
+                                  <Button type="submit" name="hin_cd" value={post.hin_cd} variant="primary" className="lh-sm">
+                                    {isFeaching ? (
+                                      <Fallback variant="light" />
+                                    ) : (
+                                      <>
+                                        <div>
+                                          <small className="">カートに入れる</small>
+                                        </div>
+                                        <i className="bi bi-cart-plus-fill" />
+                                      </>
+                                    )}
+                                  </Button>
+                                </InputGroup>
+                                <input type="hidden" name="form_type" value="cart" />
+                              </fieldset>
                             </Form>
                           </div>
                         </Card.Footer>
@@ -151,7 +185,7 @@ export function ContentArea(props: Props): JSX.Element {
                   <span className="me-1">count:</span>
                   <span>{data.length}</span>
                 </div>
-                <div id="list-body">{type === "list" ? contentLists : type === "mypage" ? contentListsHin : contentCards}</div>
+                <div id="list-body">{type === "list" ? contentLists : type === "mypage" ? contentListsHin : type === "Adminlist" ? contentAdminLists : contentCards}</div>
               </>
             );
           }}

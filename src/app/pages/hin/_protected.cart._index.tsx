@@ -1,13 +1,15 @@
 import { Card, FloatingLabel, Form, ListGroup, Button, Alert } from "react-bootstrap";
 import { useProtectedCartPage } from "../../hooks/hooks.ts";
 import { parseInttoStr } from "../../libs/libs.ts";
+import { BackBtn } from "../../components/BackBtn.tsx";
+import { Fallback } from "../../components/fallback.tsx";
 
 /**
  *
  * @returns
  */
 export function ProtectedCartPage(): JSX.Element {
-  const { data, message, FeacherForm } = useProtectedCartPage();
+  const { data, message, FeacherForm, isFeaching } = useProtectedCartPage();
 
   return (
     <>
@@ -15,6 +17,9 @@ export function ProtectedCartPage(): JSX.Element {
         <header>
           <h1 className="h2">{message}</h1>
           <p>Protected Cart</p>
+          <nav className="mb-3">
+            <BackBtn label="Back" />
+          </nav>
         </header>
         <hr />
         <section>
@@ -33,7 +38,7 @@ export function ProtectedCartPage(): JSX.Element {
                       </ListGroup.Item>
                     ) : (
                       data.details.map((item, index) => (
-                        <ListGroup.Item key={index}>
+                        <ListGroup.Item key={index} className="d-flex">
                           <dl>
                             <dt>row_no</dt>
                             <dd>{item.row_no}</dd>
@@ -63,12 +68,22 @@ export function ProtectedCartPage(): JSX.Element {
                             <dt>zei_rate</dt>
                             <dd>{item.zei_rate}</dd>
                           </dl>
-                          <Form as={FeacherForm} method="post" name="form_cart">
-                            <Button type="submit" name="row_no" value={item.row_no} variant="danger">
-                              <i className="bi bi-trash me-1"></i>
-                              削除
-                            </Button>
-                          </Form>
+                          <div className="ms-auto mt-auto">
+                            <Form as={FeacherForm} method="post" name="form_cart">
+                              <fieldset disabled={isFeaching}>
+                                <Button type="submit" name="row_no" value={item.row_no} variant="danger">
+                                  {isFeaching ? (
+                                    <Fallback variant="light" />
+                                  ) : (
+                                    <>
+                                      <i className="bi bi-trash me-1"></i>
+                                      削除
+                                    </>
+                                  )}
+                                </Button>
+                              </fieldset>
+                            </Form>
+                          </div>
                         </ListGroup.Item>
                       ))
                     )}
@@ -76,12 +91,19 @@ export function ProtectedCartPage(): JSX.Element {
                 </Card>
               </div>
               <div className="col-sm-3">
-                <Card body className="shadow-sm mb-3">
-                  <Card.Text as={"dl"}>
-                    <dt>zeinuki_gaku</dt>
-                    <dd>&yen;{parseInttoStr(data.head.zeinuki_gaku)}</dd>
-                  </Card.Text>
-                </Card>
+                <div className="sticky-top" style={{ top: "5rem" }}>
+                  <Card body className="shadow-sm mb-3">
+                    <Card.Text as={"dl"}>
+                      <dt>zeinuki_gaku</dt>
+                      <dd>&yen;{parseInttoStr(data.head.zeinuki_gaku)}</dd>
+                    </Card.Text>
+                    <hr />
+                    <Button type="submit" variant="primary" className="w-100">
+                      <i className="bi bi-cart-plus-fill me-1"></i>
+                      注文する
+                    </Button>
+                  </Card>
+                </div>
               </div>
             </div>
           </div>

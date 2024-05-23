@@ -140,7 +140,7 @@ export function SearchArea(props: Props): JSX.Element {
                                 variant={button.variant}
                                 checked={query.limit === button.value}
                                 value={button.value}
-                                onChange={(e) => setQuery({ ...query, limit: e.currentTarget.value })}
+                                // onChange={(e) => setQuery({ ...query, limit: e.currentTarget.value })}
                               >
                                 {button.label}
                               </ToggleButton>

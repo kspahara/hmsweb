@@ -2,40 +2,38 @@ import { getAuthUser } from "../data/jsonplaceholder/users.ts";
 import { getLoginTokui } from "../data/hin/login.ts";
 
 export type IsAuthenticated = boolean;
-export type UserCd = string | null;
 export type UserName = string | null;
-export type userKind = string | null;
-export type TokenId = string | null;
-export type SessionId = string | null;
 
 type AuthProvider = {
   isAuthenticated: IsAuthenticated;
-  usercd: UserCd;
-  username: UserName;
-  user_kind: userKind;
-  token_id: TokenId;
-  session_id: SessionId;
-  signin(username: string): Promise<void>;
-  signinUser(email: string, password: string): Promise<void>;
-  signoutUser(): Promise<void>;
-  signout(): Promise<void>;
+  user_cd: string | null;
+  user_name: UserName;
+  user_kind: string | null;
+  token_id: string | null;
+  session_id: string | null;
+  tok_cd: string | null;
+  signIn(user_name: string): Promise<void>;
+  signInUser(email: string, password: string): Promise<void>;
+  signOutUser(): Promise<void>;
+  signOut(): Promise<void>;
+  changeTokui(tok_cd: string): Promise<void>;
 };
 
 /**
- * removeItem
+ * removelocalStorageItem
  * ローカルストレージからアイテムを削除する
  * @param key
  * @returns
  */
-const removeItem = (key: string) => localStorage.removeItem(key);
+const removelocalStorageItem = (key: string) => localStorage.removeItem(key);
 
 /**
- * setItem
+ * setlocalStorageItem
  * ローカルストレージにアイテムを保存する
  * @param key
  * @param value
  */
-const setItem = (key: string, value: string) => localStorage.setItem(key, value);
+const setlocalStorageItem = (key: string, value: string) => localStorage.setItem(key, value);
 
 /**
  * setAuthProvider
@@ -45,95 +43,156 @@ const setItem = (key: string, value: string) => localStorage.setItem(key, value)
 const setAuthProvider = (properties: Partial<typeof authProvider>) => Object.assign(authProvider, properties);
 
 /**
+ * setTokCd
+ * @param tok_cd
+ */
+const setTokCd = (tok_cd: string) => {
+  console.log("setTokCd", tok_cd);
+  // tok_cdが空の場合nullに変換
+  const itemsToSet = [{ key: "tok_cd", value: tok_cd }];
+  const properties = { tok_cd: tok_cd };
+
+  // localStorage に itemsToSet の値を保存する
+  itemsToSet.forEach(({ key, value }) => setlocalStorageItem(key, value));
+  // authProvider のプロパティをpropertiesの値に更新する
+  setAuthProvider(properties);
+};
+
+const removeTokCd = () => {
+  console.log("removeTokCd");
+  // tok_cdを削除
+  removelocalStorageItem("tok_cd");
+  // authProvider のプロパティを更新する
+  setAuthProvider({ tok_cd: null });
+};
+
+/**
  * authProvider
  * 認証情報を管理する
  */
 export const authProvider: AuthProvider = {
   isAuthenticated: localStorage.getItem("isAuthenticated") === "true",
-  usercd: localStorage.getItem("usercd"),
-  username: localStorage.getItem("username"),
+  user_cd: localStorage.getItem("user_cd"),
+  user_name: localStorage.getItem("user_name"),
   user_kind: localStorage.getItem("user_kind"),
   token_id: localStorage.getItem("token_id"),
   session_id: localStorage.getItem("session_id"),
-  async signinUser(email: string, password: string) {
+  tok_cd: localStorage.getItem("tok_cd"),
+
+  /**
+   * signInUser
+   * @param email
+   * @param password
+   * @returns
+   */
+  async signInUser(email: string, password: string) {
     const user = await getLoginTokui(email, password);
 
-    if (user.token_id) {
+    if (user.success === 1) {
       const itemsToSet = [
         { key: "isAuthenticated", value: "true" },
-        { key: "usercd", value: user.tok_cd },
-        { key: "username", value: user.tok_nm },
-        { key: "user_kind", value: user.user_kind },
+        { key: "user_cd", value: user.tok_cd },
+        { key: "user_name", value: user.tok_nm },
+        { key: "user_kind", value: "tok" },
         { key: "token_id", value: user.token_id },
         { key: "session_id", value: user.s_id },
+        { key: "tok_cd", value: null },
       ];
       const properties = {
         isAuthenticated: true,
-        usercd: user.tok_cd,
-        username: user.tok_nm,
+        user_cd: user.tok_cd,
+        user_name: user.tok_nm,
         user_kind: user.user_kind,
         token_id: user.token_id,
         session_id: user.s_id,
+        tok_cd: null,
       };
+
       // localStorage に itemsToSet の値を保存する
-      itemsToSet.forEach(({ key, value }) => setItem(key, value));
+      itemsToSet.forEach(({ key, value }) => setlocalStorageItem(key, value));
       // authProvider のプロパティをpropertiesの値に更新する
       setAuthProvider(properties);
+      // tok_cd を設定する
+      true && setTokCd(user.tok_cd);
 
       return;
     }
     // 認証情報が一致しない場合はエラーを返す
-    return Promise.reject(new Error("Invalid username"));
+    return Promise.reject(new Error("Invalid user_name"));
   },
-  async signoutUser() {
-    const keys = ["isAuthenticated", "usercd", "username", "user_kind", "token_id", "session_id"];
+
+  /**
+   * signOutUser
+   */
+  async signOutUser() {
+    const keys = ["isAuthenticated", "user_cd", "user_name", "user_kind", "token_id", "session_id", "tok_cd"];
     const properties = {
       isAuthenticated: false,
-      usercd: "",
-      username: "",
-      user_kind: "",
-      token_id: "",
-      session_id: "",
+      user_cd: null,
+      user_name: null,
+      user_kind: null,
+      token_id: null,
+      session_id: null,
+      tok_cd: null,
     };
     // localStorage から keys の値を削除する
-    keys.forEach(removeItem);
+    keys.forEach(removelocalStorageItem);
     // authProvider のプロパティをpropertiesの値に更新する
     setAuthProvider(properties);
   },
-  async signin(username: string) {
+
+  /**
+   * signIn
+   * @param user_name
+   * @returns
+   */
+  async signIn(user_name: string) {
     // TODO 一致するユーザーがいるかどうかを確認する
-    const users = await getAuthUser(username);
+    const users = await getAuthUser(user_name);
     // TODO
     const user = users[0];
     // TODO
     if (user.username) {
       const itemsToSet = [
-        { key: "username", value: user.username },
+        { key: "user_name", value: user.username },
         { key: "isAuthenticated", value: "true" },
       ];
       const properties = {
-        username: user.username,
+        user_name: user.username,
         isAuthenticated: true,
       };
       // localStorage に itemsToSet の値を保存する
-      itemsToSet.forEach(({ key, value }) => setItem(key, value));
+      itemsToSet.forEach(({ key, value }) => setlocalStorageItem(key, value));
       // authProvider のプロパティをpropertiesの値に更新する
       setAuthProvider(properties);
 
       return;
     }
     // 認証情報が一致しない場合はエラーを返す
-    return Promise.reject(new Error("Invalid username"));
+    return Promise.reject(new Error("Invalid user_name"));
   },
-  async signout() {
-    const keys = ["username", "isAuthenticated"];
+
+  /**
+   * signOut
+   */
+  async signOut() {
+    const keys = ["user_name", "isAuthenticated"];
     const properties = {
-      username: "",
+      user_name: "",
       isAuthenticated: false,
     };
     // localStorage から keys の値を削除する
-    keys.forEach(removeItem);
+    keys.forEach(removelocalStorageItem);
     // authProvider のプロパティをpropertiesの値に更新する
     setAuthProvider(properties);
+  },
+
+  /**
+   * changeTokui
+   * @param tok_cd
+   */
+  async changeTokui(tok_cd: string) {
+    // tok_cd が空の場合は削除する
+    !tok_cd ? removeTokCd() : setTokCd(tok_cd);
   },
 };

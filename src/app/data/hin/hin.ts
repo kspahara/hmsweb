@@ -47,7 +47,7 @@ export async function getHinList(searchParams: URLSearchParams): Promise<HinList
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      tok_cd: authProvider.usercd,
+      tok_cd: authProvider.tok_cd,
       token_id: authProvider.token_id,
       ...params_entry,
     }),
@@ -73,7 +73,7 @@ export async function getHinDetail(p_hin_cd: Hin["hin_cd"]): Promise<HinList> {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      tok_cd: authProvider.usercd,
+      tok_cd: authProvider.tok_cd,
       token_id: authProvider.token_id,
       hin_cd: p_hin_cd,
     }),
@@ -99,11 +99,11 @@ export async function updateHinFavorite(formData: FormData) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      tok_cd: authProvider.usercd,
+      tok_cd: authProvider.tok_cd,
       token_id: authProvider.token_id,
       hin_cd: formData.get("hin_cd"),
       hin_attr_cd: "1",
-      login_id: authProvider.usercd,
+      login_id: authProvider.tok_cd,
     }),
   };
   const res = await fetch(url, param);
@@ -127,11 +127,11 @@ export async function deleteHinFavorite(formData: FormData) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      tok_cd: authProvider.usercd,
+      tok_cd: authProvider.tok_cd,
       token_id: authProvider.token_id,
       hin_cd: formData.get("hin_cd"),
       hin_attr_cd: "1",
-      login_id: authProvider.usercd,
+      login_id: authProvider.tok_cd,
     }),
   };
   const res = await fetch(url, param);
@@ -156,11 +156,11 @@ export async function updateHinEntryCart(formData: FormData) {
     },
     body: JSON.stringify({
       s_id: authProvider.session_id,
-      tok_cd: authProvider.usercd,
+      tok_cd: authProvider.tok_cd,
       token_id: authProvider.token_id,
       hin_cd: formData.get("hin_cd"),
       suryo: formData.get("suryo"),
-      login_id: authProvider.usercd,
+      login_id: authProvider.tok_cd,
     }),
   };
   const res = await fetch(url, param);
@@ -184,7 +184,7 @@ export async function getCartCount() {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      tok_cd: authProvider.usercd,
+      tok_cd: authProvider.tok_cd,
       token_id: authProvider.token_id,
     }),
   };

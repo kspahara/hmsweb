@@ -81,7 +81,7 @@ export function useLoginUser() {
     forms,
     message,
     actionData: useActionData() as { error: string } | undefined,
-    isLoggingIn: navigation.formData?.get("username") != null,
+    isLoggingIn: navigation.formData?.get("user_name") != null,
     validated,
     setValidated,
   };
@@ -106,7 +106,7 @@ export function useLogin() {
     forms,
     message,
     actionData: useActionData() as { error: string } | undefined,
-    isLoggingIn: navigation.formData?.get("username") != null,
+    isLoggingIn: navigation.formData?.get("user_name") != null,
     validated,
     setValidated,
   };
@@ -272,6 +272,47 @@ export function useProtectedCartPage() {
     data,
     message,
     FeacherForm,
+    isFeaching: fetcher.state === "loading",
+  };
+}
+
+/**
+ * useProtectedMypagePage
+ * @returns
+ */
+export function useProtectedMypageAdminPage() {
+  const { data, searchParams, forms, searchies, message } = useLoaderData() as {
+    data: Record<string, string>[];
+    searchParams: Record<string, string>;
+    forms: FormType[];
+    searchies: Record<string, string>[];
+    message: string;
+  };
+
+  const [query, setQuery] = useState<Record<string, string>>({
+    ...(searchParams ?? {}),
+  });
+  const fetchers = useFetchers();
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    setQuery({
+      ...(searchParams ?? {}),
+    });
+  }, [searchParams]);
+
+  return {
+    data,
+    forms,
+    searchies,
+    message,
+    query,
+    setQuery,
+    submit: useSubmit(),
+    isSearching: navigation.formData?.get("keyword") != null,
+    isLoading: navigation.state === "loading",
+    fetcherInProgress: fetchers.some((f) => ["loading", "submitting"].includes(f.state)),
+    type: "Adminlist",
   };
 }
 

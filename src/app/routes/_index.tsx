@@ -1,3 +1,4 @@
+import { defer } from "react-router-dom";
 import { CrumbItem, Match } from "../components/breadcrumbs.tsx";
 import { RootPage } from "../pages/_index.tsx";
 import { authProvider } from "../provides/auth.ts";
@@ -34,15 +35,15 @@ const getLinks = async (): Promise<Link[]> => {
 
 const clientLoader = async () => {
   const isAuth = authProvider.isAuthenticated;
-  // console.log("RootRoute username", authProvider.username);
+  // console.log("RootRoute user_name", authProvider.user_name);
 
-  return {
+  return defer({
     // ログインしている場合、rootルートは常にauthProviderを返す
-    user: authProvider.username,
+    user: authProvider.user_name,
     isAuth: authProvider.isAuthenticated,
     links: await getLinks(),
-    cart_data: isAuth ? await getCartCount() : null,
-  };
+    cart_data: isAuth ? getCartCount() : null,
+  });
 };
 
 const handle = {
