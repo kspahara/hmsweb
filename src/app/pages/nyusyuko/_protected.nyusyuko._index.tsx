@@ -1,9 +1,10 @@
 import { useProtectedNyusyukoPage } from "../../hooks/hooks.ts";
 // import { ContentArea } from "../../components/contentArea.tsx";
 import { SearchArea } from "../../components/searchArea.tsx";
+import { ContentAreaHacyu } from "../../components/nyusyuko/contentAreaHacyu.tsx";
 // import { Card, ListGroup } from "react-bootstrap";
 // import { Link } from "react-router-dom";
-import { ContentAreaHacyu } from "../../components/contentAreaHacyu.tsx";
+// import { ContentAreaHacyu } from "../../components/contentAreaHacyu.tsx";
 
 /**
  * HinIndexPage

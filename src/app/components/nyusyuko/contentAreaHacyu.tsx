@@ -1,8 +1,10 @@
 import { Suspense, Fragment } from "react";
 import { Await, Link, useAsyncError, useAsyncValue } from "react-router-dom";
 import { Alert, Badge, Card, ListGroup } from "react-bootstrap";
-import { Fallback } from "./fallback.tsx";
-import { formatDate } from "../libs/libs.ts";
+import { Fallback } from "../fallback";
+import { formatDate } from "../../libs/libs";
+// import { Fallback } from "./fallback.tsx";
+// import { formatDate } from "../libs/libs.ts";
 // import {  } from "react";
 
 type Props = {

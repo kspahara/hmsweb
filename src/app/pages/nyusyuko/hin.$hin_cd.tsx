@@ -1,7 +1,8 @@
 import { Fragment } from "react";
 import { Form, Button, Col, Row, Image, FloatingLabel, InputGroup, Card } from "react-bootstrap";
-import { BackBtn } from "../../components/BackBtn.tsx";
+// import { BackBtn } from "../../components/BackBtn.tsx";
 import { useHinDetailPage } from "../../hooks/hooks.ts";
+import { BtnBack } from "../../components/btnBack.tsx";
 
 export function HinDetailPage(): JSX.Element {
 	const { user, item, noImage } = useHinDetailPage();
@@ -22,7 +23,7 @@ export function HinDetailPage(): JSX.Element {
 					<h1 className="h2">商品詳細</h1>
 					<p>商品の詳細を表示します。</p>
 					<nav className="mb-2">
-						<BackBtn label="商品一覧に戻る" />
+						<BtnBack label="商品一覧に戻る" />
 					</nav>
 				</header>
 				<hr />

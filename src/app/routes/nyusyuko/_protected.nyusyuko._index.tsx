@@ -3,7 +3,7 @@ import { getHinCond } from "../../data/hin/hin_cond.ts";
 import { FormType } from "../../components/createForm.tsx";
 
 import { getHacyuzan } from "../../data/nyusyuko/getHacyuzan.ts";
-import { ProtectedNyusyukoPage } from "../../pages/nyusyuko/nyusyuko._index.tsx";
+import { ProtectedNyusyukoPage } from "../../pages/nyusyuko/_protected.nyusyuko._index.tsx";
 
 const getForms = async (): Promise<FormType[]> => {
   return [

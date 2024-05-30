@@ -72,7 +72,7 @@ const router = [
           {
             path: "nyusyuko",
             async lazy() {
-              const { handle } = await import("./app/routes/nyusyuko/nyusyuko.tsx");
+              const { handle } = await import("./app/routes/nyusyuko/_protected.nyusyuko.tsx");
               return {
                 handle: handle,
               };
@@ -82,7 +82,7 @@ const router = [
               {
                 index: true,
                 async lazy() {
-                  const { ProtectedNyusyukoRoute } = await import("./app/routes/nyusyuko/nyusyuko._index.tsx");
+                  const { ProtectedNyusyukoRoute } = await import("./app/routes/nyusyuko/_protected.nyusyuko._index.tsx");
                   return {
                     loader: ProtectedNyusyukoRoute.loader,
                     element: <ProtectedNyusyukoRoute />,
