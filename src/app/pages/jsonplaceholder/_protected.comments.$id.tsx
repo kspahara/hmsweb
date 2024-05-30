@@ -26,14 +26,14 @@ export function ProtectedCommentsIdPage() {
   const FormContents = (): JSX.Element => {
     return (
       <>
-        <Form as={RouterForm} method={"post"} replace={true}>
+        <Form as={RouterForm} method="post" replace={true}>
           <fieldset disabled={!isEdit}>
             <Stack gap={3}>
               {forms.map((form, index) => (
                 <CreateForm key={index} form={form} data={data} option={searchies} />
               ))}
               <div>
-                <Button variant={"success"} type={"submit"}>
+                <Button variant="success" type="submit">
                   Update
                 </Button>
               </div>

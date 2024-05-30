@@ -1,5 +1,5 @@
 import { useHinIndexPage } from "../../hooks/hooks.ts";
-import { ContentArea } from "../../components/contentArea.tsx";
+import { ContentAreaHin } from "../../components/contentAreaHin.tsx";
 import { SearchArea } from "../../components/searchArea.tsx";
 
 /**
@@ -24,7 +24,7 @@ export function HinIndexPage(): JSX.Element {
         <section id="hin-contents">
           <h2 className="h3 mb-3">商品一覧</h2>
           <div id="hin-contents-page" className={isLoading ? "loading" : ""}>
-            <ContentArea {...{ data, user, noImage }} />
+            <ContentAreaHin {...{ data, user, noImage }} />
           </div>
         </section>
       </section>

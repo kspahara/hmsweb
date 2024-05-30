@@ -26,3 +26,28 @@ export async function getLoginTokui(p_email: string, p_password: string) {
 
   return data.results;
 }
+
+/**
+ *
+ * @param
+ * @returns
+ */
+export async function getLoginTanto(p_email: string, p_password: string) {
+  const url = `${apiUrl}/login-tanto.php`;
+  const param: RequestInit = {
+    method: "POST",
+    mode: "cors",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      user_id: p_email,
+      user_pass: p_password,
+    }),
+  };
+  const res = await fetch(url, param);
+  const data = await handleResponse(res);
+
+  return data.results;
+}

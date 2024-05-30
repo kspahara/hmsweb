@@ -49,7 +49,7 @@ function HeaderNavigation(): JSX.Element {
                   </Nav.Link>
                 ))}
               {isAuth && (
-                <NavDropdown title="Dropdown" id="nav-dropdown">
+                <NavDropdown title="Auth Links" id="nav-dropdown">
                   {links
                     .filter((link) => link.kbn === "auth")
                     .map((link, idx: number) => (
@@ -87,13 +87,13 @@ function HeaderNavigation(): JSX.Element {
                   {user}
                 </Navbar.Text>
                 <Nav variant="underline" className="me-2">
-                  <Nav.Link as={NavLink} to={"/cart"}>
+                  <Nav.Link as={NavLink} to="/cart">
                     <Suspense
                       fallback={<Fallback />}
                       children={<Await resolve={cart_data} errorElement={<Error />} children={(cart_data) => <CartSummary data={cart_data} />} />}
                     />
                   </Nav.Link>
-                  <Nav.Link as={NavLink} to={"/mypage"}>
+                  <Nav.Link as={NavLink} to="/mypage">
                     Mypage
                   </Nav.Link>
                 </Nav>

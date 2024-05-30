@@ -1,5 +1,5 @@
 import { getAuthUser } from "../data/jsonplaceholder/users.ts";
-import { getLoginTokui } from "../data/hin/login.ts";
+import { getLoginTanto, getLoginTokui } from "../data/hin/login.ts";
 
 export type IsAuthenticated = boolean;
 export type UserName = string | null;
@@ -13,7 +13,7 @@ type AuthProvider = {
   session_id: string | null;
   tok_cd: string | null;
   signIn(user_name: string): Promise<void>;
-  signInUser(email: string, password: string): Promise<void>;
+  signInUser(email: string, password: string, type: string): Promise<void>;
   signOutUser(): Promise<void>;
   signOut(): Promise<void>;
   changeTokui(tok_cd: string): Promise<void>;
@@ -83,26 +83,27 @@ export const authProvider: AuthProvider = {
    * signInUser
    * @param email
    * @param password
+   * @param type
    * @returns
    */
-  async signInUser(email: string, password: string) {
-    const user = await getLoginTokui(email, password);
+  async signInUser(email: string, password: string, type: string) {
+    const user = type === "tanto" ? await getLoginTanto(email, password) : await getLoginTokui(email, password);
 
     if (user.success === 1) {
       const itemsToSet = [
         { key: "isAuthenticated", value: "true" },
-        { key: "user_cd", value: user.tok_cd },
-        { key: "user_name", value: user.tok_nm },
-        { key: "user_kind", value: "tok" },
+        { key: "user_cd", value: type === "tanto" ? user.tan_cd : user.tok_cd },
+        { key: "user_name", value: type === "tanto" ? user.tan_nm : user.tok_nm },
+        { key: "user_kind", value: type === "tanto" ? "tan" : "tok" },
         { key: "token_id", value: user.token_id },
         { key: "session_id", value: user.s_id },
         { key: "tok_cd", value: null },
       ];
       const properties = {
         isAuthenticated: true,
-        user_cd: user.tok_cd,
-        user_name: user.tok_nm,
-        user_kind: user.user_kind,
+        user_cd: type === "tanto" ? user.tan_cd : user.tok_cd,
+        user_name: type === "tanto" ? user.tan_nm : user.tok_nm,
+        user_kind: type === "tanto" ? "tan" : "tok",
         token_id: user.token_id,
         session_id: user.s_id,
         tok_cd: null,
@@ -113,7 +114,7 @@ export const authProvider: AuthProvider = {
       // authProvider のプロパティをpropertiesの値に更新する
       setAuthProvider(properties);
       // tok_cd を設定する
-      true && setTokCd(user.tok_cd);
+      type !== "tanto" && setTokCd(user.tok_cd);
 
       return;
     }

@@ -11,9 +11,6 @@ export function ProgressNav(): JSX.Element | null {
   return isDebugMode ? (
     <>
       <fieldset style={{ position: "fixed", top: "5rem", right: "1rem", zIndex: 1 }}>
-        {navigation.state !== "idle" && <small>Navigation in progress...</small>}
-        {revalidator.state !== "idle" && <small>Revalidation in progress...</small>}
-        {fetcherInProgress && <small>Fetcher in progress...</small>}
         {/* localstrage */}
         <small className="text-muted">
           <div>{`isAuthenticated: ${authProvider.isAuthenticated}`}</div>
@@ -24,6 +21,9 @@ export function ProgressNav(): JSX.Element | null {
           <div>{`session_id: ${authProvider.session_id}`}</div>
           <div>{`tok_cd: ${authProvider.tok_cd}`}</div>
         </small>
+        {navigation.state !== "idle" && <small>Navigation in progress...</small>}
+        {revalidator.state !== "idle" && <small>Revalidation in progress...</small>}
+        {fetcherInProgress && <small>Fetcher in progress...</small>}
       </fieldset>
     </>
   ) : null;

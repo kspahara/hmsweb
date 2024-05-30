@@ -129,24 +129,26 @@ export function SearchArea(props: Props): JSX.Element {
                           })}
                         </Stack>
                         {/* TODO */}
-                        <Col md={12} lg={2}>
-                          <ButtonGroup aria-label="Basic example">
-                            {buttons.map((button) => (
-                              <ToggleButton
-                                key={button.id}
-                                id={button.id}
-                                type={button.type}
-                                name={button.name}
-                                variant={button.variant}
-                                checked={query.limit === button.value}
-                                value={button.value}
-                                // onChange={(e) => setQuery({ ...query, limit: e.currentTarget.value })}
-                              >
-                                {button.label}
-                              </ToggleButton>
-                            ))}
-                          </ButtonGroup>
-                        </Col>
+                        {false && (
+                          <Col md={12} lg={2}>
+                            <ButtonGroup aria-label="Basic example">
+                              {buttons.map((button) => (
+                                <ToggleButton
+                                  key={button.id}
+                                  id={button.id}
+                                  type={button.type}
+                                  name={button.name}
+                                  variant={button.variant}
+                                  checked={query.limit === button.value}
+                                  value={button.value}
+                                  // onChange={(e) => setQuery({ ...query, limit: e.currentTarget.value })}
+                                >
+                                  {button.label}
+                                </ToggleButton>
+                              ))}
+                            </ButtonGroup>
+                          </Col>
+                        )}
                       </>
                     )}
                   />

@@ -50,6 +50,7 @@ const clientAction = async ({ request }: ActionFunctionArgs) => {
       email: string;
       password: string;
       redirectTo: string;
+      loginType: string;
     };
   };
   // ユーザー名とパスワードの検証を行う
@@ -57,9 +58,9 @@ const clientAction = async ({ request }: ActionFunctionArgs) => {
     return !email || !password ? { error: "You must provide a Mail Address and password to log in" } : null;
   };
   // サインインを行う
-  const signInUser = async (email: string, password: string) => {
+  const signInUser = async (email: string, password: string, type: string) => {
     try {
-      await authProvider.signInUser(email, password);
+      await authProvider.signInUser(email, password, type);
       return null;
     } catch (error) {
       return {
@@ -77,7 +78,7 @@ const clientAction = async ({ request }: ActionFunctionArgs) => {
 
   const formData = await getFormData(request);
   const validationError = validateInput(formData);
-  const signInError = !validationError ? await signInUser(formData.email, formData.password) : (console.log("LoginRoute signInError"), null);
+  const signInError = !validationError ? await signInUser(formData.email, formData.password, formData.loginType) : (console.log("LoginRoute signInError"), null);
 
   // バリデーションエラーまたはサインインエラーがある場合はエラーメッセージを返す
   return validationError || signInError || redirectTo(formData.redirectTo);

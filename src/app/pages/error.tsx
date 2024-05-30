@@ -7,11 +7,11 @@ export function ErrorPage(): JSX.Element {
   console.error(error);
 
   return (
-    <main id={"content"} style={{ minHeight: "calc(100vh - 4rem)", paddingTop: "5rem" }}>
+    <main id="content" style={{ minHeight: "calc(100vh - 4rem)", paddingTop: "5rem" }}>
       <Container>
-        <section id={"error-page"}>
+        <section id="error-page">
           <header>
-            <h1 className={"h2"}>Oops!</h1>
+            <h1 className="h2">Oops!</h1>
             <p>Sorry, an unexpected error has occurred.</p>
           </header>
           <hr />

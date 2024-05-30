@@ -22,6 +22,7 @@ export async function getMypage(searchParams: URLSearchParams): Promise<[]> {
       tok_cd: authProvider.tok_cd,
       token_id: authProvider.token_id,
       ymd_fr: params_entry.ymd_fr ? params_entry.ymd_fr.replace(/-/g, "") : "", //TODO
+      login_id: authProvider.user_cd,
       limit: params_entry.limit,
       // ...params_entry,
     }),
@@ -55,6 +56,7 @@ export async function getDenDetail(den_no: string): Promise<[]> {
       tok_cd: authProvider.tok_cd,
       token_id: authProvider.token_id,
       den_no: den_no,
+      login_id: authProvider.user_cd,
     }),
   };
   const res = await fetch(url, param);

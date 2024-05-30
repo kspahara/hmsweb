@@ -105,7 +105,7 @@ const router = [
         children: [
           {
             id: "protected-cart-layout",
-            path: "cart",
+            path: "cart/edit?/confirm?/commit?",
             async lazy() {
               const { handle } = await import("./app/routes/hin/_protected.cart.tsx");
               return {

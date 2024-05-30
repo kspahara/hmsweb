@@ -22,6 +22,7 @@ export async function getMypageAdmin(searchParams: URLSearchParams): Promise<[]>
       tok_cd: authProvider.tok_cd,
       token_id: authProvider.token_id,
       ymd_fr: params_entry.ymd_fr ? params_entry.ymd_fr.replace(/-/g, "") : "", //TODO
+      login_id: authProvider.user_cd,
       limit: params_entry.limit,
       // ...params_entry,
     }),
