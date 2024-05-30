@@ -1,6 +1,7 @@
 import { handleResponse } from "../../libs/libs.ts";
 
-const apiUrl = import.meta.env.VITE_API_URL;
+// const apiUrl = import.meta.env.VITE_API_URL;
+const apiUrl = import.meta.env.VITE_API_URL_M;
 
 export type Hin = {
 	atch_filename: string;
