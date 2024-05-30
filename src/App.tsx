@@ -19,10 +19,9 @@ const router = [
       {
         index: true,
         async lazy() {
-          const { PublicRoute } = await import("./app/routes/public.tsx");
+          const { clientLoader } = await import("./app/routes/_index._match.tsx");
           return {
-            loader: PublicRoute.loader,
-            element: <PublicRoute />,
+            loader: clientLoader,
           };
         },
       },
@@ -61,39 +60,6 @@ const router = [
         ],
       },
       {
-        path: "nyusyuko",
-        async lazy() {
-          const { handle } = await import("./app/routes/nyusyuko/nyusyuko.tsx");
-          return {
-            handle: handle,
-          };
-        },
-        errorElement: <ErrorPage />,
-        children: [
-          {
-            index: true,
-            async lazy() {
-              const { ProtectedNyusyukoRoute } = await import("./app/routes/nyusyuko/nyusyuko._index.tsx");
-              return {
-                loader: ProtectedNyusyukoRoute.loader,
-                element: <ProtectedNyusyukoRoute />,
-              };
-            },
-          },
-          {
-            path: ":den_no",
-            async lazy() {
-              const { HinDetailRoute } = await import("./app/routes/hin/hin.$hin_cd.tsx");
-              return {
-                loader: HinDetailRoute.loader,
-                handle: HinDetailRoute.handle,
-                element: <HinDetailRoute />,
-              };
-            },
-          },
-        ],
-      },
-      {
         id: "pathless-protected-layout",
         async lazy() {
           const { clientLoader } = await import("./app/routes/_protected.tsx");
@@ -103,6 +69,39 @@ const router = [
         },
         errorElement: <ErrorPage />,
         children: [
+          {
+            path: "nyusyuko",
+            async lazy() {
+              const { handle } = await import("./app/routes/nyusyuko/nyusyuko.tsx");
+              return {
+                handle: handle,
+              };
+            },
+            errorElement: <ErrorPage />,
+            children: [
+              {
+                index: true,
+                async lazy() {
+                  const { ProtectedNyusyukoRoute } = await import("./app/routes/nyusyuko/nyusyuko._index.tsx");
+                  return {
+                    loader: ProtectedNyusyukoRoute.loader,
+                    element: <ProtectedNyusyukoRoute />,
+                  };
+                },
+              },
+              {
+                path: ":den_no",
+                async lazy() {
+                  const { HinDetailRoute } = await import("./app/routes/hin/hin.$hin_cd.tsx");
+                  return {
+                    loader: HinDetailRoute.loader,
+                    handle: HinDetailRoute.handle,
+                    element: <HinDetailRoute />,
+                  };
+                },
+              },
+            ],
+          },
           {
             id: "protected-cart-layout",
             path: "cart/edit?/confirm?/commit?",

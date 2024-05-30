@@ -2,7 +2,7 @@ import { NavLink, Form as RouterForm, useLocation, useSubmit } from "react-route
 import { Card, FloatingLabel, Form, ListGroup, Button, Alert, Nav, Col, Row } from "react-bootstrap";
 import { useProtectedCartPage } from "../../hooks/hooks.ts";
 import { parseInttoStr } from "../../libs/libs.ts";
-import { BackBtn } from "../../components/BackBtn.tsx";
+import { BackBtn } from "../../components/backBtn.tsx";
 import { Fallback } from "../../components/fallback.tsx";
 import { Fragment } from "react/jsx-runtime";
 import { Link } from "react-router-dom";

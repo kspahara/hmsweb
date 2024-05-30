@@ -1,9 +1,7 @@
-import { defer } from "react-router-dom";
 import { CrumbItem, Match } from "../components/breadcrumbs.tsx";
 import { RootPage } from "../pages/_index.tsx";
 import { authProvider } from "../provides/auth.ts";
 import { getLocationPath } from "../libs/libs.ts";
-import { getCartCount } from "../data/hin/hin.ts";
 
 // const paths = ["/", "/hin", "/login", "/albums", "/comments", "/photos", "/posts", "/todos", "/users"] as const;
 /**
@@ -20,8 +18,8 @@ const getLinks = async (): Promise<Link[]> => {
   return [
     { href: "/", label: "HMS-App", kbn: "index" },
     { href: "/hin", label: "Item", kbn: "public" },
-    { href: "/login", label: "Login", kbn: "not_auth" },
-    { href: "/login_user", label: "User Login", kbn: "not_auth_user" },
+    // { href: "/login", label: "Login", kbn: "not_auth" },
+    { href: "/login_user", label: "Login", kbn: "not_auth_user" },
     { href: "/albums", label: "Albums List", kbn: "auth" },
     { href: "/comments", label: "Comments List", kbn: "auth" },
     { href: "/photos", label: "Photos List", kbn: "auth" },
@@ -34,16 +32,14 @@ const getLinks = async (): Promise<Link[]> => {
 };
 
 const clientLoader = async () => {
-  const isAuth = authProvider.isAuthenticated;
   // console.log("RootRoute user_name", authProvider.user_name);
 
-  return defer({
+  return {
     // ログインしている場合、rootルートは常にauthProviderを返す
     user: authProvider.user_name,
     isAuth: authProvider.isAuthenticated,
     links: await getLinks(),
-    cart_data: isAuth ? getCartCount() : null,
-  });
+  };
 };
 
 const handle = {

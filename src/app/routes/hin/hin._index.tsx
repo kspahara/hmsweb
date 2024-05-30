@@ -1,8 +1,9 @@
 import { LoaderFunctionArgs, ActionFunctionArgs, defer } from "react-router-dom";
 import { getHinCond } from "../../data/hin/hin_cond.ts";
-import { deleteHinFavorite, getHinList, updateHinFavorite, updateHinEntryCart } from "../../data/hin/hin.ts";
+import { deleteHinFavorite, getHinList, updateHinFavorite, updateHinEntryCart, getCartCount } from "../../data/hin/hin.ts";
 import { HinIndexPage } from "../../pages/hin/hin._index.tsx";
 import { FormType } from "../../components/createForm.tsx";
+import { authProvider } from "../../provides/auth.ts";
 
 const getForms = async (): Promise<FormType[]> => {
   return [
@@ -79,12 +80,14 @@ const getForms = async (): Promise<FormType[]> => {
 
 const clientLoader = async ({ request }: LoaderFunctionArgs) => {
   const search_params = new URL(request.url).searchParams;
+  const isAuth = authProvider.isAuthenticated;
 
   return defer({
     data: getHinList(search_params),
     searchParams: Object.fromEntries(search_params.entries()),
     forms: await getForms(),
     searchies: getHinCond(),
+    cart_data: isAuth ? getCartCount() : null,
     message: "Hin",
   });
 };

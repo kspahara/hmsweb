@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { Form, Button, Col, Row, Image, FloatingLabel, InputGroup, Card } from "react-bootstrap";
-import { BackBtn } from "../../components/BackBtn.tsx";
+import { BackBtn } from "../../components/backBtn.tsx";
 import { useHinDetailPage } from "../../hooks/hooks.ts";
 
 export function HinDetailPage(): JSX.Element {

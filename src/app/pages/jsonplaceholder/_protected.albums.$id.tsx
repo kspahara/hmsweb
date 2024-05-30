@@ -2,7 +2,7 @@ import { Link, Form as RouterForm } from "react-router-dom";
 import { Button, Card, Form, Stack } from "react-bootstrap";
 import { CreateForm } from "../../components/createForm.tsx";
 import { useProtectedAlbumsIdPage } from "../../hooks/hooks.ts";
-import { BackBtn } from "../../components/BackBtn.tsx";
+import { BackBtn } from "../../components/backBtn.tsx";
 
 export function ProtectedAlbumsIdPage(): JSX.Element {
   const { data, forms, searchies, message, isEdit } = useProtectedAlbumsIdPage();

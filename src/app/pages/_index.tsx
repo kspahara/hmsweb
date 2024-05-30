@@ -1,43 +1,23 @@
-import { Suspense } from "react";
-import { Await, NavLink, Outlet, ScrollRestoration, useAsyncError, useAsyncValue } from "react-router-dom";
-import { Button, Form, Container, Navbar, Nav, NavDropdown, Alert } from "react-bootstrap";
+import { NavLink, Outlet, ScrollRestoration } from "react-router-dom";
+import { Button, Form, Container, Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { ProgressNav } from "../components/progressNav.tsx";
 import { Breadcrumbs } from "../components/breadcrumbs.tsx";
 import { ReturnTopBtn } from "../components/returnTopBtn.tsx";
-import { CartSummary } from "../components/CartSummary.tsx";
 import { Fallback } from "../components/fallback.tsx";
 import { useRootPage } from "../hooks/hooks.ts";
-
-const Error = () => {
-  const error = useAsyncError() as Error;
-  const value = useAsyncValue();
-  console.log("error", error);
-  console.log("value", value);
-
-  return (
-    <Alert variant="danger">
-      <i className="bi bi-exclamation-triangle-fill me-1" />
-      {error.name} : {error.message}
-    </Alert>
-  );
-};
 
 /**
  * HeaderNavigation
  * @returns
  */
 function HeaderNavigation(): JSX.Element {
-  const { user, isAuth, links, isLoggingOut, FeacherForm, index_link, cart_data } = useRootPage();
+  const { user, isAuth, links, isLoggingOut, FeacherForm, index_link } = useRootPage();
 
   return (
     <>
       <Navbar expand="lg" fixed="top" className="bg-white shadow-sm">
         <Container fluid>
-          {index_link && (
-            <Navbar.Brand as={NavLink} to={index_link.href}>
-              {index_link.label}
-            </Navbar.Brand>
-          )}
+          {index_link && <Navbar.Brand href={index_link.href}>{index_link.label}</Navbar.Brand>}
           <Navbar.Toggle aria-controls="navbar-nav" />
           <Navbar.Collapse id="navbar-nav">
             <Nav variant="underline" className="me-auto">
@@ -87,24 +67,18 @@ function HeaderNavigation(): JSX.Element {
                   {user}
                 </Navbar.Text>
                 <Nav variant="underline" className="me-2">
-                  <Nav.Link as={NavLink} to="/cart">
-                    <Suspense
-                      fallback={<Fallback />}
-                      children={<Await resolve={cart_data} errorElement={<Error />} children={(cart_data) => <CartSummary data={cart_data} />} />}
-                    />
-                  </Nav.Link>
                   <Nav.Link as={NavLink} to="/mypage">
                     Mypage
                   </Nav.Link>
                 </Nav>
-                <Form as={FeacherForm} method="post" action="/logout">
+                {/* <Form as={FeacherForm} method="post" action="/logout">
                   <Button type="submit" variant="outline-secondary" disabled={isLoggingOut}>
-                    {isLoggingOut ? "Signing out..." : "Sign out"}
+                    {isLoggingOut ? <Fallback /> : "Sign out"}
                   </Button>
-                </Form>
+                </Form> */}
                 <Form as={FeacherForm} method="post" action="/logout_user">
                   <Button type="submit" variant="outline-secondary" disabled={isLoggingOut}>
-                    {isLoggingOut ? "Signing out..." : "Sign out"}
+                    {isLoggingOut ? <Fallback /> : "Sign out"}
                   </Button>
                 </Form>
               </>

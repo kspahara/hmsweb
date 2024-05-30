@@ -5,7 +5,7 @@ import { IsAuthenticated, UserName } from "../provides/auth.ts";
 import { Link } from "../routes/_index.tsx";
 
 import noImage from "../assets/images/no_image.png";
-import { CartSummaryProps } from "../components/CartSummary.tsx";
+import { CartSummaryProps } from "../components/hin/cartSummary.tsx";
 
 const isDebugMode = import.meta.env.VITE_DEBBUG === "true";
 
@@ -29,11 +29,10 @@ export function useProgressNav() {
  * @returns
  */
 export function useRootPage() {
-  const { user, isAuth, links, cart_data } = useLoaderData() as {
+  const { user, isAuth, links } = useLoaderData() as {
     user: UserName;
     isAuth: IsAuthenticated;
     links: Link[];
-    cart_data: CartSummaryProps;
   };
   const fetcher = useFetcher();
   const index_link = links.find((link) => link.kbn === "index");
@@ -47,7 +46,6 @@ export function useRootPage() {
     FeacherForm: fetcher.Form,
     index_link,
     allrightsreserved,
-    cart_data,
   };
 }
 
@@ -134,11 +132,12 @@ export function useErrorPage() {
  * @returns
  */
 export function useHinIndexPage() {
-  const { searchies, searchParams, forms, data } = useLoaderData() as {
+  const { searchies, searchParams, forms, data, cart_data } = useLoaderData() as {
     searchies: Record<string, string>[];
     searchParams: Record<string, string>;
     forms: FormType[];
     data: Record<string, string>[];
+    cart_data: CartSummaryProps;
   };
   const { user } = useRouteLoaderData("root") as {
     user: string | null;
@@ -166,6 +165,7 @@ export function useHinIndexPage() {
     isSearching: navigation.formData?.get("keyword") != null,
     isLoading: navigation.state === "loading",
     noImage,
+    cart_data,
   };
 }
 

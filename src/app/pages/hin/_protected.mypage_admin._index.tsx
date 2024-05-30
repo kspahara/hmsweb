@@ -1,5 +1,5 @@
 import { SearchArea } from "../../components/searchArea.tsx";
-import { ContentArea } from "../../components/contentArea.tsx";
+import { ContentAreaHin } from "../../components/hin/contentAreaHin.tsx";
 import { useProtectedMypageAdminPage } from "../../hooks/hooks.ts";
 import { Form as RouterForm } from "react-router-dom";
 import { Form } from "react-bootstrap";
@@ -26,7 +26,7 @@ export function ProtectedMypageAdminPage(): JSX.Element {
           <h2 className="h3">Mypage Admin</h2>
           <div id="content">
             <Form as={RouterForm} method="post">
-              <ContentArea {...{ data, type }} />
+              <ContentAreaHin {...{ data, type }} />
             </Form>
           </div>
         </section>

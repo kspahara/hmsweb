@@ -17,7 +17,7 @@ export function LoginUserPage() {
         <hr />
         <section>
           <Row>
-            <Col md={6}>
+            <Col md={6} className="mx-auto" hidden={false}>
               <h2 className="h3 mb-3">Tokui Login</h2>
               <Card body className="mb-3 shadow-sm">
                 <Form as={RouterForm} method="post" name="form_tokui" replace noValidate validated={validated}>
@@ -59,9 +59,9 @@ export function LoginUserPage() {
                 )}
               </Card>
             </Col>
-            <Col md={6}>
+            <Col md={6} className="mx-auto" hidden={true}>
               <h2 className="h3 mb-3">Tanto Login</h2>
-              <Card bg="info" body className="mb-3 shadow-sm">
+              <Card body className="mb-3 shadow-sm">
                 <Form as={RouterForm} method="post" name="form_tanto" replace noValidate validated={validated}>
                   <Stack gap={3}>
                     {forms.map((form, index) => (
@@ -70,7 +70,6 @@ export function LoginUserPage() {
                     <hr />
                     <Button
                       type="submit"
-                      variant="warning"
                       className="w-100"
                       onClick={(e) => {
                         const form = e.currentTarget;

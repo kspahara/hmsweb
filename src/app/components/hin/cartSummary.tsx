@@ -1,5 +1,5 @@
 import { Badge } from "react-bootstrap";
-import { parseInttoStr } from "../libs/libs";
+import { parseInttoStr } from "../../libs/libs";
 
 export type CartSummaryProps = {
   head: {

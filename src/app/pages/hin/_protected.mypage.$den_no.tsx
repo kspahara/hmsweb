@@ -1,6 +1,6 @@
 import { Card, ListGroup, Row, Col } from "react-bootstrap";
 import { useProtectedMypageDenNoPage } from "../../hooks/hooks.ts";
-import { BackBtn } from "../../components/BackBtn.tsx";
+import { BackBtn } from "../../components/backBtn.tsx";
 import { parseInttoStr } from "../../libs/libs.ts";
 import { Fragment } from "react/jsx-runtime";
 

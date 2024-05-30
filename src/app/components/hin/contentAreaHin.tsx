@@ -8,8 +8,8 @@ import {
   //  useSubmit
 } from "react-router-dom";
 import { Alert, Badge, Button, Card, Col, FloatingLabel, Form, InputGroup, ListGroup, Row } from "react-bootstrap";
-import { Fallback } from "./fallback.tsx";
-import { parseInttoStr } from "../libs/libs.ts";
+import { Fallback } from "../fallback.tsx";
+import { parseInttoStr } from "../../libs/libs.ts";
 
 type Props = {
   data: Record<string, string>[];
@@ -108,8 +108,14 @@ export function ContentAreaHin(props: Props): JSX.Element {
                 {data.map((post, index) => (
                   <Col key={index} xs={6} sm={4} md={3} xl={2}>
                     <Card className="h-100 shadow-sm">
-                      <Link to={`/hin/${post.hin_cd}`} className="h-100 d-flex flex-column text-reset text-decoration-none">
-                        <Card.Img decoding="async" loading="lazy" variant="top" src={post.atch_flg === "1" ? `data:image/jpeg;base64,${post.atch_image}` : `${noImage}`} />
+                      <Link to={`${post.hin_cd}`} className="h-100 d-flex flex-column text-reset text-decoration-none">
+                        <Card.Img
+                          decoding="async"
+                          loading="lazy"
+                          variant="top"
+                          src={post.atch_flg === "1" ? `data:image/jpeg;base64,${post.atch_image}` : `${noImage}`}
+                          className="p-4 pb-0"
+                        />
                         <Card.Body className="d-flex flex-column p-2">
                           <Card.Title className="h6">
                             <Badge bg="info">{post.han_name}</Badge>
@@ -127,12 +133,12 @@ export function ContentAreaHin(props: Props): JSX.Element {
                                   type="submit"
                                   name="hin_attr_cd"
                                   value={post.hin_attr_cd === "1" ? "0" : "1"}
-                                  variant={post.hin_attr_cd === "1" ? "warning" : "secondary"}
+                                  variant={post.hin_attr_cd === "1" ? "warning" : "light"}
                                   aria-label={post.hin_attr_cd === "1" ? "お気に入りを外す" : "お気に入りに追加"}
                                   className="btn btn-sm lh-sm mb-2 w-100"
                                 >
                                   {isFeaching ? (
-                                    <Fallback variant={post.hin_attr_cd === "1" ? "dark" : "light"} />
+                                    <Fallback variant={post.hin_attr_cd === "1" ? "dark" : "secondary"} />
                                   ) : (
                                     <>
                                       <i className="bi bi-star-fill me-1" />

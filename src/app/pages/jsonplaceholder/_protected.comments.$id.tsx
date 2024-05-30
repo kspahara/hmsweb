@@ -1,7 +1,7 @@
 import { Link, Form as RouterForm, useLoaderData } from "react-router-dom";
 import { Button, Card, Form, Stack } from "react-bootstrap";
 import { CreateForm, FormType } from "../../components/createForm.tsx";
-import { BackBtn } from "../../components/BackBtn.tsx";
+import { BackBtn } from "../../components/backBtn.tsx";
 
 function useProtectedCommentsId() {
   const { data, forms, searchies, message } = useLoaderData() as {
