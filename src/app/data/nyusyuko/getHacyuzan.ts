@@ -56,8 +56,8 @@ export async function getHacyuzan(
 			"Content-Type": "application/json",
 		},
 		body: JSON.stringify({
-			nyuka_yotei_ymd: "", // TODO
-			prc_sts: "", // TODO
+			// nyuka_yotei_ymd: "", // TODO
+			// prc_sts: "", // TODO
 			...params_entry,
 		}),
 	};
