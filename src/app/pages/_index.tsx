@@ -1,107 +1,25 @@
-import { NavLink, Outlet, ScrollRestoration } from "react-router-dom";
-import { Button, Form, Container, Navbar, Nav, NavDropdown } from "react-bootstrap";
+import { Outlet, ScrollRestoration } from "react-router-dom";
+import { Container } from "react-bootstrap";
 import { ProgressNav } from "../components/progressNav.tsx";
 import { Breadcrumbs } from "../components/breadcrumbs.tsx";
-import { ReturnTopBtn } from "../components/returnTopBtn.tsx";
-import { Fallback } from "../components/fallback.tsx";
+import { BtnReturnTop } from "../components/btnReturnTop.tsx";
 import { useRootPage } from "../hooks/hooks.ts";
-
-/**
- * HeaderNavigation
- * @returns
- */
-function HeaderNavigation(): JSX.Element {
-  const { user, isAuth, links, isLoggingOut, FeacherForm, index_link } = useRootPage();
-
-  return (
-    <>
-      <Navbar expand="lg" fixed="top" className="bg-white shadow-sm">
-        <Container fluid>
-          {index_link && <Navbar.Brand href={index_link.href}>{index_link.label}</Navbar.Brand>}
-          <Navbar.Toggle aria-controls="navbar-nav" />
-          <Navbar.Collapse id="navbar-nav">
-            <Nav variant="underline" className="me-auto">
-              {links
-                .filter((link) => link.kbn === "public")
-                .map((link, idx: number) => (
-                  <Nav.Link key={idx} as={NavLink} to={link.href}>
-                    {link.label}
-                  </Nav.Link>
-                ))}
-              {isAuth && (
-                <NavDropdown title="Auth Links" id="nav-dropdown">
-                  {links
-                    .filter((link) => link.kbn === "auth")
-                    .map((link, idx: number) => (
-                      <NavDropdown.Item key={idx} as={NavLink} to={link.href}>
-                        {link.label}
-                      </NavDropdown.Item>
-                    ))}
-                </NavDropdown>
-              )}
-            </Nav>
-            {/* 右側 */}
-            {!isAuth ? (
-              <Nav variant="underline">
-                {links
-                  .filter((link) => link.kbn === "not_auth")
-                  .map((link, idx: number) => (
-                    <Nav.Link key={idx} as={NavLink} to={link.href}>
-                      {link.label}
-                      <i className="bi bi-arrow-right ms-1" />
-                    </Nav.Link>
-                  ))}
-                {links
-                  .filter((link) => link.kbn === "not_auth_user")
-                  .map((link, idx: number) => (
-                    <Nav.Link key={idx} as={NavLink} to={link.href}>
-                      {link.label}
-                      <i className="bi bi-arrow-right ms-1" />
-                    </Nav.Link>
-                  ))}
-              </Nav>
-            ) : (
-              <>
-                <Navbar.Text className="me-2">
-                  <i className="bi bi-person-fill me-1" />
-                  {user}
-                </Navbar.Text>
-                <Nav variant="underline" className="me-2">
-                  <Nav.Link as={NavLink} to="/mypage">
-                    Mypage
-                  </Nav.Link>
-                </Nav>
-                {/* <Form as={FeacherForm} method="post" action="/logout">
-                  <Button type="submit" variant="outline-secondary" disabled={isLoggingOut}>
-                    {isLoggingOut ? <Fallback /> : "Sign out"}
-                  </Button>
-                </Form> */}
-                <Form as={FeacherForm} method="post" action="/logout_user">
-                  <Button type="submit" variant="outline-secondary" disabled={isLoggingOut}>
-                    {isLoggingOut ? <Fallback /> : "Sign out"}
-                  </Button>
-                </Form>
-              </>
-            )}
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
-    </>
-  );
-}
+import { HeaderNavigation } from "../components/headerNavigation.tsx";
+import { CartSummary } from "../components/hin/cartSummary.tsx";
 
 /**
  * RootPage
  * @returns
  */
 export function RootPage(): JSX.Element {
-  const { allrightsreserved } = useRootPage();
+  const { allrightsReserved, cart_data } = useRootPage();
 
   return (
     <>
       <header id="header">
         <HeaderNavigation />
-        <ReturnTopBtn />
+        <CartSummary data={cart_data} />
+        <BtnReturnTop />
         <ProgressNav />
       </header>
       <main id="main" style={{ minHeight: "calc(100vh - 4rem)", paddingTop: "5rem" }}>
@@ -114,7 +32,7 @@ export function RootPage(): JSX.Element {
       <footer>
         <hr />
         <div className="text-center mb-3">
-          <small className="text-muted">{allrightsreserved}</small>
+          <small className="text-muted">{allrightsReserved}</small>
         </div>
       </footer>
     </>

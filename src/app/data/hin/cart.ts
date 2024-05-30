@@ -20,6 +20,7 @@ export async function getCart() {
     body: JSON.stringify({
       tok_cd: authProvider.tok_cd,
       token_id: authProvider.token_id,
+      login_id: authProvider.user_cd,
     }),
   };
   const res = await fetch(url, param);
@@ -47,7 +48,7 @@ export async function deleteCart(formData: FormData) {
       tok_cd: authProvider.tok_cd,
       token_id: authProvider.token_id,
       row_no: formData.get("row_no"),
-      login_id: authProvider.tok_cd,
+      login_id: authProvider.user_cd,
     }),
   };
   const res = await fetch(url, param);

@@ -1,7 +1,7 @@
 import { Link, Form as RouterForm, useLoaderData } from "react-router-dom";
 import { Button, Card, Form, Stack } from "react-bootstrap";
 import { CreateForm, FormType } from "../../components/createForm.tsx";
-import { BackBtn } from "../../components/backBtn.tsx";
+import { BtnBack } from "../../components/btnBack.tsx";
 
 function useProtectedCommentsId() {
   const { data, forms, searchies, message } = useLoaderData() as {
@@ -63,14 +63,14 @@ export function ProtectedCommentsIdPage() {
         <header>
           <h1 className="h2">{message}</h1>
           <nav className="mb-3">
-            <BackBtn label="Back" />
+            <BtnBack label="Back" />
           </nav>
         </header>
         <hr />
         <section>
           <h2 className="h3">{data.title}</h2>
           {isEdit ? (
-            <BackBtn variant="secondary" label="Cancel" />
+            <BtnBack variant="secondary" label="Cancel" />
           ) : (
             <Link to="edit" className="btn btn-primary">
               Edit

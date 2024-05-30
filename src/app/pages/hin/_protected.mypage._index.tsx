@@ -1,5 +1,5 @@
 import { SearchArea } from "../../components/searchArea.tsx";
-import { ContentAreaHin } from "../../components/hin/contentAreaHin.tsx";
+import { ContentAreaMypage } from "../../components/hin/contentAreaMypage.tsx";
 import { useProtectedMypagePage } from "../../hooks/hooks.ts";
 import { Outlet, Form as RouterForm } from "react-router-dom";
 import { authProvider } from "../../provides/auth.ts";
@@ -11,7 +11,7 @@ import { Form } from "react-bootstrap";
  * @returns
  */
 export function ProtectedMypagePage(): JSX.Element {
-  const { data, type, message, ...props } = useProtectedMypagePage();
+  const { data, type, message, fields, ...props } = useProtectedMypagePage();
 
   return (
     <>
@@ -36,7 +36,7 @@ export function ProtectedMypagePage(): JSX.Element {
         <section>
           <h2 className="h3">Mypage</h2>
           <div id="content">
-            <ContentAreaHin {...{ data, type }} />
+            <ContentAreaMypage {...{ data, type, fields }} />
           </div>
         </section>
         <Outlet />

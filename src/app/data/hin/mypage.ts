@@ -10,6 +10,15 @@ const apiUrl = import.meta.env.VITE_API_URL;
  */
 export async function getMypage(searchParams: URLSearchParams): Promise<[]> {
   const params_entry = Object.fromEntries(searchParams.entries());
+  // $route = 'get-tokui-tor-rireki.php';
+  // $url = BASE_URL . "{$route}";
+  // $data = json_encode([
+  //     'login_id' => '07824',
+  //     'tok_cd' => '07824',
+  //     'token_id' => 'TOK:0e632b95a47359a9ba2fa844b59599eb',
+  //     'include_detail' => '1',
+  //     'limit' => '10',
+  // ]);
   const url = `${apiUrl}/get-tokui-tor-rireki.php`;
   const param: RequestInit = {
     method: "POST",
@@ -24,6 +33,7 @@ export async function getMypage(searchParams: URLSearchParams): Promise<[]> {
       ymd_fr: params_entry.ymd_fr ? params_entry.ymd_fr.replace(/-/g, "") : "", //TODO
       login_id: authProvider.user_cd,
       limit: params_entry.limit,
+      include_detail: "1",
       // ...params_entry,
     }),
   };

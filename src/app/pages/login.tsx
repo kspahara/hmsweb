@@ -1,22 +1,12 @@
 import { Form as RouterForm } from "react-router-dom";
-import { Alert, Button, Card, Col, Form, Row, Stack } from "react-bootstrap";
+import { Button, Card, Col, Form, Row, Stack } from "react-bootstrap";
 import { CreateForm } from "../components/createForm.tsx";
 import { Fallback } from "../components/fallback.tsx";
 import { useLogin } from "../hooks/hooks.ts";
+import { AlertMessage } from "../components/alertMessage.tsx";
 
 export function LoginPage() {
   const { forms, message, actionData, isLoggingIn, from, validated, setValidated } = useLogin();
-  // console.log("actionData", actionData);
-  // const submit = useSubmit();
-  // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-  // 	const form = event.currentTarget;
-  // 	if (form.checkValidity() === false) {
-  // 		event.preventDefault();
-  // 		event.stopPropagation();
-  // 	}
-
-  // 	setValidated(true);
-  // };
 
   return (
     <>
@@ -54,11 +44,7 @@ export function LoginPage() {
                   </Stack>
                   <Form.Control type="hidden" name="redirectTo" value={from} />
                 </Form>
-                {actionData && actionData.error && (
-                  <Alert variant="danger" className="mt-3">
-                    {actionData.error}
-                  </Alert>
-                )}
+                {actionData && actionData.error && <AlertMessage message={actionData.error} variant="danger" classes="mt-3" />}
               </Card>
             </Col>
           </Row>

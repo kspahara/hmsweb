@@ -1,9 +1,10 @@
 import { Suspense } from "react";
-import { Await, Form as RouterForm, useAsyncError, useAsyncValue } from "react-router-dom";
-import { Form, Badge, Col, Row, Stack, Alert, ToggleButton, ButtonGroup } from "react-bootstrap";
+import { Await, Form as RouterForm } from "react-router-dom";
+import { Form, Badge, Col, Row, Stack, ToggleButton, ButtonGroup } from "react-bootstrap";
 import { CreateForm, FormType } from "./createForm.tsx";
 import { Fallback } from "./fallback.tsx";
 import { ToggleButtonType } from "react-bootstrap/esm/ToggleButton";
+import { AlertAsyncError } from "./alertAsyncError.tsx";
 
 type Props = {
   forms: FormType[];
@@ -12,20 +13,6 @@ type Props = {
   setQuery: (query: Record<string, string>) => void;
   submit: (query: Record<string, string>, options: { replace: boolean }) => void;
   isSearching: boolean;
-};
-
-const Error = () => {
-  const error = useAsyncError() as Error;
-  const value = useAsyncValue();
-  console.log("error", error);
-  console.log("value", value);
-
-  return (
-    <Alert variant="danger">
-      <i className="bi bi-exclamation-triangle-fill me-1" />
-      {error.name} : {error.message}
-    </Alert>
-  );
 };
 
 /**
@@ -84,14 +71,14 @@ export function SearchArea(props: Props): JSX.Element {
                 children={
                   <Await
                     resolve={searchies}
-                    errorElement={<Error />}
+                    errorElement={<AlertAsyncError />}
                     children={(searchies) => (
                       <>
                         {forms.map((form, index) => {
                           const { controlId, name } = form;
 
                           return (
-                            <Col key={index} md={controlId === "keyword" ? 12 : 6} lg={controlId === "keyword" ? 12 : 2}>
+                            <Col key={index} xs={controlId === "keyword" ? 12 : 6} md={controlId === "keyword" ? 12 : 6} lg={controlId === "keyword" ? 12 : 2}>
                               <CreateForm
                                 {...{
                                   form,

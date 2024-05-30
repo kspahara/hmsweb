@@ -20,20 +20,17 @@ type AuthProvider = {
 };
 
 /**
- * removelocalStorageItem
- * ローカルストレージからアイテムを削除する
- * @param key
- * @returns
+ * localStorageUtils
+ * ローカルストレージの操作を行う
+ * get: 指定したキーの値を取得する
+ * remove: 指定したキーの値を削除する
+ * set: 指定したキーと値を保存する
  */
-const removelocalStorageItem = (key: string) => localStorage.removeItem(key);
-
-/**
- * setlocalStorageItem
- * ローカルストレージにアイテムを保存する
- * @param key
- * @param value
- */
-const setlocalStorageItem = (key: string, value: string) => localStorage.setItem(key, value);
+const localStorageUtils = {
+  get: (key: string) => localStorage.getItem(key),
+  remove: (key: string) => localStorage.removeItem(key),
+  set: (key: string, value: string) => localStorage.setItem(key, value),
+};
 
 /**
  * setAuthProvider
@@ -53,15 +50,18 @@ const setTokCd = (tok_cd: string) => {
   const properties = { tok_cd: tok_cd };
 
   // localStorage に itemsToSet の値を保存する
-  itemsToSet.forEach(({ key, value }) => setlocalStorageItem(key, value));
+  itemsToSet.forEach(({ key, value }) => localStorageUtils.set(key, value));
   // authProvider のプロパティをpropertiesの値に更新する
   setAuthProvider(properties);
 };
 
+/**
+ * removeTokCd
+ */
 const removeTokCd = () => {
   console.log("removeTokCd");
   // tok_cdを削除
-  removelocalStorageItem("tok_cd");
+  localStorageUtils.remove("tok_cd");
   // authProvider のプロパティを更新する
   setAuthProvider({ tok_cd: null });
 };
@@ -71,13 +71,13 @@ const removeTokCd = () => {
  * 認証情報を管理する
  */
 export const authProvider: AuthProvider = {
-  isAuthenticated: localStorage.getItem("isAuthenticated") === "true",
-  user_cd: localStorage.getItem("user_cd"),
-  user_name: localStorage.getItem("user_name"),
-  user_kind: localStorage.getItem("user_kind"),
-  token_id: localStorage.getItem("token_id"),
-  session_id: localStorage.getItem("session_id"),
-  tok_cd: localStorage.getItem("tok_cd"),
+  isAuthenticated: localStorageUtils.get("isAuthenticated") === "true",
+  user_cd: localStorageUtils.get("user_cd"),
+  user_name: localStorageUtils.get("user_name"),
+  user_kind: localStorageUtils.get("user_kind"),
+  token_id: localStorageUtils.get("token_id"),
+  session_id: localStorageUtils.get("session_id"),
+  tok_cd: localStorageUtils.get("tok_cd"),
 
   /**
    * signInUser
@@ -110,7 +110,7 @@ export const authProvider: AuthProvider = {
       };
 
       // localStorage に itemsToSet の値を保存する
-      itemsToSet.forEach(({ key, value }) => setlocalStorageItem(key, value));
+      itemsToSet.forEach(({ key, value }) => localStorageUtils.set(key, value));
       // authProvider のプロパティをpropertiesの値に更新する
       setAuthProvider(properties);
       // tok_cd を設定する
@@ -137,7 +137,7 @@ export const authProvider: AuthProvider = {
       tok_cd: null,
     };
     // localStorage から keys の値を削除する
-    keys.forEach(removelocalStorageItem);
+    keys.forEach(localStorageUtils.remove);
     // authProvider のプロパティをpropertiesの値に更新する
     setAuthProvider(properties);
   },
@@ -163,7 +163,7 @@ export const authProvider: AuthProvider = {
         isAuthenticated: true,
       };
       // localStorage に itemsToSet の値を保存する
-      itemsToSet.forEach(({ key, value }) => setlocalStorageItem(key, value));
+      itemsToSet.forEach(({ key, value }) => localStorageUtils.set(key, value));
       // authProvider のプロパティをpropertiesの値に更新する
       setAuthProvider(properties);
 
@@ -183,7 +183,7 @@ export const authProvider: AuthProvider = {
       isAuthenticated: false,
     };
     // localStorage から keys の値を削除する
-    keys.forEach(removelocalStorageItem);
+    keys.forEach(localStorageUtils.remove);
     // authProvider のプロパティをpropertiesの値に更新する
     setAuthProvider(properties);
   },

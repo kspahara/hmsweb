@@ -1,8 +1,7 @@
 import { redirect } from "react-router-dom";
 
-export const clientLoader = () => {
-  // const route = "/nyusyuko";
-  const route = "/hin";
+const route = import.meta.env.VITE_APP_MODE;
 
-  return redirect(route);
+export const clientLoader = () => {
+  return redirect(`/${route}`);
 };

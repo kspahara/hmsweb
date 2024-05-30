@@ -1,6 +1,6 @@
 import { Card, ListGroup, Row, Col } from "react-bootstrap";
 import { useProtectedMypageDenNoPage } from "../../hooks/hooks.ts";
-import { BackBtn } from "../../components/backBtn.tsx";
+import { BtnBack } from "../../components/btnBack.tsx";
 import { parseInttoStr } from "../../libs/libs.ts";
 import { Fragment } from "react/jsx-runtime";
 
@@ -15,7 +15,7 @@ export function ProtectedMypageDenNoPage(): JSX.Element {
     { label: "tor_kbn_key", key: "tor_kbn_key" },
     { label: "tor_kbn", key: "tor_kbn" },
   ];
-  const fields_detail = [
+  const detail = [
     { label: "row_no", key: "row_no" },
     { label: "hin_cd", key: "hin_cd" },
     { label: "hin_nm", key: "hin_nm" },
@@ -30,7 +30,7 @@ export function ProtectedMypageDenNoPage(): JSX.Element {
         <header>
           <h1 className="h2">{message}</h1>
           <nav className="mb-3">
-            <BackBtn label="Back" />
+            <BtnBack label="Back" />
           </nav>
         </header>
         <hr />
@@ -57,7 +57,7 @@ export function ProtectedMypageDenNoPage(): JSX.Element {
               {data.details.map((detail, index) => (
                 <ListGroup.Item key={index}>
                   <Row as="dl" className="mb-0">
-                    {fields_detail.map((field, idx) => (
+                    {detail.map((field, idx) => (
                       <Fragment key={idx}>
                         <Col as="dt" md={3} className="text-md-end">
                           {field.label}

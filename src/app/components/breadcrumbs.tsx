@@ -1,9 +1,9 @@
 import { Fragment } from "react";
 import { NavLink } from "react-router-dom";
 import { Breadcrumb } from "react-bootstrap";
-import { useBreadcrumbs } from "../hooks/hooks.ts";
+import { useBreadcrumbs } from "../hooks/hooks";
 
-type Crumb = {
+export type Crumb = {
   handle: {
     crumb: (match: { params: Record<string, string> }) => JSX.Element;
   };
@@ -30,7 +30,7 @@ export type Match<T> = {
  * @returns
  */
 export function Breadcrumbs(): JSX.Element {
-  const { matches } = useBreadcrumbs() as { matches: Crumb[] };
+  const { matches } = useBreadcrumbs();
 
   return (
     <Breadcrumb>

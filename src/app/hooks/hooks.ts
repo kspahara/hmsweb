@@ -1,13 +1,98 @@
 import { useEffect, useState } from "react";
-import { useActionData, useFetchers, useFetcher, useLoaderData, useMatches, useNavigation, useRevalidator, useRouteError, useRouteLoaderData, useSubmit } from "react-router-dom";
+import {
+  useActionData,
+  useFetchers,
+  useFetcher,
+  useLoaderData,
+  useNavigation,
+  useRevalidator,
+  useRouteError,
+  useRouteLoaderData,
+  useSubmit,
+  useAsyncError,
+  useAsyncValue,
+  useMatches,
+} from "react-router-dom";
 import { FormType } from "../components/createForm.tsx";
 import { IsAuthenticated, UserName } from "../provides/auth.ts";
 import { Link } from "../routes/_index.tsx";
 
 import noImage from "../assets/images/no_image.png";
 import { CartSummaryProps } from "../components/hin/cartSummary.tsx";
+import { Fields } from "../routes/hin/_protected.mypage._index.tsx";
+import { Crumb } from "../components/breadcrumbs.tsx";
 
+const route = import.meta.env.VITE_APP_MODE;
 const isDebugMode = import.meta.env.VITE_DEBBUG === "true";
+
+/**
+ * useBreadcrumbs
+ * @returns
+ */
+export function useBreadcrumbs() {
+  const matches = useMatches() as Crumb[];
+
+  return {
+    matches,
+  };
+}
+
+/**
+ * useAlertAsyncError
+ * @returns
+ */
+export function useAlertAsyncError() {
+  const error = useAsyncError() as Error;
+  const value = useAsyncValue();
+
+  return {
+    error,
+    value,
+  };
+}
+
+/**
+ * useContentAreaHin
+ * @returns
+ */
+export function useContentAreaHin() {
+  const fetcher = useFetcher();
+  const FeacherForm = fetcher.Form;
+  const isFeaching = fetcher.state === "loading";
+  const { user } = useRouteLoaderData("root") as {
+    user: string | null;
+  };
+
+  return {
+    FeacherForm,
+    isFeaching,
+    noImage,
+    user,
+  };
+}
+
+/**
+ * useBtnReturnTop
+ * @returns
+ */
+export function useBtnReturnTop() {
+  const [isBtnActive, setIsBtnActive] = useState(false);
+  const scrollTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+  const scrollWindow = () => setIsBtnActive(window.scrollY > 200);
+
+  useEffect(() => {
+    window.addEventListener("scroll", scrollWindow);
+
+    return () => window.removeEventListener("scroll", scrollWindow);
+  }, []);
+
+  return {
+    scrollTop,
+    isBtnActive,
+  };
+}
 
 /**
  * useProgressNav
@@ -28,7 +113,7 @@ export function useProgressNav() {
  * useHeaderNavigation
  * @returns
  */
-export function useRootPage() {
+export function useHeaderNavigation() {
   const { user, isAuth, links } = useLoaderData() as {
     user: UserName;
     isAuth: IsAuthenticated;
@@ -36,7 +121,6 @@ export function useRootPage() {
   };
   const fetcher = useFetcher();
   const index_link = links.find((link) => link.kbn === "index");
-  const allrightsreserved = "© " + new Date().getFullYear() + " - All rights reserved";
 
   return {
     user,
@@ -45,7 +129,22 @@ export function useRootPage() {
     isLoggingOut: fetcher.formData != null,
     FeacherForm: fetcher.Form,
     index_link,
-    allrightsreserved,
+  };
+}
+
+/**
+ * useRootPage
+ * @returns
+ */
+export function useRootPage() {
+  const { cart_data } = useLoaderData() as {
+    cart_data: CartSummaryProps;
+  };
+  const allrightsReserved = "© " + new Date().getFullYear() + " - All rights reserved";
+
+  return {
+    allrightsReserved,
+    cart_data,
   };
 }
 
@@ -71,6 +170,7 @@ export function useLoginUser() {
     isLoggingIn: navigation.formData?.get("user_name") != null,
     validated,
     setValidated,
+    route,
   };
 }
 
@@ -132,18 +232,14 @@ export function useErrorPage() {
  * @returns
  */
 export function useHinIndexPage() {
-  const { searchies, searchParams, forms, data, cart_data } = useLoaderData() as {
+  const { searchies, searchParams, forms, data } = useLoaderData() as {
     searchies: Record<string, string>[];
     searchParams: Record<string, string>;
     forms: FormType[];
     data: Record<string, string>[];
     cart_data: CartSummaryProps;
   };
-  const { user } = useRouteLoaderData("root") as {
-    user: string | null;
-  };
   const navigation = useNavigation();
-
   const [query, setQuery] = useState<Record<string, string>>({
     ...(searchParams ?? {}),
   });
@@ -158,14 +254,11 @@ export function useHinIndexPage() {
     searchies,
     forms,
     data,
-    user,
     query,
     setQuery,
     submit: useSubmit(),
     isSearching: navigation.formData?.get("keyword") != null,
     isLoading: navigation.state === "loading",
-    noImage,
-    cart_data,
   };
 }
 
@@ -186,7 +279,6 @@ export function useHinDetailPage() {
   return {
     user,
     item: data.results[0],
-    noImage,
   };
 }
 
@@ -233,7 +325,6 @@ export function useProtectedNyusyukoPage() {
     submit: useSubmit(),
     isSearching: navigation.formData?.get("keyword") != null,
     isLoading: navigation.state === "loading",
-    noImage,
     type: "hacyu",
   };
 }
@@ -311,12 +402,13 @@ export function useProtectedMypageAdminPage() {
  * @returns
  */
 export function useProtectedMypagePage() {
-  const { data, searchParams, forms, searchies, message } = useLoaderData() as {
+  const { data, searchParams, forms, searchies, message, fields } = useLoaderData() as {
     data: Record<string, string>[];
     searchParams: Record<string, string>;
     forms: FormType[];
     searchies: Record<string, string>[];
     message: string;
+    fields: Fields;
   };
 
   const [query, setQuery] = useState<Record<string, string>>({
@@ -343,6 +435,7 @@ export function useProtectedMypagePage() {
     isLoading: navigation.state === "loading",
     fetcherInProgress: fetchers.some((f) => ["loading", "submitting"].includes(f.state)),
     type: "mypage",
+    fields,
   };
 }
 
@@ -464,10 +557,4 @@ export function useProtectedAlbumsIdPage() {
     message,
     isEdit: location.pathname.includes("edit"),
   };
-}
-
-export function useBreadcrumbs() {
-  const matches = useMatches();
-
-  return { matches };
 }

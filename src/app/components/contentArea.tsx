@@ -1,33 +1,12 @@
 import { Suspense } from "react";
-import {
-  Await,
-  Link,
-  useAsyncError,
-  useAsyncValue,
-  //  useSubmit
-} from "react-router-dom";
-import { Alert, Card, ListGroup } from "react-bootstrap";
+import { Await, Link } from "react-router-dom";
+import { Card, ListGroup } from "react-bootstrap";
 import { Fallback } from "./fallback.tsx";
+import { AlertAsyncError } from "./alertAsyncError.tsx";
 
 type Props = {
   data: Record<string, string>[];
-  user?: string | null;
-  noImage?: string;
-  type?: string;
-};
-
-const Error = () => {
-  const error = useAsyncError() as Error;
-  const value = useAsyncValue();
-  console.log("error", error);
-  console.log("value", value);
-
-  return (
-    <Alert variant="danger">
-      <i className="bi bi-exclamation-triangle-fill me-1" />
-      {error.name} : {error.message}
-    </Alert>
-  );
+  type: string;
 };
 
 /**
@@ -44,7 +23,7 @@ export function ContentArea(props: Props): JSX.Element {
       children={
         <Await
           resolve={data}
-          errorElement={<Error />}
+          errorElement={<AlertAsyncError />}
           children={(data: Record<string, string>[]) => {
             const contentLists = (
               <Card className="shadow-sm mb-3">

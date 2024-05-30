@@ -2,7 +2,7 @@ import { Link, Form as RouterForm } from "react-router-dom";
 import { Button, Card, Form, Stack } from "react-bootstrap";
 import { CreateForm } from "../../components/createForm.tsx";
 import { useProtectedAlbumsIdPage } from "../../hooks/hooks.ts";
-import { BackBtn } from "../../components/backBtn.tsx";
+import { BtnBack } from "../../components/btnBack.tsx";
 
 export function ProtectedAlbumsIdPage(): JSX.Element {
   const { data, forms, searchies, message, isEdit } = useProtectedAlbumsIdPage();
@@ -47,14 +47,14 @@ export function ProtectedAlbumsIdPage(): JSX.Element {
         <header>
           <h1 className="h2">{message}</h1>
           <nav className="mb-3">
-            <BackBtn label="Back" />
+            <BtnBack label="Back" />
           </nav>
         </header>
         <hr />
         <section>
           <h2 className="h3">{data.title}</h2>
           {isEdit ? (
-            <BackBtn variant="secondary" label="Cancel" />
+            <BtnBack variant="secondary" label="Cancel" />
           ) : (
             <Link to="edit" className="btn btn-primary">
               Edit

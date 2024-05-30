@@ -1,35 +1,15 @@
-import { Fragment, Suspense } from "react";
-import {
-  Await,
-  Link,
-  useAsyncError,
-  useAsyncValue,
-  useFetcher,
-  //  useSubmit
-} from "react-router-dom";
-import { Alert, Badge, Button, Card, Col, FloatingLabel, Form, InputGroup, ListGroup, Row } from "react-bootstrap";
+import { Suspense } from "react";
+import { Await, Link } from "react-router-dom";
+import { Badge, Button, Card, Col, FloatingLabel, Form, InputGroup, ListGroup, Row } from "react-bootstrap";
 import { Fallback } from "../fallback.tsx";
 import { parseInttoStr } from "../../libs/libs.ts";
+import { AlertAsyncError } from "../alertAsyncError.tsx";
+import { useContentAreaHin } from "../../hooks/hooks.ts";
+import { AlertMessage } from "../alertMessage.tsx";
 
 type Props = {
   data: Record<string, string>[];
-  user?: string | null;
-  noImage?: string;
   type?: string;
-};
-
-const Error = () => {
-  const error = useAsyncError() as Error;
-  const value = useAsyncValue();
-  console.log("error", error);
-  console.log("value", value);
-
-  return (
-    <Alert variant="danger">
-      <i className="bi bi-exclamation-triangle-fill me-1" />
-      {error.name} : {error.message}
-    </Alert>
-  );
 };
 
 /**
@@ -38,11 +18,8 @@ const Error = () => {
  * @returns
  */
 export function ContentAreaHin(props: Props): JSX.Element {
-  const { data, user, noImage, type } = props;
-  // const submit = useSubmit();
-  const fetcher = useFetcher();
-  const FeacherForm = fetcher.Form;
-  const isFeaching = fetcher.state === "loading";
+  const { data, type } = props;
+  const { isFeaching, FeacherForm, noImage, user } = useContentAreaHin();
 
   return (
     <Suspense
@@ -50,7 +27,7 @@ export function ContentAreaHin(props: Props): JSX.Element {
       children={
         <Await
           resolve={data}
-          errorElement={<Error />}
+          errorElement={<AlertAsyncError />}
           children={(data: Record<string, string>[]) => {
             const contentAdminLists = (
               <Card className="shadow-sm mb-3">
@@ -69,39 +46,6 @@ export function ContentAreaHin(props: Props): JSX.Element {
                 </ListGroup>
               </Card>
             );
-
-            const contentListsHin = () => {
-              const fields = [
-                { label: "処理日:", key: "syori_ymd" },
-                { label: "伝票番号:", key: "den_no" },
-                { label: "取引種別:", key: "tori_nm" },
-                { label: "税込額:", key: "zeikomi_gaku", format: (value: string) => `¥${parseInttoStr(value)}` },
-              ];
-
-              return (
-                <Card className="shadow-sm mb-3">
-                  <ListGroup variant="flush">
-                    {data.map((item, index) => (
-                      <ListGroup.Item key={index} as={Link} to={`${item.den_no}`} className="d-flex" action>
-                        <Row as="dl" className="mb-0">
-                          {fields.map((field, idx) => (
-                            <Fragment key={idx}>
-                              <Col as="dt" md={3} className="text-nowrap text-md-end">
-                                {field.label}
-                              </Col>
-                              <Col as="dd" md={9}>
-                                {item[field.key] ? (field.format ? field.format(item[field.key]) : item[field.key]) : "-"}
-                              </Col>
-                            </Fragment>
-                          ))}
-                        </Row>
-                        <i className="bi bi-chevron-right ms-auto" />
-                      </ListGroup.Item>
-                    ))}
-                  </ListGroup>
-                </Card>
-              );
-            };
 
             const contentCards = (
               <Row lg={5} xl={6} className="gx-2 gy-3">
@@ -187,7 +131,21 @@ export function ContentAreaHin(props: Props): JSX.Element {
                   <span className="me-1">count:</span>
                   <span>{data.length}</span>
                 </div>
-                <div id="list-body">{type === "mypage" ? contentListsHin() : type === "Adminlist" ? contentAdminLists : contentCards}</div>
+                <div id="list-body">
+                  {data.length === 0 ? (
+                    <AlertMessage
+                      {...{
+                        message: "商品がありません。",
+                        variant: "warning",
+                      }}
+                    />
+                  ) : type === "Adminlist" ? (
+                    contentAdminLists
+                  ) : (
+                    contentCards
+                  )}
+                  {/* {type === "Adminlist" ? contentAdminLists : contentCards} */}
+                </div>
               </>
             );
           }}

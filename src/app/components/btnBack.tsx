@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { ButtonVariant } from "react-bootstrap/esm/types";
 
-type BackBtnProps = {
+type BtnBackProps = {
   label?: string;
   variant?: ButtonVariant;
 };
@@ -12,7 +12,7 @@ type BackBtnProps = {
  * @param param0
  * @returns
  */
-export function BackBtn({ label = "戻る", variant = "link" }: BackBtnProps): JSX.Element {
+export function BtnBack({ label = "戻る", variant = "link" }: BtnBackProps): JSX.Element {
   const navigate = useNavigate();
 
   return (

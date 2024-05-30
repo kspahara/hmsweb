@@ -45,7 +45,7 @@ const clientAction = async ({ request }: ActionFunctionArgs) => {
   // フォームデータを取得する
   const getFormData = async (request: Request) => {
     const formData = await request.formData();
-
+    // フォームデータをオブジェクトに変換する
     return Object.fromEntries(formData.entries()) as {
       email: string;
       password: string;

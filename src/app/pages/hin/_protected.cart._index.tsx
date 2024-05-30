@@ -1,11 +1,12 @@
 import { NavLink, Form as RouterForm, useLocation, useSubmit } from "react-router-dom";
-import { Card, FloatingLabel, Form, ListGroup, Button, Alert, Nav, Col, Row } from "react-bootstrap";
+import { Card, FloatingLabel, Form, ListGroup, Button, Nav, Col, Row } from "react-bootstrap";
 import { useProtectedCartPage } from "../../hooks/hooks.ts";
 import { parseInttoStr } from "../../libs/libs.ts";
-import { BackBtn } from "../../components/backBtn.tsx";
+import { BtnBack } from "../../components/btnBack.tsx";
 import { Fallback } from "../../components/fallback.tsx";
 import { Fragment } from "react/jsx-runtime";
 import { Link } from "react-router-dom";
+import { AlertMessage } from "../../components/alertMessage.tsx";
 
 /**
  *
@@ -60,7 +61,7 @@ export function ProtectedCartPage(): JSX.Element {
             ))}
           </Nav>
           <nav className="mb-3">
-            <BackBtn label="Back" />
+            <BtnBack label="Back" />
           </nav>
         </header>
         <hr />
@@ -74,18 +75,12 @@ export function ProtectedCartPage(): JSX.Element {
                     <h3 className="h4">納入先</h3>
                     {data.nonyus.length == 0 ? (
                       <ListGroup.Item>
-                        <Alert variant="warning" className="mb-0">
-                          <i className="bi bi-exclamation-triangle me-1"></i>
-                          納入先がありません。
-                        </Alert>
+                        <AlertMessage message="納入先がありません。" variant="warning" classes="mb-0" />
                       </ListGroup.Item>
                     ) : (
                       <Card className="shadow-sm mb-3">
                         <Card.Body>
-                          <Alert variant="info" className="mb-0">
-                            <i className="bi bi-info-circle me-1"></i>
-                            納入先を選択してください。
-                          </Alert>
+                          <AlertMessage message="納入先を選択してください。" variant="info" classes="mb-0" />
                         </Card.Body>
                         <ListGroup variant="flush">
                           {data.nonyus.map((item, index) => (
@@ -146,18 +141,12 @@ export function ProtectedCartPage(): JSX.Element {
                     <h3 className="h4">ご注文商品</h3>
                     {data.details.length === 0 ? (
                       <ListGroup.Item>
-                        <Alert variant="warning" className="mb-0">
-                          <i className="bi bi-exclamation-triangle me-1"></i>
-                          カートに商品がありません。
-                        </Alert>
+                        <AlertMessage message="カートに商品がありません。" variant="warning" classes="mb-0" />
                       </ListGroup.Item>
                     ) : (
                       <Card className="shadow-sm mb-3">
                         <Card.Body>
-                          <Alert variant="info" className="mb-0">
-                            <i className="bi bi-info-circle me-1"></i>
-                            数量を確認して、レジに進んでください。
-                          </Alert>
+                          <AlertMessage message="数量を確認して、レジに進んでください。" variant="info" classes="mb-0" />
                         </Card.Body>
                         <ListGroup variant="flush">
                           {data.details.map((item, index) => (
