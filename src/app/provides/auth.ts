@@ -1,5 +1,5 @@
 import { getAuthUser } from "../data/jsonplaceholder/users.ts";
-import { getLoginTanto, getLoginTokui } from "../data/hin/login.ts";
+import { getLoginTanto, getLoginTokui } from "../data/login.ts";
 
 export type IsAuthenticated = boolean;
 export type UserName = string | null;

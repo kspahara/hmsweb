@@ -1,10 +1,11 @@
-import { handleResponse } from "../../libs/libs.ts";
+import { handleResponse } from "../libs/libs.ts";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
 /**
  *
- * @param
+ * @param p_email
+ * @param p_password
  * @returns
  */
 export async function getLoginTokui(p_email: string, p_password: string) {
@@ -29,7 +30,8 @@ export async function getLoginTokui(p_email: string, p_password: string) {
 
 /**
  *
- * @param
+ * @param p_email
+ * @param p_password
  * @returns
  */
 export async function getLoginTanto(p_email: string, p_password: string) {
