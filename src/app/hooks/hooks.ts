@@ -204,11 +204,11 @@ export function useHinDetailPage() {
 /**
  * useProtectedNyusyukoPage
  * @returns
- */
-type Item = {
-	den_no: string;
-	[key: string]: string;
-};
+//  */
+// type Item = {
+// 	den_no: string;
+// 	[key: string]: string;
+// };
 
 export function useProtectedNyusyukoPage() {
 	const { searchies, searchParams, forms, data } = useLoaderData() as {
@@ -216,7 +216,8 @@ export function useProtectedNyusyukoPage() {
 		searchParams: Record<string, string>;
 		forms: FormType[];
 		// data: Record<string, string>[];
-		data: Record<string, Item[]>;
+		// data: Record<string, Item[]>;
+    data: Record<string, Record<string, string>[]>;
 	};
 	const { user } = useRouteLoaderData("root") as {
 		user: string | null;

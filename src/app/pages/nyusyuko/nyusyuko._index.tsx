@@ -10,51 +10,48 @@ import { ContentAreaHacyu } from "../../components/contentAreaHacyu.tsx";
  * @returns
  */
 export function ProtectedNyusyukoPage(): JSX.Element {
-	const {
-		searchies,
-		forms,
-		query,
-		setQuery,
-		submit,
-		isSearching,
-		isLoading,
-		data,
-		user,
-		type,
-	} = useProtectedNyusyukoPage();
+  const {
+    searchies,
+    forms,
+    query,
+    setQuery,
+    submit,
+    isSearching,
+    isLoading,
+    data,
+    user,
+    type,
+  } = useProtectedNyusyukoPage();
 
-	// console.log(data);
+  // console.log(data);
 
-	return (
-		<>
-			<section>
-				<header>
-					<h1 className="h2">入荷一覧画面</h1>
-					<p>入荷一覧を表示します。</p>
-					<div id="hin-search-area" className="mb-3">
-						<SearchArea
-							{...{
-								searchies,
-								forms,
-								query,
-								setQuery,
-								submit,
-								isSearching,
-							}}
-						/>
-					</div>
-				</header>
-				<hr />
+  return (
+    <>
+      <section>
+        <header>
+          <h1 className="h2">入荷一覧画面</h1>
+          <p>入荷一覧を表示します。</p>
+          <div id="hin-search-area" className="mb-3">
+            <SearchArea
+              {...{
+                searchies,
+                forms,
+                query,
+                setQuery,
+                submit,
+                isSearching,
+              }}
+            />
+          </div>
+        </header>
+        <hr />
 
-				<section id="hin-contents">
-					<div
-						id="hin-contents-page"
-						className={isLoading ? "loading" : ""}
-					>
-						<ContentAreaHacyu {...{ data, user, type }} />
-					</div>
-				</section>
-			</section>
-		</>
-	);
+        <section id="hin-contents">
+          <div id="hin-contents-page" className={isLoading ? "loading" : ""}>
+            <ContentAreaHacyu {...{ data, user, type }} />
+          </div>
+        </section>
+      </section>
+    </>
+  );
 }
