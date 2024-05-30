@@ -52,6 +52,7 @@ export function HeaderNavigation(): JSX.Element {
           <>
             <Nav variant="underline">
               <NavDropdown
+                align="end"
                 title={
                   <>
                     <i className="bi bi-person-fill me-1" />
