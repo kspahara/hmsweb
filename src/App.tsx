@@ -148,17 +148,6 @@ const router = [
                 },
               },
               {
-                path: ":den_no/edit?",
-                async lazy() {
-                  const { ProtectedMypageDenNoRoute } = await import("./app/routes/hin/_protected.mypage.$den_no.tsx");
-                  return {
-                    loader: ProtectedMypageDenNoRoute.loader,
-                    handle: ProtectedMypageDenNoRoute.handle,
-                    element: <ProtectedMypageDenNoRoute />,
-                  };
-                },
-              },
-              {
                 path: "mypage_admin",
                 async lazy() {
                   const { ProtectedMypageAdminRoute } = await import("./app/routes/hin/_protected.mypage_admin._index.tsx");

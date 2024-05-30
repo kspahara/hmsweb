@@ -279,6 +279,7 @@ export function useHinDetailPage() {
   return {
     user,
     item: data.results[0],
+    noImage,
   };
 }
 
@@ -514,27 +515,6 @@ export function useCommentsPage() {
     isSearching: navigation.formData?.get("keyword") != null,
     isLoading: navigation.state === "loading",
     type: "list",
-  };
-}
-
-/**
- * useProtectedMypageIdPage
- * @returns
- */
-export function useProtectedMypageDenNoPage() {
-  const { data, forms, searchies, message } = useLoaderData() as {
-    data: { details: Record<string, string>[] };
-    forms: FormType[];
-    searchies: Record<string, string>[];
-    message: string;
-  };
-
-  return {
-    data,
-    forms,
-    searchies,
-    message,
-    isEdit: location.pathname.includes("edit"),
   };
 }
 
