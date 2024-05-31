@@ -4,16 +4,8 @@ import { BtnBack } from "../../components/btnBack.tsx";
 import { useHinDetailPage } from "../../hooks/hooks.ts";
 
 export function HinDetailPage(): JSX.Element {
-  const { user, item, noImage } = useHinDetailPage();
+  const { user, item, noImage, fields } = useHinDetailPage();
   const itemSrc = item.atch_flg === "1" ? `data:image/jpeg;base64,${item.atch_image}` : `${noImage}`;
-  const itemDetails = [
-    { label: "商品番号：", value: item.hin_cd ? item.hin_cd : "-" },
-    { label: "商品名：", value: item.hin_nm ? item.hin_nm : "-" },
-    { label: "単価：", value: `¥${item.tanka ? parseInt(item.tanka).toLocaleString() : "-"}` },
-    { label: "ページ数：", value: item.density ? item.density : "-" },
-    { label: "判型：", value: item.size_cd ? item.size_cd : "-" },
-    { label: "付属品等：", value: item.hosoku1 ? item.hosoku1 : "-" },
-  ];
 
   return (
     <>
@@ -34,35 +26,34 @@ export function HinDetailPage(): JSX.Element {
                 <Col sm={5} md={4} lg={3}>
                   <div className="mb-3">
                     <Image src={itemSrc} alt="image" fluid thumbnail />
+                    {user && (
+                      <Form>
+                        <InputGroup>
+                          <FloatingLabel controlId="suryo" label="数量">
+                            <Form.Control type="number" placeholder="数量を入力してください" defaultValue={1} className="text-end" />
+                          </FloatingLabel>
+                          <Button type="button" variant="primary">
+                            <i className="bi bi-cart-plus-fill me-1" />
+                          </Button>
+                        </InputGroup>
+                      </Form>
+                    )}
                   </div>
                 </Col>
                 <Col>
                   <Card.Title>{item.hin_nm}</Card.Title>
                   <Row as="dl">
-                    {itemDetails.map((detail, index) => (
+                    {fields.detail.map((field, index) => (
                       <Fragment key={index}>
                         <Col as="dt" md={3} className="text-sm-end">
-                          {detail.label}
+                          {field.label}
                         </Col>
-                        <Col as="dd" md={9}>
-                          {detail.value}
+                        <Col as="dd" md={9} className={`${field.className}`}>
+                          {item[field.key] ? (field.format ? field.format(item[field.key]) : item[field.key]) : "-"}
                         </Col>
                       </Fragment>
                     ))}
                   </Row>
-
-                  {user && (
-                    <Form>
-                      <InputGroup>
-                        <FloatingLabel controlId="suryo" label="数量">
-                          <Form.Control type="number" placeholder="数量を入力してください" defaultValue={1} className="text-end" />
-                        </FloatingLabel>
-                        <Button type="button" variant="primary">
-                          <i className="bi bi-cart-plus-fill me-1" />
-                        </Button>
-                      </InputGroup>
-                    </Form>
-                  )}
                 </Col>
               </Row>
             </Card.Body>

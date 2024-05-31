@@ -7,16 +7,16 @@ import { useHinIndexPage } from "../../hooks/hooks.ts";
  * @returns
  */
 export function HinIndexPage(): JSX.Element {
-  const { searchies, forms, query, setQuery, submit, isSearching, isLoading, data } = useHinIndexPage();
+  const { isLoading, data, message, ...props } = useHinIndexPage();
 
   return (
     <>
       <section>
         <header>
-          <h1 className="h2">商品案内</h1>
+          <h1 className="h2">{message}</h1>
           <p>商品の一覧を表示します。</p>
           <div id="hin-search-area" className="mb-3">
-            <SearchArea {...{ searchies, forms, query, setQuery, submit, isSearching }} />
+            <SearchArea {...{ ...props }} />
           </div>
         </header>
         <hr />

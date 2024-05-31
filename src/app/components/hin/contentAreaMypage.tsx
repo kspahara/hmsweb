@@ -3,12 +3,15 @@ import { Await } from "react-router-dom";
 import { Badge, Button, Card, Col, Row, Table } from "react-bootstrap";
 import { Fallback } from "../fallback.tsx";
 import { AlertAsyncError } from "../alertAsyncError.tsx";
-import { Fields } from "../../routes/hin/_protected.mypage._index.tsx";
+import { Field } from "../../routes/hin/_protected.mypage._index.tsx";
 
 type Props = {
   data: Record<string, string>[];
   type?: string;
-  fields: Fields;
+  fields: {
+    header: Field[];
+    detail: Field[];
+  };
 };
 
 type Data = Record<string, string> & {

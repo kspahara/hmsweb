@@ -85,7 +85,7 @@ const clientLoader = async ({ request }: LoaderFunctionArgs) => {
     searchParams: Object.fromEntries(search_params.entries()),
     forms: await getForms(),
     searchies: getHinCond(),
-    message: "Hin",
+    message: "商品案内",
   });
 };
 const clientAction = async ({ request }: ActionFunctionArgs) => {

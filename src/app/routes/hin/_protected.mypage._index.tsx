@@ -7,7 +7,6 @@ import { authProvider } from "../../provides/auth.ts";
 
 const route_name = "ProtectedMypageRoute";
 
-// TODO
 const getForms = async (): Promise<FormType[]> => {
   return [
     {
@@ -20,7 +19,7 @@ const getForms = async (): Promise<FormType[]> => {
   ];
 };
 
-type Field = {
+export type Field = {
   label: string;
   key: string;
   format?: (value: string) => string;
@@ -28,7 +27,7 @@ type Field = {
   className?: string;
 };
 
-export type Fields = {
+type Fields = {
   header: Field[];
   detail: Field[];
 };

@@ -27,16 +27,12 @@ export type Hin = {
   hin_attr_cd: string;
 };
 
-export type HinList = {
-  results: Hin[];
-};
-
 /**
  *
  * @param searchParams
  * @returns
  */
-export async function getHinList(searchParams: URLSearchParams): Promise<HinList> {
+export async function getHinList(searchParams: URLSearchParams): Promise<Hin[]> {
   const params_entry = Object.fromEntries(searchParams.entries());
   const url = `${apiUrl}/get-search-tok_hin.php`;
   const param: RequestInit = {
@@ -64,7 +60,7 @@ export async function getHinList(searchParams: URLSearchParams): Promise<HinList
  * @param p_hin_cd
  * @returns
  */
-export async function getHinDetail(p_hin_cd: Hin["hin_cd"]): Promise<HinList> {
+export async function getHinDetail(p_hin_cd: Hin["hin_cd"]): Promise<Hin> {
   const url = `${apiUrl}/get-search-tok_hin.php`;
   const param: RequestInit = {
     method: "POST",
@@ -83,7 +79,7 @@ export async function getHinDetail(p_hin_cd: Hin["hin_cd"]): Promise<HinList> {
   const res = await fetch(url, param);
   const data = await handleResponse(res);
 
-  return data;
+  return data.results[0];
 }
 
 /**
