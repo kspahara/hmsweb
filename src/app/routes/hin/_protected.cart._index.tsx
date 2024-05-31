@@ -2,8 +2,48 @@ import { ActionFunctionArgs, LoaderFunctionArgs, defer, redirect } from "react-r
 import { getCart, deleteCart, updateCartNonyu, commitCart, updateCartSuryo } from "../../data/hin/cart.ts";
 import { ProtectedCartPage } from "../../pages/hin/_protected.cart._index.tsx";
 import { authProvider } from "../../provides/auth.ts";
+import { Field } from "./_protected.mypage._index.tsx";
+import { parseInttoStr } from "../../libs/libs.ts";
 
 const route_name = "ProtectedCartRoute";
+
+export type FieldsNav = {
+  to: string;
+  label: string;
+  className?: string;
+};
+
+type Fields = {
+  navigation: FieldsNav[];
+  nonyu: Field[];
+  cart: Field[];
+};
+
+const getFields = async (): Promise<Fields> => {
+  const fields = {
+    navigation: [
+      { to: "/cart", label: "Cart", className: "rounded-start border-end-0" },
+      { to: "/cart/edit", label: "Edit" },
+      { to: "/cart/confirm", label: "Confirm", className: "rounded-end border-start-0" },
+    ],
+    nonyu: [
+      { label: "納入先名:", key: "nonyu_nm" },
+      { label: "住所:", key: "addr" },
+      { label: "TEL:", key: "tel_no" },
+    ],
+    cart: [
+      { label: "商品:", key: "hin_cd" },
+      { label: "", key: "hin_nm" },
+      { label: "単価:", key: "tanka", format: (value: string) => `¥${parseInttoStr(value)}` },
+    ],
+  };
+
+  return {
+    navigation: fields.navigation,
+    nonyu: fields.nonyu,
+    cart: fields.cart,
+  };
+};
 
 const clientLoader = async ({ request }: LoaderFunctionArgs) => {
   if (!authProvider.isAuthenticated) return console.log(`${route_name} !isAuth false`), false;
@@ -15,6 +55,7 @@ const clientLoader = async ({ request }: LoaderFunctionArgs) => {
     searchParams: Object.fromEntries(search_params.entries()),
     searchies: [],
     message: route_name,
+    fields: await getFields(),
   });
 };
 

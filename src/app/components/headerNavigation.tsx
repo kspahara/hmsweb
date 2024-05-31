@@ -8,7 +8,8 @@ import { useHeaderNavigation } from "../hooks/hooks.ts";
  * @returns
  */
 export function HeaderNavigation(): JSX.Element {
-  const { user, isAuth, links, isLoggingOut, FeacherForm, index_link } = useHeaderNavigation();
+  const { user, isAuth, links, isLoggingOut, FeacherForm } = useHeaderNavigation();
+  const index_link = links.find((link) => link.kbn === "index");
 
   const Contents = (): JSX.Element => {
     return (

@@ -88,6 +88,7 @@ const clientLoader = async ({ request }: LoaderFunctionArgs) => {
     message: "商品案内",
   });
 };
+
 const clientAction = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
   const formType = formData.get("form_type");

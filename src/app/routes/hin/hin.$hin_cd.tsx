@@ -1,6 +1,6 @@
-import { LoaderFunctionArgs } from "react-router-dom";
+import { ActionFunctionArgs, LoaderFunctionArgs } from "react-router-dom";
 import { CrumbItem, Match } from "../../components/breadcrumbs.tsx";
-import { getHinDetail } from "../../data/hin/hin.ts";
+import { deleteHinFavorite, getHinDetail, updateHinEntryCart, updateHinFavorite } from "../../data/hin/hin.ts";
 import { HinDetailPage } from "../../pages/hin/hin.$hin_cd.tsx";
 import { getLocationPath, parseInttoStr } from "../../libs/libs.ts";
 import { Field } from "./_protected.mypage._index.tsx";
@@ -35,6 +35,21 @@ const clientLoader = async ({ params }: LoaderFunctionArgs) => {
   };
 };
 
+const clientAction = async ({ request }: ActionFunctionArgs) => {
+  const formData = await request.formData();
+  const formType = formData.get("form_type");
+  const isFavorite = formType === "favorite";
+  const updateFav = isFavorite && formData.get("hin_attr_cd") === "1";
+  const deleteFav = isFavorite && formData.get("hin_attr_cd") === "0";
+  const isCart = formType === "cart";
+  const isUpdateFav = isFavorite && updateFav;
+  const isDeleteFav = isFavorite && deleteFav;
+
+  const runAction = isUpdateFav ? await updateHinFavorite(formData) : isDeleteFav ? await deleteHinFavorite(formData) : isCart ? await updateHinEntryCart(formData) : null;
+
+  return runAction;
+};
+
 const handle = {
   crumb: (match: Match<{ hin_nm: string }>): JSX.Element => (
     <CrumbItem props={{ linkProps: { to: `${match.pathname}` }, active: getLocationPath() === match.pathname }} label={<>{match.data.data.hin_nm}</>} />
@@ -50,4 +65,5 @@ export function HinDetailRoute(): JSX.Element {
 }
 
 HinDetailRoute.loader = clientLoader;
+HinDetailRoute.action = clientAction;
 HinDetailRoute.handle = handle;

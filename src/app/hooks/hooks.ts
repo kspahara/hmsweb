@@ -12,6 +12,7 @@ import {
   useAsyncError,
   useAsyncValue,
   useMatches,
+  useLocation,
 } from "react-router-dom";
 import { FormType } from "../components/createForm.tsx";
 import { CartSummaryProps } from "../components/hin/cartSummary.tsx";
@@ -20,9 +21,23 @@ import { IsAuthenticated, UserName } from "../provides/auth.ts";
 import { Link } from "../routes/_index.tsx";
 import noImage from "../assets/images/no_image.png";
 import { Field } from "../routes/hin/_protected.mypage._index.tsx";
+import { FieldsNav } from "../routes/hin/_protected.cart._index.tsx";
 
 const route = import.meta.env.VITE_APP_MODE;
 const isDebugMode = import.meta.env.VITE_DEBBUG === "true";
+
+/**
+ * useHinInputSuryo
+ * @returns
+ */
+export function useHinInputSuryo() {
+  const fetcher = useFetcher();
+
+  return {
+    FeacherForm: fetcher.Form,
+    isFeaching: fetcher.state === "loading",
+  };
+}
 
 /**
  * useBreadcrumbs
@@ -50,16 +65,11 @@ export function useAlertAsyncError() {
  * @returns
  */
 export function useContentAreaHin() {
-  const fetcher = useFetcher();
-  const FeacherForm = fetcher.Form;
-  const isFeaching = fetcher.state === "loading";
   const { user } = useRouteLoaderData("root") as {
     user: string | null;
   };
 
   return {
-    FeacherForm,
-    isFeaching,
     noImage,
     user,
   };
@@ -114,14 +124,12 @@ export function useHeaderNavigation() {
     links: Link[];
   };
   const fetcher = useFetcher();
-  const index_link = links.find((link) => link.kbn === "index");
 
   return {
     ...loaderData,
     links,
     isLoggingOut: fetcher.formData != null,
     FeacherForm: fetcher.Form,
-    index_link,
   };
 }
 
@@ -327,15 +335,21 @@ export function useProtectedCartPage() {
     forms: FormType[];
     searchies: Record<string, string>[];
     message: string;
+    fields: {
+      navigation: FieldsNav[];
+      nonyu: Field[];
+      cart: Field[];
+    };
   };
-
   const fetcher = useFetcher();
-  const FeacherForm = fetcher.Form;
+  const location = useLocation();
 
   return {
     ...loaderData,
-    FeacherForm,
+    FeacherForm: fetcher.Form,
     isFeaching: fetcher.state === "loading",
+    Feachersubmit: fetcher.submit,
+    locPath: location.pathname,
   };
 }
 

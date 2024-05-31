@@ -1,7 +1,8 @@
 import { Fragment } from "react";
-import { Form, Button, Col, Row, Image, FloatingLabel, InputGroup, Card } from "react-bootstrap";
+import { Col, Row, Image, Card } from "react-bootstrap";
 import { BtnBack } from "../../components/btnBack.tsx";
 import { useHinDetailPage } from "../../hooks/hooks.ts";
+import { HinInputSuryo } from "../../components/hin/HinInputSuryo.tsx";
 
 export function HinDetailPage(): JSX.Element {
   const { user, item, noImage, fields } = useHinDetailPage();
@@ -25,18 +26,12 @@ export function HinDetailPage(): JSX.Element {
               <Row>
                 <Col sm={5} md={4} lg={3}>
                   <div className="mb-3">
-                    <Image src={itemSrc} alt="image" fluid thumbnail />
+                    <Image src={itemSrc} alt="image" className="p-2" fluid />
                     {user && (
-                      <Form>
-                        <InputGroup>
-                          <FloatingLabel controlId="suryo" label="数量">
-                            <Form.Control type="number" placeholder="数量を入力してください" defaultValue={1} className="text-end" />
-                          </FloatingLabel>
-                          <Button type="button" variant="primary">
-                            <i className="bi bi-cart-plus-fill me-1" />
-                          </Button>
-                        </InputGroup>
-                      </Form>
+                      <>
+                        <hr />
+                        <HinInputSuryo data={item} />
+                      </>
                     )}
                   </div>
                 </Col>

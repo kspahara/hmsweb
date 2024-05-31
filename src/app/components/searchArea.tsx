@@ -64,7 +64,10 @@ export function SearchArea(props: Props): JSX.Element {
       <Form as={RouterForm} role="search" onChange={(e) => submit(e.currentTarget, { replace: true })}>
         <fieldset disabled={isSearching}>
           <fieldset>
-            <legend className="h6">絞り込む</legend>
+            <legend className="h6">
+              <i className="bi bi-funnel-fill me-1" />
+              絞り込む
+            </legend>
             <Row className="gx-2 gy-2">
               <Suspense
                 fallback={<Fallback />}
@@ -100,9 +103,10 @@ export function SearchArea(props: Props): JSX.Element {
                                 <Badge
                                   key={index}
                                   role="button"
-                                  bg="secondary"
+                                  bg="white"
+                                  text="dark"
                                   pill={false}
-                                  className="btn mt-3"
+                                  className="btn border mt-3"
                                   onClick={() => {
                                     setQuery({ ...query, [name]: "" });
                                     submit({ ...query, [name]: "" }, { replace: true });

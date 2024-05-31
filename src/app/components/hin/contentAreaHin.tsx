@@ -1,11 +1,12 @@
 import { Suspense } from "react";
 import { Await, Link } from "react-router-dom";
-import { Badge, Button, Card, Col, FloatingLabel, Form, InputGroup, ListGroup, Row } from "react-bootstrap";
-import { Fallback } from "../fallback.tsx";
+import { Badge, Button, Card, Col, ListGroup, Row } from "react-bootstrap";
 import { parseInttoStr } from "../../libs/libs.ts";
-import { AlertAsyncError } from "../alertAsyncError.tsx";
 import { useContentAreaHin } from "../../hooks/hooks.ts";
+import { Fallback } from "../fallback.tsx";
+import { AlertAsyncError } from "../alertAsyncError.tsx";
 import { AlertMessage } from "../alertMessage.tsx";
+import { HinInputSuryo } from "./HinInputSuryo.tsx";
 
 type Props = {
   data: Record<string, string>[];
@@ -19,7 +20,7 @@ type Props = {
  */
 export function ContentAreaHin(props: Props): JSX.Element {
   const { data, type } = props;
-  const { isFeaching, FeacherForm, noImage, user } = useContentAreaHin();
+  const { noImage, user } = useContentAreaHin();
 
   return (
     <Suspense
@@ -70,53 +71,7 @@ export function ContentAreaHin(props: Props): JSX.Element {
                       </Link>
                       {user && (
                         <Card.Footer className="p-2 bg-transparent">
-                          <div className="d-grid">
-                            <Form as={FeacherForm} method="post" name="form_favorite">
-                              <fieldset disabled={isFeaching}>
-                                <Button
-                                  type="submit"
-                                  name="hin_attr_cd"
-                                  value={post.hin_attr_cd === "1" ? "0" : "1"}
-                                  variant={post.hin_attr_cd === "1" ? "warning" : "light"}
-                                  aria-label={post.hin_attr_cd === "1" ? "お気に入りを外す" : "お気に入りに追加"}
-                                  className="btn btn-sm lh-sm mb-2 w-100"
-                                >
-                                  {isFeaching ? (
-                                    <Fallback variant={post.hin_attr_cd === "1" ? "dark" : "secondary"} />
-                                  ) : (
-                                    <>
-                                      <i className="bi bi-star-fill me-1" />
-                                      {post.hin_attr_cd === "1" ? "お気に入りを外す" : "お気に入りに追加"}
-                                    </>
-                                  )}
-                                </Button>
-                                <Form.Control type="hidden" name="form_type" value="favorite" />
-                                <Form.Control type="hidden" name="hin_cd" value={post.hin_cd} />
-                              </fieldset>
-                            </Form>
-                            <Form as={FeacherForm} method="post" name="form_cart">
-                              <fieldset disabled={isFeaching}>
-                                <InputGroup>
-                                  <FloatingLabel controlId={`suryo${index}`} label="数量">
-                                    <Form.Control type="number" name="suryo" placeholder="数量を入力してください" defaultValue={1} className="text-end" />
-                                  </FloatingLabel>
-                                  <Button type="submit" name="hin_cd" value={post.hin_cd} variant="primary" className="lh-sm">
-                                    {isFeaching ? (
-                                      <Fallback variant="light" />
-                                    ) : (
-                                      <>
-                                        <div>
-                                          <small className="">カートに入れる</small>
-                                        </div>
-                                        <i className="bi bi-cart-plus-fill" />
-                                      </>
-                                    )}
-                                  </Button>
-                                </InputGroup>
-                                <Form.Control type="hidden" name="form_type" value="cart" />
-                              </fieldset>
-                            </Form>
-                          </div>
+                          <HinInputSuryo data={post} />
                         </Card.Footer>
                       )}
                     </Card>
@@ -132,19 +87,7 @@ export function ContentAreaHin(props: Props): JSX.Element {
                   <span>{data.length}</span>
                 </div>
                 <div id="list-body">
-                  {data.length === 0 ? (
-                    <AlertMessage
-                      {...{
-                        message: "商品がありません。",
-                        variant: "warning",
-                      }}
-                    />
-                  ) : type === "Adminlist" ? (
-                    contentAdminLists
-                  ) : (
-                    contentCards
-                  )}
-                  {/* {type === "Adminlist" ? contentAdminLists : contentCards} */}
+                  {data.length === 0 ? <AlertMessage message="商品がありません。" variant="warning" /> : type === "Adminlist" ? contentAdminLists : contentCards}
                 </div>
               </>
             );

@@ -1,49 +1,73 @@
-import { NavLink, Form as RouterForm, useLocation, useSubmit } from "react-router-dom";
+import { Fragment } from "react";
+import { NavLink, Form as RouterForm, Link } from "react-router-dom";
 import { Card, FloatingLabel, Form, ListGroup, Button, Nav, Col, Row } from "react-bootstrap";
 import { useProtectedCartPage } from "../../hooks/hooks.ts";
 import { parseInttoStr } from "../../libs/libs.ts";
-// import { BtnBack } from "../../components/btnBack.tsx";
 import { Fallback } from "../../components/fallback.tsx";
-import { Fragment } from "react/jsx-runtime";
-import { Link } from "react-router-dom";
 import { AlertMessage } from "../../components/alertMessage.tsx";
 import { BtnBack } from "../../components/btnBack.tsx";
-// import { BtnBack } from "../../components/BackBtn.tsx";
+
+/**
+ *
+ * @param param0
+ * @returns
+ */
+const FormCartDelete = ({ data }: { data: Record<string, string> }): JSX.Element => {
+  const { isFeaching, FeacherForm } = useProtectedCartPage();
+
+  return (
+    <Form as={FeacherForm} method="post" name="form_cart">
+      <fieldset disabled={isFeaching}>
+        <Button type="submit" name="row_no" value={data.row_no} size="sm" variant="light" className="text-nowrap">
+          {isFeaching ? (
+            <Fallback variant="light" />
+          ) : (
+            <>
+              <i className="bi bi-trash me-1"></i>
+              削除
+            </>
+          )}
+        </Button>
+      </fieldset>
+      <Form.Control type="hidden" name="mode" value="form_delete" />
+    </Form>
+  );
+};
+
+/**
+ *
+ * @param param0
+ * @returns
+ */
+const FormCartSuryo = ({ data }: { data: Record<string, string> }): JSX.Element => {
+  const { isFeaching, FeacherForm, Feachersubmit } = useProtectedCartPage();
+
+  return (
+    <Form
+      as={FeacherForm}
+      method="post"
+      name={`form_suryo_${data.row_no}`}
+      onBlur={(e) => {
+        Feachersubmit(e.currentTarget);
+      }}
+    >
+      <fieldset disabled={isFeaching}>
+        <FloatingLabel controlId="suryo" label={isFeaching ? <Fallback variant="light" /> : <>数量</>} className="mb-3">
+          <Form.Control type="number" name="suryo" min="1" placeholder="数量を入力してください" defaultValue={parseInt(data.suryo).toLocaleString()} className="text-end" />
+        </FloatingLabel>
+      </fieldset>
+      <Form.Control type="hidden" name="mode" value="form_suryo" />
+      <Form.Control type="hidden" name="row_no" value={data.row_no} />
+    </Form>
+  );
+};
 
 /**
  *
  * @returns
  */
 export function ProtectedCartPage(): JSX.Element {
-  const { data, message, FeacherForm, isFeaching } = useProtectedCartPage();
-  const submit = useSubmit();
-  const location = useLocation();
-  const locPath = location.pathname;
-  // console.log(location.pathname);
-  const navItems = [
-    { to: "/cart", text: "Cart", className: "rounded-start border-end-0" },
-    { to: "/cart/edit", text: "Edit", className: "" },
-    { to: "/cart/confirm", text: "Confirm", className: "rounded-end border-start-0" },
-  ];
-  const fields_nonyu = [
-    { label: "納入先名:", key: "nonyu_nm" },
-    { label: "住所:", key: "addr" },
-    { label: "TEL:", key: "tel_no" },
-    // { label: "biko1", key: "biko1" },
-    // { label: "nonyu_tan", key: "nonyu_tan" },
-    // { label: "tok_cd", key: "tok_cd" },
-    // { label: "zip_no", key: "zip_no" },
-  ];
-  const fields_cart = [
-    // { label: "row_no", key: "row_no" },
-    // { label: "disc_per", key: "disc_per" },
-    { label: "商品:", key: "hin_cd" },
-    { label: "", key: "hin_nm" },
-    // { label: "htanka", key: "htanka", format: (value: string) => parseInt(value).toLocaleString() },
-    { label: "単価:", key: "tanka", format: (value: string) => <>&yen;{parseInt(value).toLocaleString()}</> },
-    // { label: "zei_kbn", key: "zei_kbn" },
-    // { label: "zei_rate", key: "zei_rate" },
-  ];
+  const { data, message, locPath, fields } = useProtectedCartPage();
 
   return (
     <>
@@ -52,11 +76,11 @@ export function ProtectedCartPage(): JSX.Element {
           <h1 className="h2">{message}</h1>
           <p>Protected Cart</p>
           <Nav variant="pills" fill className="my-3">
-            {navItems.map((item, index) => (
+            {fields.navigation.map((item, index) => (
               <Nav.Item key={index}>
                 <NavLink to={item.to} end className={`nav-link border rounded-0 ${item.className} disabled`}>
                   <span className="me-1">{index + 1}.</span>
-                  {item.text}
+                  {item.label}
                   <i className="bi bi-chevron-right ms-1"></i>
                 </NavLink>
               </Nav.Item>
@@ -109,8 +133,8 @@ export function ProtectedCartPage(): JSX.Element {
                                 </Col>
                                 <Col md>
                                   <Row as="dl" md={2} className="mb-0">
-                                    {fields_nonyu.map((field, idx) => {
-                                      const isRowEnd = idx === fields_nonyu.length - 1;
+                                    {fields.nonyu.map((field, idx) => {
+                                      const isRowEnd = idx === fields.nonyu.length - 1;
 
                                       return (
                                         <Fragment key={idx}>
@@ -156,27 +180,13 @@ export function ProtectedCartPage(): JSX.Element {
                               <div className="d-flex align-items-center mb-2">
                                 <small className="text-nowrap"># {item.row_no}</small>
                                 <div className="ms-auto">
-                                  <Form as={FeacherForm} method="post" name="form_cart">
-                                    <fieldset disabled={isFeaching}>
-                                      <Button type="submit" name="row_no" value={item.row_no} size="sm" variant="light" className="text-nowrap">
-                                        {isFeaching ? (
-                                          <Fallback variant="light" />
-                                        ) : (
-                                          <>
-                                            <i className="bi bi-trash me-1"></i>
-                                            削除
-                                          </>
-                                        )}
-                                      </Button>
-                                    </fieldset>
-                                    <Form.Control type="hidden" name="mode" value="form_delete" />
-                                  </Form>
+                                  <FormCartDelete data={item} />
                                 </div>
                               </div>
                               <Row>
                                 <Col md>
                                   <Row as="dl" md={2} className="mb-0">
-                                    {fields_cart.map((field, idx) => (
+                                    {fields.cart.map((field, idx) => (
                                       <Fragment key={idx}>
                                         <Col as="dt" md={2} className="text-md-end">
                                           {field.label}
@@ -193,31 +203,9 @@ export function ProtectedCartPage(): JSX.Element {
                                     <Col as="dt" md="auto" className="text-md-end">
                                       小計:
                                     </Col>
-                                    <Col as="dd">{item.kingaku ? <>&yen;{parseInt(item.kingaku).toLocaleString()}</> : "-"}</Col>
+                                    <Col as="dd">{item.kingaku ? <>&yen;{parseInttoStr(item.kingaku)}</> : "-"}</Col>
                                   </Row>
-                                  <Form
-                                    as={FeacherForm}
-                                    method="post"
-                                    name="form_suryo"
-                                    onChange={(e) => {
-                                      submit(e.currentTarget);
-                                    }}
-                                  >
-                                    <fieldset disabled={isFeaching}>
-                                      <FloatingLabel controlId="suryo" label={isFeaching ? <Fallback variant="light" /> : <>数量</>} className="mb-3">
-                                        <Form.Control
-                                          type="number"
-                                          name="suryo"
-                                          min="1"
-                                          placeholder="数量を入力してください"
-                                          defaultValue={parseInt(item.suryo).toLocaleString()}
-                                          className="text-end"
-                                        />
-                                      </FloatingLabel>
-                                    </fieldset>
-                                    <Form.Control type="hidden" name="mode" value="form_suryo" />
-                                    <Form.Control type="hidden" name="row_no" value={item.row_no} />
-                                  </Form>
+                                  <FormCartSuryo data={item} />
                                 </Col>
                               </Row>
                             </ListGroup.Item>
@@ -233,19 +221,13 @@ export function ProtectedCartPage(): JSX.Element {
                   <Card body className="shadow-sm mb-3">
                     <Card.Text as="dl">
                       <dt>合計:</dt>
-                      <dd>{isFeaching ? <Fallback variant="light" /> : <>&yen;{parseInttoStr(data.head.zeinuki_gaku)}</>}</dd>
+                      <dd>&yen;{parseInttoStr(data.head.zeinuki_gaku)}</dd>
                     </Card.Text>
                     <hr />
                     {locPath === "/cart" && (
-                      <Link to="/cart/edit" className={`btn btn-primary w-100 ${data.details.length === 0 && "disabled"} ${isFeaching ? "disabled" : ""}`}>
-                        {isFeaching ? (
-                          <Fallback variant="light" />
-                        ) : (
-                          <>
-                            <i className="bi bi-pencil-square me-1"></i>
-                            レジに進む
-                          </>
-                        )}
+                      <Link to="/cart/edit" className={`btn btn-primary w-100 ${data.details.length === 0 && "disabled"}`}>
+                        <i className="bi bi-pencil-square me-1"></i>
+                        レジに進む
                       </Link>
                     )}
                     {locPath === "/cart/edit" && (

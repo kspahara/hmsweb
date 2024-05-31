@@ -52,6 +52,7 @@ const router = [
               const { HinDetailRoute } = await import("./app/routes/hin/hin.$hin_cd.tsx");
               return {
                 loader: HinDetailRoute.loader,
+                action: HinDetailRoute.action,
                 handle: HinDetailRoute.handle,
                 element: <HinDetailRoute />,
               };
