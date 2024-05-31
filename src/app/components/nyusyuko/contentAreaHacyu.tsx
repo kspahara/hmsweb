@@ -2,9 +2,9 @@ import { Suspense, Fragment } from "react";
 import { Await, Link, useAsyncError, useAsyncValue } from "react-router-dom";
 import { Alert, Badge, Card, ListGroup } from "react-bootstrap";
 import { Fallback } from "../fallback";
-import { formatDate } from "../../libs/libs";
+import { formatDateYmd } from "../../libs/libs";
 // import { Fallback } from "./fallback.tsx";
-// import { formatDate } from "../libs/libs.ts";
+// import { formatDateYmd } from "../libs/libs.ts";
 // import {  } from "react";
 
 type Props = {
@@ -70,7 +70,7 @@ export function ContentAreaHacyu(props: Props): JSX.Element {
                 // <div key={index}>
                 <Fragment key={index}>
                   <Card.Header className="bg-transparent border-bottom-0 px-2 py-1">
-                    <small>{formatDate(date,"/")}</small>
+                    <small>{formatDateYmd(date,"/")}</small>
                   </Card.Header>
                   <ListGroup variant="flush">
                     {items.map((item, itemIndex) => (

@@ -1,7 +1,7 @@
 import { LoaderFunctionArgs, defer } from "react-router-dom";
 import { FormType } from "../../components/createForm.tsx";
 import { getMypage } from "../../data/hin/mypage.ts";
-import { parseInttoStr, formatDate } from "../../libs/libs.ts";
+import { parseInttoStr, formatDateYmd } from "../../libs/libs.ts";
 import { ProtectedMypagePage } from "../../pages/hin/_protected.mypage._index.tsx";
 import { authProvider } from "../../provides/auth.ts";
 
@@ -35,14 +35,14 @@ type Fields = {
 const getFields = async (): Promise<Fields> => {
   const fields = {
     header: [
-      { label: "処理日:", key: "syori_ymd", format: (value: string) => formatDate(value, "/") },
+      { label: "処理日:", key: "syori_ymd", format: (value: string) => formatDateYmd(value, "/") },
       { label: "伝票番号:", key: "den_no" },
       { label: "取引種別:", key: "tor_kbn" },
     ],
     detail: [
       { label: "商品:", key: "hin_cd" },
       { label: "", key: "hin_nm" },
-      { label: "数量:", key: "suryo", labelClass: "text-end", className: "text-end" },
+      { label: "数量:", key: "suryo", format: (value: string) => `${parseInttoStr(value)}`, labelClass: "text-end", className: "text-end" },
       { label: "単価:", key: "tanka", format: (value: string) => `¥${parseInttoStr(value)}`, labelClass: "text-end", className: "text-end" },
       { label: "金額:", key: "kingaku", format: (value: string) => `¥${parseInttoStr(value)}`, labelClass: "text-end", className: "text-end" },
     ],

@@ -14,12 +14,12 @@ import {
   useMatches,
   useLocation,
 } from "react-router-dom";
+import noImage from "../assets/images/no_image.png";
 import { FormType } from "../components/createForm.tsx";
 import { CartSummaryProps } from "../components/hin/cartSummary.tsx";
 import { Crumb } from "../components/breadcrumbs.tsx";
 import { IsAuthenticated, UserName } from "../provides/auth.ts";
 import { Link } from "../routes/_index.tsx";
-import noImage from "../assets/images/no_image.png";
 import { Field } from "../routes/hin/_protected.mypage._index.tsx";
 import { FieldsNav } from "../routes/hin/_protected.cart._index.tsx";
 
@@ -339,6 +339,8 @@ export function useProtectedCartPage() {
       navigation: FieldsNav[];
       nonyu: Field[];
       cart: Field[];
+      cart_fixed: Field[];
+      nonyu_head: Field[];
     };
   };
   const fetcher = useFetcher();
@@ -350,6 +352,7 @@ export function useProtectedCartPage() {
     isFeaching: fetcher.state === "loading",
     Feachersubmit: fetcher.submit,
     locPath: location.pathname,
+    noImage,
   };
 }
 

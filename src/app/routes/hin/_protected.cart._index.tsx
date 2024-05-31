@@ -17,6 +17,8 @@ type Fields = {
   navigation: FieldsNav[];
   nonyu: Field[];
   cart: Field[];
+  cart_fixed: Field[];
+  nonyu_head: Field[];
 };
 
 const getFields = async (): Promise<Fields> => {
@@ -27,8 +29,9 @@ const getFields = async (): Promise<Fields> => {
       { to: "/cart/confirm", label: "Confirm", className: "rounded-end border-start-0" },
     ],
     nonyu: [
-      { label: "納入先名:", key: "nonyu_nm" },
-      { label: "住所:", key: "addr" },
+      { label: "納入先:", key: "nonyu_nm" },
+      { label: "住所:", key: "zip_no" },
+      { label: "", key: "addr" },
       { label: "TEL:", key: "tel_no" },
     ],
     cart: [
@@ -36,12 +39,30 @@ const getFields = async (): Promise<Fields> => {
       { label: "", key: "hin_nm" },
       { label: "単価:", key: "tanka", format: (value: string) => `¥${parseInttoStr(value)}` },
     ],
+    cart_fixed: [
+      { label: "商品:", key: "hin_cd" },
+      { label: "", key: "hin_nm" },
+      { label: "単価:", key: "tanka", format: (value: string) => `¥${parseInttoStr(value)}` },
+      { label: "数量:", key: "suryo", format: (value: string) => parseInttoStr(value) },
+      { label: "小計:", key: "kingaku", format: (value: string) => `¥${parseInttoStr(value)}` },
+    ],
+    nonyu_head: [
+      { label: "納入先名:", key: "nonyu_nm" },
+      { label: "住所:", key: "nonyu_zip_no" },
+      { label: "", key: "nonyu_addr1" },
+      { label: "", key: "nonyu_addr2" },
+      { label: "", key: "nonyu_addr3" },
+      { label: "", key: "nonyu_addr4" },
+      { label: "TEL:", key: "nonyu_tel_no" },
+    ],
   };
 
   return {
     navigation: fields.navigation,
     nonyu: fields.nonyu,
     cart: fields.cart,
+    cart_fixed: fields.cart_fixed,
+    nonyu_head: fields.nonyu_head,
   };
 };
 
