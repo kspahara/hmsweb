@@ -8,38 +8,48 @@ import { ProtectedNyusyukoPage } from "../../pages/nyusyuko/_protected.nyusyuko.
 const getForms = async (): Promise<FormType[]> => {
   return [
     {
-      type: "text",
+      type: "date",
       controlId: "nyuka_yotei_ymd",
       name: "nyuka_yotei_ymd",
-      label: "予定",
-      placeholder: "予定",
+      label: "入荷予定日:",
+      placeholder: "入荷予定日",
     },
     {
-      type: "text",
+      as: "select",
       controlId: "prc_sts",
       name: "prc_sts",
-      label: "進行状態",
+      label: "進行状態:",
       placeholder: "進行状態",
+      ariaLabel: "進行状態",
+      optionKey: { key: "han_cd", value: "han_name" },
     },
   ];
+};
+const getSearchies = () => {
+  return {
+    prc_sts: [
+      { han_cd: "1", han_name: "進行中" },
+      { han_cd: "2", han_name: "完了" },
+    ],
+    prc_sts2: [
+      { han_cd: "1", han_name: "進行中" },
+      { han_cd: "2", han_name: "完了" },
+    ],
+  };
 };
 
 const clientLoader = async ({ request }: LoaderFunctionArgs) => {
   const search_params = new URL(request.url).searchParams;
-  // const searchParams = Object.fromEntries(
-  // 	Array.from(search_params.entries()).map(([key, value]) => {
-  // 		return [key, value ?? ""];
-  // 	})
-  // );
+
+  console.log("getSearchies()", getSearchies());
+  console.log("getHinCond()", await getHinCond());
 
   return defer({
-    // data: getHinList(search_params),
     data: getHacyuzan(search_params),
-
     searchParams: Object.fromEntries(search_params.entries()),
     forms: await getForms(),
-    searchies: getHinCond(),
-    message: "Hin",
+    searchies: getSearchies(),
+    message: "入荷一覧画面",
   });
 };
 

@@ -293,18 +293,18 @@ export function useHinDetailPage() {
 // };
 
 export function useProtectedNyusyukoPage() {
-	const { searchies, searchParams, forms, data } = useLoaderData() as {
-		searchies: Record<string, string>[];
-		searchParams: Record<string, string>;
-		forms: FormType[];
-		// data: Record<string, string>[];
-		// data: Record<string, Item[]>;
+  const { searchies, searchParams, forms, data, message } = useLoaderData() as {
+    searchies: Record<string, string>[];
+    searchParams: Record<string, string>;
+    forms: FormType[];
+    // data: Record<string, string>[];
+    // data: Record<string, Item[]>;
     data: Record<string, Record<string, string>[]>;
-	};
-	const { user } = useRouteLoaderData("root") as {
-		user: string | null;
-	};
-	const navigation = useNavigation();
+  };
+  const { user } = useRouteLoaderData("root") as {
+    user: string | null;
+  };
+  const navigation = useNavigation();
 
   const [query, setQuery] = useState<Record<string, string>>({
     ...(searchParams ?? {}),
@@ -327,6 +327,7 @@ export function useProtectedNyusyukoPage() {
     isSearching: navigation.formData?.get("keyword") != null,
     isLoading: navigation.state === "loading",
     type: "hacyu",
+    message,
   };
 }
 

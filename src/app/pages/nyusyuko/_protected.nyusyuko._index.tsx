@@ -11,18 +11,7 @@ import { ContentAreaHacyu } from "../../components/nyusyuko/contentAreaHacyu.tsx
  * @returns
  */
 export function ProtectedNyusyukoPage(): JSX.Element {
-  const {
-    searchies,
-    forms,
-    query,
-    setQuery,
-    submit,
-    isSearching,
-    isLoading,
-    data,
-    user,
-    type,
-  } = useProtectedNyusyukoPage();
+  const { searchies, forms, query, setQuery, submit, isSearching, isLoading, data, user, type, message } = useProtectedNyusyukoPage();
 
   // console.log(data);
 
@@ -30,7 +19,7 @@ export function ProtectedNyusyukoPage(): JSX.Element {
     <>
       <section>
         <header>
-          <h1 className="h2">入荷一覧画面</h1>
+          <h1 className="h2">{message}</h1>
           <p>入荷一覧を表示します。</p>
           <div id="hin-search-area" className="mb-3">
             <SearchArea

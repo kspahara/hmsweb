@@ -7,8 +7,8 @@ import { AlertMessage } from "../components/alertMessage.tsx";
 
 export function LoginUserPage() {
   const { forms, message, actionData, isLoggingIn, from, validated, setValidated, route } = useLoginUser();
-  const route_tanto = route == "hin" ? true : false;
-  const route_tokui = route === "nyusyuko" ? true : false;
+  const route_tanto = route == "nyusyuko" ? true : false;
+  const route_tokui = route === "hin" ? true : false;
 
   return (
     <>
