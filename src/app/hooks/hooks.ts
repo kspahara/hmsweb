@@ -300,6 +300,7 @@ export function useProtectedNyusyukoPage() {
     // data: Record<string, string>[];
     // data: Record<string, Item[]>;
     data: Record<string, Record<string, string>[]>;
+    message: string;
   };
   const { user } = useRouteLoaderData("root") as {
     user: string | null;
