@@ -1,7 +1,6 @@
 import { LoaderFunctionArgs, defer } from "react-router-dom";
 import { getHinCond } from "../../data/hin/hin_cond.ts";
 import { FormType } from "../../components/createForm.tsx";
-
 import { getHacyuzan } from "../../data/nyusyuko/hacyuzan.ts";
 import { ProtectedNyusyukoPage } from "../../pages/nyusyuko/_protected.nyusyuko._index.tsx";
 
@@ -28,12 +27,8 @@ const getForms = async (): Promise<FormType[]> => {
 const getSearchies = () => {
   return {
     prc_sts: [
-      { han_cd: "1", han_name: "進行中" },
-      { han_cd: "2", han_name: "完了" },
-    ],
-    prc_sts2: [
-      { han_cd: "1", han_name: "進行中" },
-      { han_cd: "2", han_name: "完了" },
+      { han_cd: "10", han_name: "進行中" },
+      { han_cd: "99", han_name: "完了" },
     ],
   };
 };

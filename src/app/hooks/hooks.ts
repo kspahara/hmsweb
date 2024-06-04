@@ -321,6 +321,48 @@ export function useProtectedNyusyukoPage() {
 }
 
 /**
+ *
+ * @returns
+ */
+export function useProtectedNyusyukoDenPage() {
+  const { searchParams, ...loaderData } = useLoaderData() as {
+    searchParams: Record<string, string>;
+    searchies: Record<string, string>[];
+    forms: FormType[];
+    // data: Record<string, Record<string, string>[]>;
+    data: any;
+    message: string;
+  };
+  const { user } = useRouteLoaderData("root") as {
+    user: string | null;
+  };
+  const navigation = useNavigation();
+
+  const [query, setQuery] = useState<Record<string, string>>({
+    ...(searchParams ?? {}),
+  });
+
+  useEffect(() => {
+    setQuery({
+      ...(searchParams ?? {}),
+    });
+  }, [searchParams]);
+
+  return {
+    ...loaderData,
+    user,
+    query,
+    setQuery,
+    submit: useSubmit(),
+    isSearching: navigation.formData?.get("keyword") != null,
+    isLoading: navigation.state === "loading",
+    type: "hacyu",
+  };
+}
+
+
+
+/**
  * useProtectedMypagePage
  * @returns
  */

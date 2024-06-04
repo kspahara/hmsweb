@@ -93,11 +93,11 @@ const router = [
               {
                 path: ":den_no",
                 async lazy() {
-                  const { HinDetailRoute } = await import("./app/routes/hin/hin.$hin_cd.tsx");
+                  const { ProtectedNyusyukoDenRoute } = await import("./app/routes/nyusyuko/_protected.nyusyuko._index._den_no.tsx");
                   return {
-                    loader: HinDetailRoute.loader,
-                    handle: HinDetailRoute.handle,
-                    element: <HinDetailRoute />,
+                    loader: ProtectedNyusyukoDenRoute.loader,
+                    // handle: ProtectedNyusyukoDenRoute.handle,
+                    element: <ProtectedNyusyukoDenRoute />,
                   };
                 },
               },
