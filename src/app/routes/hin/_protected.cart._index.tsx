@@ -25,7 +25,7 @@ const getFields = async (): Promise<Fields> => {
   const fields = {
     navigation: [
       { to: "/cart", label: "Cart", className: "rounded-start border-end-0" },
-      { to: "/cart/edit", label: "Edit" },
+      { to: "/cart/edit", label: "納入先選択" },
       { to: "/cart/confirm", label: "Confirm", className: "rounded-end border-start-0" },
     ],
     nonyu: [

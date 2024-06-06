@@ -17,8 +17,8 @@ export function LoginPage() {
         </header>
         <hr />
         <section>
-          <Row>
-            <Col md={6} lg={4} className="mx-auto">
+          <Row md={2}>
+            <Col className="mx-auto">
               <Card body className="mb-3 shadow-sm">
                 <h2 className="h3">Login</h2>
                 <Form as={RouterForm} method="post" replace noValidate validated={validated}>

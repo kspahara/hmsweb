@@ -68,7 +68,7 @@ export function SearchArea(props: Props): JSX.Element {
               <i className="bi bi-funnel-fill me-1" />
               絞り込む
             </legend>
-            <Row className="gx-2 gy-2">
+            <Row xs={2} sm={3} md={4} lg={5} xl={6} className="gx-2 gy-2">
               <Suspense
                 fallback={<Fallback />}
                 children={
@@ -79,9 +79,10 @@ export function SearchArea(props: Props): JSX.Element {
                       <>
                         {forms.map((form, index) => {
                           const { controlId, name } = form;
+                          // const isKeyword = controlId === "keyword" ? 12 : undefined;
 
                           return (
-                            <Col key={index} xs={controlId === "keyword" ? 12 : 6} md={controlId === "keyword" ? 12 : 6} lg={controlId === "keyword" ? 12 : 2}>
+                            <Col key={index}>
                               <CreateForm
                                 {...{
                                   form,

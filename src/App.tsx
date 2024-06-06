@@ -125,6 +125,18 @@ const router = [
                   };
                 },
               },
+              {
+                path: ":row_no",
+                async lazy() {
+                  const { ProtectedCartRowNoRoute } = await import("./app/routes/hin/_protected.cart.$row_no.tsx");
+                  return {
+                    loader: ProtectedCartRowNoRoute.loader,
+                    action: ProtectedCartRowNoRoute.action,
+                    handle: ProtectedCartRowNoRoute.handle,
+                    element: <ProtectedCartRowNoRoute />,
+                  };
+                },
+              },
             ],
           },
           {

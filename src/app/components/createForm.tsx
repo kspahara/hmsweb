@@ -83,6 +83,24 @@ export function CreateForm({ form, data, option, value, event }: FormProps): JSX
                 ))}
               </Form.Select>
             </>
+          ) : as === "textarea" ? (
+            <>
+              <Form.Control
+                as={as}
+                name={name}
+                placeholder={placeholder}
+                autoComplete={autoComplete}
+                required={required}
+                disabled={disabled}
+                readOnly={readOnly}
+                plaintext={plaintext}
+                value={value}
+                defaultValue={data?.[controlId]}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => (event ? event(e) : undefined)}
+                style={{ height: "6rem" }}
+                {...rest}
+              />
+            </>
           ) : (
             <>
               <Form.Control

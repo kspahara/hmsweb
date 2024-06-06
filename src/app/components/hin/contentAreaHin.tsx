@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { Await, Link } from "react-router-dom";
-import { Badge, Button, Card, Col, ListGroup, Row } from "react-bootstrap";
+import { Button, Card, Col, ListGroup, Row } from "react-bootstrap";
 import { parseInttoStr } from "../../libs/libs.ts";
 import { useContentAreaHin } from "../../hooks/hooks.ts";
 import { Fallback } from "../fallback.tsx";
@@ -18,9 +18,41 @@ type Props = {
  * @param props
  * @returns
  */
+const ContentCards = (props: Props): JSX.Element => {
+  const { data } = props;
+  const { noImage, user } = useContentAreaHin();
+
+  return (
+    <Row xs={2} sm={3} md={4} lg={5} xl={6} className="gx-2 gy-3">
+      {data.map((post, index) => (
+        <Col key={index}>
+          <Card className="h-100 shadow-sm">
+            <Link to={`${post.hin_cd}`} className="h-100 d-flex flex-column text-reset text-decoration-none focus-ring">
+              <Card.Img decoding="async" loading="lazy" variant="top" src={post.atch_flg === "1" ? `data:image/jpeg;base64,${post.atch_image}` : `${noImage}`} />
+              <Card.Body className="d-flex flex-column p-2">
+                <Card.Text className="h6 mt-auto">{post.hin_nm}</Card.Text>
+                <Card.Text className="h6 text-end">&yen;{parseInttoStr(post.tanka)}</Card.Text>
+              </Card.Body>
+            </Link>
+            {user && (
+              <Card.Footer className="p-2 bg-transparent">
+                <HinInputSuryo data={post} />
+              </Card.Footer>
+            )}
+          </Card>
+        </Col>
+      ))}
+    </Row>
+  );
+};
+
+/**
+ *
+ * @param props
+ * @returns
+ */
 export function ContentAreaHin(props: Props): JSX.Element {
   const { data, type } = props;
-  const { noImage, user } = useContentAreaHin();
 
   return (
     <Suspense
@@ -48,38 +80,6 @@ export function ContentAreaHin(props: Props): JSX.Element {
               </Card>
             );
 
-            const contentCards = (
-              <Row lg={5} xl={6} className="gx-2 gy-3">
-                {data.map((post, index) => (
-                  <Col key={index} xs={6} sm={4} md={3} xl={2}>
-                    <Card className="h-100 shadow-sm">
-                      <Link to={`${post.hin_cd}`} className="h-100 d-flex flex-column text-reset text-decoration-none">
-                        <Card.Img
-                          decoding="async"
-                          loading="lazy"
-                          variant="top"
-                          src={post.atch_flg === "1" ? `data:image/jpeg;base64,${post.atch_image}` : `${noImage}`}
-                          className="p-4 pb-0"
-                        />
-                        <Card.Body className="d-flex flex-column p-2">
-                          <Card.Title className="h6">
-                            <Badge bg="info">{post.han_name}</Badge>
-                            <div>{post.hin_nm}</div>
-                          </Card.Title>
-                          <Card.Text className="h6 mt-auto text-end">&yen;{parseInttoStr(post.tanka)}</Card.Text>
-                        </Card.Body>
-                      </Link>
-                      {user && (
-                        <Card.Footer className="p-2 bg-transparent">
-                          <HinInputSuryo data={post} />
-                        </Card.Footer>
-                      )}
-                    </Card>
-                  </Col>
-                ))}
-              </Row>
-            );
-
             return (
               <>
                 <div id="list-header" className="text-end mb-2">
@@ -87,7 +87,7 @@ export function ContentAreaHin(props: Props): JSX.Element {
                   <span>{data.length}</span>
                 </div>
                 <div id="list-body">
-                  {data.length === 0 ? <AlertMessage message="商品がありません。" variant="warning" /> : type === "Adminlist" ? contentAdminLists : contentCards}
+                  {data.length === 0 ? <AlertMessage message="商品がありません。" variant="warning" /> : type === "Adminlist" ? contentAdminLists : <ContentCards data={data} />}
                 </div>
               </>
             );

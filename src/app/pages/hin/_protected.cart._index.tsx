@@ -9,6 +9,28 @@ import { BtnBack } from "../../components/btnBack.tsx";
 
 /**
  *
+ * @returns
+ */
+const CartNavigation = () => {
+  const { fields } = useProtectedCartPage();
+
+  return (
+    <Nav variant="pills" fill className="my-3">
+      {fields.navigation.map((item, index) => (
+        <Nav.Item key={index}>
+          <NavLink to={item.to} end className={`nav-link border rounded-0 ${item.className} disabled`}>
+            <span className="me-1">{index + 1}.</span>
+            {item.label}
+            <i className="bi bi-chevron-right ms-1"></i>
+          </NavLink>
+        </Nav.Item>
+      ))}
+    </Nav>
+  );
+};
+
+/**
+ *
  * @param param0
  * @returns
  */
@@ -66,222 +88,260 @@ const FormCartSuryo = ({ data }: { data: Record<string, string> }): JSX.Element 
  *
  * @returns
  */
-export function ProtectedCartPage(): JSX.Element {
-  const { data, message, locPath, fields, noImage } = useProtectedCartPage();
-  const itemSrc = `${noImage}`;
+const ContentCommit = (): JSX.Element => {
+  const { message } = useProtectedCartPage();
 
-  const CartNavigation = (
-    <Nav variant="pills" fill className="my-3">
-      {fields.navigation.map((item, index) => (
-        <Nav.Item key={index}>
-          <NavLink to={item.to} end className={`nav-link border rounded-0 ${item.className} disabled`}>
-            <span className="me-1">{index + 1}.</span>
-            {item.label}
-            <i className="bi bi-chevron-right ms-1"></i>
-          </NavLink>
-        </Nav.Item>
-      ))}
-    </Nav>
+  return (
+    <>
+      <header>
+        <h1 className="h2">{message}</h1>
+        <p>Protected Cart</p>
+      </header>
+      <hr />
+      <section>
+        <h2 className="h3">ご注文ありがとうございました</h2>
+        <div id="content">
+          <AlertMessage message="ご注文が完了しました。" variant="success" />
+          <div>
+            <Link to="/mypage" className="btn btn-link">
+              MyPageへ
+              <i className="bi bi-chevron-right ms-1"></i>
+            </Link>
+          </div>
+        </div>
+      </section>
+    </>
   );
+};
+const ContentAction = (): JSX.Element => {
+  const { data, isLocPathCart, isLocPathEdit, isLocPathConfirm } = useProtectedCartPage();
 
-  const ContentItemFixed = (
-    <Card className="shadow-sm mb-3">
-      <ListGroup variant="flush">
-        {data.details.map((item, index) => (
-          <ListGroup.Item key={index}>
-            <div className="d-flex align-items-center mb-2">
-              <small className="text-nowrap"># {Number(item.row_no) + 1}</small>
-            </div>
-            <Row>
-              <Col sm={5} md={4} lg={3}>
-                <div className="mb-3">
-                  <Image src={itemSrc} alt="image" className="p-2" fluid thumbnail />
-                </div>
-              </Col>
-              <Col md>
-                <Row as="dl" md={2} className="mb-0">
-                  {fields.cart_fixed.map((field, idx) => (
-                    <Fragment key={idx}>
-                      <Col as="dt" md={2} className="text-md-end">
-                        {field.label}
-                      </Col>
-                      <Col as="dd" md={10}>
-                        {item[field.key] ? (field.format ? field.format(item[field.key]) : item[field.key]) : "-"}
-                      </Col>
-                    </Fragment>
-                  ))}
-                </Row>
-              </Col>
-            </Row>
-          </ListGroup.Item>
-        ))}
-      </ListGroup>
-    </Card>
-  );
-  const ContentConfirm = (
-    <section className="mb-3">
-      <h3 className="h4">納入先</h3>
-      <Card className="shadow-sm mb-3">
-        <ListGroup variant="flush">
-          <ListGroup.Item as="label">
-            <Row>
-              <Col md>
-                <Row as="dl" md={2} className="mb-0">
-                  {fields.nonyu_head.map((field, idx) => {
-                    const isRowEnd = idx === fields.nonyu.length - 1;
-
-                    return (
-                      <Fragment key={idx}>
-                        <Col as="dt" md={2} className="text-md-end">
-                          {field.label}
-                        </Col>
-                        <Col as="dd" md={10} className={isRowEnd ? "mb-0" : ""}>
-                          {data.head[field.key] ? data.head[field.key] : "-"}
-                        </Col>
-                      </Fragment>
-                    );
-                  })}
-                </Row>
-              </Col>
-            </Row>
-          </ListGroup.Item>
-        </ListGroup>
-        <Card.Body>
-          <Row as="dl" md={2} className="mb-0">
-            <Col as="dt" md={2} className="text-md-end">
-              備考:
-            </Col>
-            <Col as="dd" md={10} className="mb-0">
-              {data.head.biko1}
-            </Col>
-          </Row>
-        </Card.Body>
-      </Card>
-      <h3 className="h4">ご注文商品</h3>
-      {ContentItemFixed}
-    </section>
-  );
-
-  const ContentNonyu = (
-    <section className="mb-3">
-      <h3 className="h4">納入先</h3>
-      {data.nonyus.length == 0 ? (
-        <ListGroup.Item>
-          <AlertMessage message="納入先がありません。" variant="warning" classes="mb-0" />
-        </ListGroup.Item>
-      ) : (
-        <>
-          <Card className="shadow-sm mb-3">
-            <Card.Body>
-              <AlertMessage message="納入先を選択してください。" variant="info" classes="mb-0" />
-            </Card.Body>
-            <ListGroup variant="flush">
-              {data.nonyus.map((item, index) => (
-                <ListGroup.Item key={index} as="label" action>
-                  <Row>
-                    <Col md="auto">
-                      <Row as="dl" className="mb-sm-0">
-                        <Col as="dt" xs="auto">
-                          選択:
-                        </Col>
-                        <Col as="dd" className="mb-0">
-                          <Form.Check
-                            type="radio"
-                            form="cart_edit"
-                            label=""
-                            name="nonyu_no"
-                            id="nonyu_no"
-                            value={item.nonyu_no}
-                            defaultChecked={!data.head.nonyu_no ? index === 0 : data.head.nonyu_no === item.nonyu_no}
-                            className="mb-0"
-                          />
-                        </Col>
-                      </Row>
-                    </Col>
-                    <Col md>
-                      <Row as="dl" md={2} className="mb-0">
-                        {fields.nonyu.map((field, idx) => {
-                          const isRowEnd = idx === fields.nonyu.length - 1;
-
-                          return (
-                            <Fragment key={idx}>
-                              <Col as="dt" md={2} className="text-md-end">
-                                {field.label}
-                              </Col>
-                              <Col as="dd" md={10} className={isRowEnd ? "mb-0" : ""}>
-                                {item[field.key] ? item[field.key] : "-"}
-                              </Col>
-                            </Fragment>
-                          );
-                        })}
-                      </Row>
-                    </Col>
-                  </Row>
-                </ListGroup.Item>
-              ))}
-            </ListGroup>
-            <Card.Body>
-              <FloatingLabel controlId={data.head.biko1} label="備考">
-                <Form.Control as="textarea" name="biko1" form="cart_edit" placeholder="備考を入力してください" defaultValue={data.head.biko1} />
-              </FloatingLabel>
-            </Card.Body>
-          </Card>
-          <h3 className="h4">ご注文商品</h3>
-          {ContentItemFixed}
-        </>
+  return (
+    <>
+      {isLocPathCart && (
+        <Link to="/cart/edit" className={`btn btn-primary w-100 ${data.details.length === 0 && "disabled"}`}>
+          <i className="bi bi-pencil-square me-1"></i>
+          レジに進む
+        </Link>
       )}
-    </section>
+      {isLocPathEdit && (
+        <Form as={RouterForm} method="post" id="cart_edit">
+          <Button type="submit" name="mode" value="edit" variant="primary" className="w-100">
+            <i className="bi bi-check-circle me-1"></i>
+            確認する
+          </Button>
+        </Form>
+      )}
+      {isLocPathConfirm && (
+        <Form as={RouterForm} method="post" id="cart_confirm">
+          <Button type="submit" name="mode" value="confirm" variant="success" className="w-100">
+            <i className="bi bi-check-circle me-1"></i>
+            注文する
+          </Button>
+        </Form>
+      )}
+    </>
   );
+};
 
-  const ContentItem = (
+const ContentNonyuArea = (): JSX.Element => {
+  const { data, fields, isLocPathEdit } = useProtectedCartPage();
+  const header_msg = "納入先";
+
+  return (
+    <>
+      <section className="mb-3">
+        <h3 className="h4">{header_msg}</h3>
+        {data.nonyus.length == 0 ? (
+          <ListGroup.Item>
+            <AlertMessage message="納入先がありません。" variant="warning" classes="mb-0" />
+          </ListGroup.Item>
+        ) : (
+          <>
+            <Card className="shadow-sm mb-3">
+              {isLocPathEdit && (
+                <Card.Header className="bg-transparent">
+                  <AlertMessage message="納入先を選択してください。" variant="info" classes="card-text" />
+                </Card.Header>
+              )}
+              <ListGroup variant="flush">
+                {isLocPathEdit ? (
+                  <>
+                    {data.nonyus.map((item, index) => (
+                      <ListGroup.Item key={index} as="label" action>
+                        <Row>
+                          <Col md="auto">
+                            <Row as="dl" className="card-text">
+                              <Col as="dt" xs="auto" className="text-nowrap">
+                                選択:
+                              </Col>
+                              <Col as="dd" className="card-text">
+                                <Form.Check
+                                  type="radio"
+                                  name="nonyu_no"
+                                  id="nonyu_no"
+                                  form="cart_edit"
+                                  value={item.nonyu_no}
+                                  defaultChecked={!data.head.nonyu_no ? index === 0 : data.head.nonyu_no === item.nonyu_no}
+                                  className="mb-0"
+                                />
+                              </Col>
+                            </Row>
+                          </Col>
+                          <Col md>
+                            <Row as="dl" md={2} className="card-text">
+                              {fields.nonyu.map((field, idx) => (
+                                <Fragment key={idx}>
+                                  <Col as="dt" md={2} className="text-nowrap text-md-end">
+                                    {field.label}
+                                  </Col>
+                                  <Col as="dd" md={10} className="card-text">
+                                    {item[field.key] ? item[field.key] : "-"}
+                                  </Col>
+                                </Fragment>
+                              ))}
+                            </Row>
+                          </Col>
+                        </Row>
+                      </ListGroup.Item>
+                    ))}
+                  </>
+                ) : (
+                  <>
+                    <ListGroup.Item>
+                      <Row>
+                        <Col md>
+                          <Row as="dl" md={2} className="card-text">
+                            {fields.nonyu_head.map((field, idx) => (
+                              <Fragment key={idx}>
+                                <Col as="dt" md={2} className="text-nowrap text-md-end">
+                                  {field.label}
+                                </Col>
+                                <Col as="dd" md={10} className="card-text">
+                                  {data.head[field.key] ? data.head[field.key] : "-"}
+                                </Col>
+                              </Fragment>
+                            ))}
+                          </Row>
+                        </Col>
+                      </Row>
+                    </ListGroup.Item>
+                  </>
+                )}
+              </ListGroup>
+              <Card.Body>
+                {isLocPathEdit ? (
+                  <>
+                    <FloatingLabel controlId={data.head.biko1} label="備考">
+                      <Form.Control as="textarea" name="biko1" form="cart_edit" placeholder="備考を入力してください" defaultValue={data.head.biko1} />
+                    </FloatingLabel>
+                  </>
+                ) : (
+                  <>
+                    <Row as="dl" md={2} className="card-text">
+                      <Col as="dt" md={2} className="text-nowrap text-md-end">
+                        備考:
+                      </Col>
+                      <Col as="dd" md={10} className="card-text">
+                        {data.head.biko1 ? data.head.biko1 : "-"}
+                      </Col>
+                    </Row>
+                  </>
+                )}
+              </Card.Body>
+            </Card>
+          </>
+        )}
+      </section>
+    </>
+  );
+};
+
+const ContentItemArea = (): JSX.Element => {
+  const { data, fields, noImage, isLocPathCart } = useProtectedCartPage();
+  const itemSrc = `${noImage}`;
+  const header_msg = "ご注文商品";
+
+  return (
     <section>
-      <h3 className="h4">ご注文商品</h3>
+      <h3 className="h4">{header_msg}</h3>
       {data.details.length === 0 ? (
         <ListGroup.Item>
           <AlertMessage message="カートに商品がありません。" variant="warning" classes="mb-0" />
         </ListGroup.Item>
       ) : (
         <Card className="shadow-sm mb-3">
-          <Card.Body>
-            <AlertMessage message="数量を確認して、レジに進んでください。" variant="info" classes="mb-0" />
-          </Card.Body>
+          {isLocPathCart && (
+            <Card.Header className="bg-transparent">
+              <AlertMessage message="数量を確認して、レジに進んでください。" variant="info" classes="card-text" />
+            </Card.Header>
+          )}
           <ListGroup variant="flush">
             {data.details.map((item, index) => (
               <ListGroup.Item key={index}>
                 <div className="d-flex align-items-center mb-2">
                   <small className="text-nowrap"># {Number(item.row_no) + 1}</small>
-                  <div className="ms-auto">
-                    <FormCartDelete data={item} />
-                  </div>
+                  {isLocPathCart && (
+                    <>
+                      <div className="ms-auto">
+                        <Link to={`${item.row_no}`} className="btn btn-link btn-sm">
+                          <i className="bi bi-pencil-square me-1"></i>
+                          編集
+                        </Link>
+                      </div>
+                      <FormCartDelete data={item} />
+                    </>
+                  )}
                 </div>
-                <Row>
-                  <Col sm={5} md={4} lg={3}>
+                <Row xs={2}>
+                  <Col md={4} xl={3}>
                     <div className="mb-3">
                       <Image src={itemSrc} alt="image" className="p-2" fluid thumbnail />
                     </div>
                   </Col>
-                  <Col md>
-                    <Row as="dl" md={2} className="mb-0">
-                      {fields.cart.map((field, idx) => (
-                        <Fragment key={idx}>
-                          <Col as="dt" md={2} className="text-md-end">
-                            {field.label}
-                          </Col>
-                          <Col as="dd" md={10}>
-                            {item[field.key] ? (field.format ? field.format(item[field.key]) : item[field.key]) : "-"}
-                          </Col>
-                        </Fragment>
-                      ))}
-                    </Row>
-                  </Col>
-                  <Col md="auto" className="mt-auto">
-                    <Row as="dl" md={2} className="mb-0">
-                      <Col as="dt" md="auto" className="text-md-end">
-                        小計:
-                      </Col>
-                      <Col as="dd">{item.kingaku ? <>&yen;{parseInttoStr(item.kingaku)}</> : "-"}</Col>
-                    </Row>
-                    <FormCartSuryo data={item} />
+                  <Col md={8} xl={9}>
+                    {!isLocPathCart ? (
+                      <Row as="dl" md={2} className="card-text">
+                        {fields.cart_fixed.map((field, idx) => (
+                          <Fragment key={idx}>
+                            <Col as="dt" md={2} className="text-nowrap text-md-end">
+                              {field.label}
+                            </Col>
+                            <Col as="dd" md={10} className="card-text">
+                              {item[field.key] ? (field.format ? field.format(item[field.key]) : item[field.key]) : "-"}
+                            </Col>
+                          </Fragment>
+                        ))}
+                      </Row>
+                    ) : (
+                      <Row xs={1} lg={2}>
+                        <Col lg={8} xl={7}>
+                          <Row as="dl" className="card-text">
+                            {fields.cart.map((field, idx) => (
+                              <Fragment key={idx}>
+                                <Col as="dt" xl={3} className="text-nowrap text-xl-end">
+                                  {field.label}
+                                </Col>
+                                <Col as="dd" xl={9} className="card-text">
+                                  {item[field.key] ? (field.format ? field.format(item[field.key]) : item[field.key]) : "-"}
+                                </Col>
+                              </Fragment>
+                            ))}
+                          </Row>
+                        </Col>
+                        <Col lg={4} xl={5}>
+                          <Row as="dl" className="card-text">
+                            <Col as="dt" xl={3} className="text-nowrap text-xl-end">
+                              小計:
+                            </Col>
+                            <Col as="dd" xl={9} className="card-text">
+                              {item.kingaku ? <>&yen;{parseInttoStr(item.kingaku)}</> : "-"}
+                            </Col>
+                          </Row>
+                          <FormCartSuryo data={item} />
+                        </Col>
+                      </Row>
+                    )}
                   </Col>
                 </Row>
               </ListGroup.Item>
@@ -291,66 +351,68 @@ export function ProtectedCartPage(): JSX.Element {
       )}
     </section>
   );
+};
 
-  const ContentAction = (
-    <div className="sticky-top" style={{ top: "5rem" }}>
-      <Card body className="shadow-sm mb-3">
-        <Card.Text as="dl">
-          <dt>合計:</dt>
-          <dd>&yen;{parseInttoStr(data.head.zeinuki_gaku)}</dd>
-        </Card.Text>
-        <hr />
-        {locPath === "/cart" && (
-          <Link to="/cart/edit" className={`btn btn-primary w-100 ${data.details.length === 0 && "disabled"}`}>
-            <i className="bi bi-pencil-square me-1"></i>
-            レジに進む
-          </Link>
-        )}
-        {locPath === "/cart/edit" && (
-          <Form as={RouterForm} method="post" id="cart_edit">
-            <Button type="submit" name="mode" value="edit" variant="primary" className="w-100">
-              <i className="bi bi-check-circle me-1"></i>
-              確認する
-            </Button>
-          </Form>
-        )}
-        {locPath === "/cart/confirm" && (
-          <Form as={RouterForm} method="post" id="cart_confirm">
-            <Button type="submit" name="mode" value="confirm" variant="success" className="w-100">
-              <i className="bi bi-check-circle me-1"></i>
-              注文する
-            </Button>
-          </Form>
-        )}
-      </Card>
-    </div>
-  );
+/**
+ *
+ * @returns
+ */
+export function ProtectedCartPage(): JSX.Element {
+  const { data, message, locPath, fields, isLocPathCart, isLocPathCommit } = useProtectedCartPage();
+  const navName = !isLocPathCommit && fields.navigation.filter((item) => item.to === locPath).map((item) => item.label);
+  // console.log("navName", navName);
 
   return (
     <>
       <section id="protected-cart-page">
-        <header>
-          <h1 className="h2">{message}</h1>
-          <p>Protected Cart</p>
-          {CartNavigation}
-          <nav className="mb-3">
-            <BtnBack label="Back" />
-          </nav>
-        </header>
-        <hr />
-        <section>
-          <h2 className="h3">Cart</h2>
-          <div id="content">
-            <div className="row">
-              <div className="col-sm">
-                {locPath === "/cart/confirm" && ContentConfirm}
-                {locPath === "/cart/edit" && ContentNonyu}
-                {locPath === "/cart" && ContentItem}
+        {isLocPathCommit ? (
+          <ContentCommit />
+        ) : (
+          <>
+            <header>
+              <h1 className="h2">{message}</h1>
+              <p>Protected Cart</p>
+              <CartNavigation />
+              <nav className="mb-3">
+                <BtnBack label="Back" />
+              </nav>
+            </header>
+            <hr />
+            <section>
+              <header>
+                <h2 className="h3 mb-3">{navName && navName}</h2>
+                <p>商品の数量を確認して、レジに進んでください。</p>
+              </header>
+              <div id="content">
+                <Row>
+                  <Col>
+                    {!isLocPathCart && <ContentNonyuArea />}
+                    <ContentItemArea />
+                  </Col>
+                  <Col lg={3}>
+                    <div className="sticky-top" style={{ top: "5rem" }}>
+                      <Card body className="shadow-sm mb-3">
+                        <Card.Text as="dl">
+                          <dt className="text-nowrap">小計:</dt>
+                          <dd className="card-text">&yen;{parseInttoStr(data.head.zeinuki_gaku)}</dd>
+                          <dt className="text-nowrap">送料:</dt>
+                          <dd className="card-text">&yen;0</dd>
+                          <dt className="text-nowrap">税額:</dt>
+                          <dd className="card-text">&yen;{parseInttoStr(data.head.zei_gaku)}</dd>
+                          <hr />
+                          <dt className="text-nowrap">合計:</dt>
+                          <dd className="card-text">&yen;{parseInttoStr(data.head.zeikomi_gaku)}</dd>
+                        </Card.Text>
+                        <hr />
+                        <ContentAction />
+                      </Card>
+                    </div>
+                  </Col>
+                </Row>
               </div>
-              <div className="col-sm-3">{ContentAction}</div>
-            </div>
-          </div>
-        </section>
+            </section>
+          </>
+        )}
       </section>
     </>
   );

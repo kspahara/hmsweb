@@ -6,6 +6,7 @@ import { LoginUserPage } from "../pages/login_user.tsx";
 import { authProvider } from "../provides/auth.ts";
 
 const route_name = "LoginHinRoute";
+const logInMode = import.meta.env.VITE_LOGIN_MODE;
 
 const getForms = async (): Promise<FormType[]> => {
   return [
@@ -69,11 +70,12 @@ const clientAction = async ({ request }: ActionFunctionArgs) => {
     }
   };
   // リダイレクトを行う
+  const route = logInMode === "tokui" ? "hin" : logInMode === "tanto" ? "mypage" : undefined;
   const redirectTo = (redirectTo: string) => {
     console.log("LoginRoute redirectTo", redirectTo);
 
     // return redirectTo === "/" ? redirect("/mypage_admin") : redirect(redirectTo || "/");
-    return redirectTo === "/" ? redirect("/mypage") : redirect(redirectTo || "/");
+    return redirectTo === "/" ? redirect(`/${route}`) : redirect(redirectTo || "/");
   };
 
   const formData = await getFormData(request);

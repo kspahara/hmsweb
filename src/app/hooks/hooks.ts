@@ -23,7 +23,7 @@ import { Link } from "../routes/_index.tsx";
 import { Field } from "../routes/hin/_protected.mypage._index.tsx";
 import { FieldsNav } from "../routes/hin/_protected.cart._index.tsx";
 
-const route = import.meta.env.VITE_APP_MODE;
+const logInMode = import.meta.env.VITE_LOGIN_MODE;
 const isDebugMode = import.meta.env.VITE_DEBBUG === "true";
 
 /**
@@ -169,7 +169,7 @@ export function useLoginUser() {
     isLoggingIn: navigation.formData?.get("user_name") != null,
     validated,
     setValidated,
-    route,
+    logInMode,
   };
 }
 
@@ -345,6 +345,8 @@ export function useProtectedCartPage() {
   };
   const fetcher = useFetcher();
   const location = useLocation();
+  const locPath = location.pathname;
+  const isLocPath = (path: string) => locPath === path;
 
   return {
     ...loaderData,
@@ -353,6 +355,10 @@ export function useProtectedCartPage() {
     Feachersubmit: fetcher.submit,
     locPath: location.pathname,
     noImage,
+    isLocPathCart: isLocPath("/cart"),
+    isLocPathEdit: isLocPath("/cart/edit"),
+    isLocPathConfirm: isLocPath("/cart/confirm"),
+    isLocPathCommit: isLocPath("/cart/commit"),
   };
 }
 

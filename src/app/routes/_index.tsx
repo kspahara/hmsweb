@@ -39,7 +39,7 @@ const clientLoader = async () => {
   return {
     user: authProvider.user_name,
     isAuth,
-    links: await getLinks(),
+    links: (await getLinks()).filter((link) => link.kbn !== "auth"),
     cart_data: isAuth ? getCartCount() : null,
   };
 };
