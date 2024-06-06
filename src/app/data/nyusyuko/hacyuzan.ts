@@ -108,10 +108,10 @@ export async function GetHacyuzanMei(
   const res = await fetch(url, param);
   const data = await handleResponse(res);
 
-//   const dataM = data.results.hacyuzan_lists_mi;
-//   const dataS = data.results.hacyuzan_lists_sumi;
+  const dataM = data.results.hacyuzan_lists_mi;
+  const dataS = data.results.hacyuzan_lists_sumi;
 
-//   return { dataM, dataS };
-  return data ;
+  return { dataM, dataS };
+  // return data ;
 
 }

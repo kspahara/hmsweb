@@ -329,8 +329,8 @@ export function useProtectedNyusyukoDenPage() {
     searchParams: Record<string, string>;
     searchies: Record<string, string>[];
     forms: FormType[];
-    // data: Record<string, Record<string, string>[]>;
-    data: any;
+    data: Record<string, Record<string, string>[]>;
+    // data: any;
     message: string;
   };
   const { user } = useRouteLoaderData("root") as {
@@ -356,7 +356,7 @@ export function useProtectedNyusyukoDenPage() {
     submit: useSubmit(),
     isSearching: navigation.formData?.get("keyword") != null,
     isLoading: navigation.state === "loading",
-    type: "hacyu",
+    type: "list",
   };
 }
 

@@ -1,8 +1,8 @@
 import { Suspense } from "react";
-import { Await, Link } from "react-router-dom";
+import { Await } from "react-router-dom";
 import { Card, ListGroup } from "react-bootstrap";
-import { Fallback } from "./fallback.tsx";
-import { AlertAsyncError } from "./alertAsyncError.tsx";
+import { Fallback } from "../fallback.tsx";
+import { AlertAsyncError } from "../alertAsyncError.tsx";
 
 type Props = {
   data: Record<string, string>[];
@@ -14,7 +14,7 @@ type Props = {
  * @param props
  * @returns
  */
-export function ContentArea(props: Props): JSX.Element {
+export function ContentAreaHacyuMei(props: Props): JSX.Element {
   const { data, type } = props;
 
   return (
@@ -27,15 +27,15 @@ export function ContentArea(props: Props): JSX.Element {
           children={(data: Record<string, string>[]) => {
             const contentLists = (
               <Card className="shadow-sm mb-3">
-                <ListGroup variant="flush">
+                <ListGroup variant="flush" numbered>
                   {data.map((item, index) => (
-                    <ListGroup.Item key={index} as={Link} to={`${item.id}`} className="d-flex" action>
-                      {item.id}
-                      {item.jan_cd}
-                      {item.hin_cd}
-                      <span className="mx-1">:</span>
-                      {item.title}
-                      <i className="bi bi-chevron-right ms-auto" />
+                    <ListGroup.Item key={index} className="d-flex">
+                      <div className="ms-2 me-auto">
+                        <div className="fw-bold">{item.hin_cd}</div>
+                        <div>{item.hin_nm}</div>
+                        <div>{item.jan_cd}</div>
+                        <div>{item.hacyu_su_s}</div>
+                      </div>
                     </ListGroup.Item>
                   ))}
                 </ListGroup>
@@ -48,7 +48,9 @@ export function ContentArea(props: Props): JSX.Element {
                   <span className="me-1">count:</span>
                   <span>{data.length}</span>
                 </div>
-                <div id="list-body">{type === "list" ? contentLists : null}</div>
+                <div id="list-body">
+                  {type === "list" ? contentLists : null}
+                </div>
               </>
             );
           }}

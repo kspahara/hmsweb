@@ -1,28 +1,32 @@
 import { LoaderFunctionArgs, defer } from "react-router-dom";
 // import { getHinDetail } from "../../data/hin/hin.ts";
-import { FormType } from "../../components/createForm.tsx";
+// import { FormType } from "../../components/createForm.tsx";
 import { GetHacyuzanMei } from "../../data/nyusyuko/hacyuzan.ts";
 import { ProtectedNyusyukoDenPage } from "../../pages/nyusyuko/_protected.nyusyuko._index._den_no.tsx";
 // import { ProtectedNyusyukoDenPage } from "../../pages/nyusyuko/_protected.nyusyuko._index._den_no.tsx";
 
-const getForms = async (): Promise<FormType[]> => {
-  return [
-    {
-      type: "text",
-      controlId: "jan_cd",
-      name: "jan_cd",
-      label: "JANCODE",
-      placeholder: "JANCODE",
-    },
-    {
-      type: "text",
-      controlId: "den_no",
-      name: "den_no",
-      label: "伝票NO",
-      placeholder: "伝票NO",
-    },
-  ];
-};
+// 抽出条件は使わないためコメントアウト
+// const getForms = async (): Promise<FormType[]> => {
+//   return [
+//     {
+//       type: "text",
+//       controlId: "jan_cd",
+//       name: "jan_cd",
+//       label: "JANCODE",
+//       placeholder: "JANCODE",
+//     },
+
+//     {
+//       type: "text",
+//       controlId: "hin_cd",
+//       name: "hin_cd",
+//       label: "品番",
+//       placeholder: "品番",
+//     },
+//   ];
+// };
+
+
 const getSearchies = () => {
   return {
     // prc_sts: [
@@ -42,7 +46,7 @@ const clientLoader = async ({ request, params }: LoaderFunctionArgs) => {
     data:await GetHacyuzanMei(params.den_no,search_params),
     // dataS: GetHacyuzanMei(params.den_no,search_params),
     searchParams: Object.fromEntries(search_params.entries()),
-    forms: await getForms(),
+    // forms: await getForms(),
     searchies: getSearchies(),
     message: "明細一覧画面",
   });
