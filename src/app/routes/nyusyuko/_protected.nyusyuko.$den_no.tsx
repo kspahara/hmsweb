@@ -1,8 +1,15 @@
-import { LoaderFunctionArgs, defer } from "react-router-dom";
+import {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  defer,
+  redirect,
+} from "react-router-dom";
 // import { getHinDetail } from "../../data/hin/hin.ts";
 // import { FormType } from "../../components/createForm.tsx";
 import { GetHacyuzanMei } from "../../data/nyusyuko/hacyuzan.ts";
-import { ProtectedNyusyukoDenPage } from "../../pages/nyusyuko/_protected.nyusyuko._index._den_no.tsx";
+import { ProtectedNyusyukoDenPage } from "../../pages/nyusyuko/_protected.nyusyuko.$den_no.tsx";
+import { CrumbItem, Match } from "../../components/breadcrumbs.tsx";
+import { getLocationPath } from "../../libs/libs.ts";
 // import { ProtectedNyusyukoDenPage } from "../../pages/nyusyuko/_protected.nyusyuko._index._den_no.tsx";
 
 // 抽出条件は使わないためコメントアウト
@@ -26,7 +33,6 @@ import { ProtectedNyusyukoDenPage } from "../../pages/nyusyuko/_protected.nyusyu
 //   ];
 // };
 
-
 const getSearchies = () => {
   return {
     // prc_sts: [
@@ -43,7 +49,7 @@ const clientLoader = async ({ request, params }: LoaderFunctionArgs) => {
 
   return defer({
     // data: await GetHacyuzanMei(params.den_no,search_params),
-    data:await GetHacyuzanMei(params.den_no,search_params),
+    data: await GetHacyuzanMei(params.den_no, search_params),
     // dataS: GetHacyuzanMei(params.den_no,search_params),
     searchParams: Object.fromEntries(search_params.entries()),
     // forms: await getForms(),
@@ -52,17 +58,30 @@ const clientLoader = async ({ request, params }: LoaderFunctionArgs) => {
   });
 };
 
-// const handle = {
-//   crumb: (match: Match<{ results: { den_no: string }[] }>): JSX.Element => (
-//     <CrumbItem
-//       props={{
-//         linkProps: { to: `${match.pathname}` },
-//         active: getLocationPath() === match.pathname,
-//       }}
-//       label={<>{match.data.data.results[0].den_no}</>}
-//     />
-//   ),
-// };
+const clientAction = async ({ request }: ActionFunctionArgs) => {
+  const formData = await request.formData();
+  const p_jan_cd = formData.get("jan_cd");
+  console.log(p_jan_cd);
+  // const redirectUrl = p_jan_cd.toString(); // FormDataEntryValue型をstring型に変換
+
+  return redirect("350-64326-1");
+};
+
+const handle = {
+  crumb: (match: Match<{ dataM: { den_no: string }[] }>): JSX.Element => {
+    console.log(match);
+    return (
+      // <CrumbItem props={{ linkProps: { to: `${match.pathname}` }, active: getLocationPath() === match.pathname }} label={<>{match.data.data.den_no}</>} />
+      <CrumbItem
+        props={{
+          linkProps: { to: `${match.pathname}` },
+          active: getLocationPath() === match.pathname,
+        }}
+        label={<>{match.data.data.dataM[0].den_no}</>}
+      />
+    );
+  },
+};
 
 /**
  * HinDetailRoute
@@ -73,3 +92,5 @@ export function ProtectedNyusyukoDenRoute(): JSX.Element {
 }
 
 ProtectedNyusyukoDenRoute.loader = clientLoader;
+ProtectedNyusyukoDenRoute.action = clientAction;
+ProtectedNyusyukoDenRoute.handle = handle;

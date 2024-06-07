@@ -113,5 +113,46 @@ export async function GetHacyuzanMei(
 
   return { dataM, dataS };
   // return data ;
+}
 
+export type KenpinHin = {
+  den_no: string | undefined;
+  row_no?: string;
+  hin_cd?: string;
+  hin_nm?: string;
+  jan_cd?: string;
+  hacyu_su?: string;
+  // t_sir_m?: InfoMhin; // もしくは適切な型を指定する
+};
+
+export async function GetSearchSireKenpinHin(
+  p_den_no: KenpinHin["den_no"],
+  p_jan_cd: KenpinHin["jan_cd"],
+  // searchParams: URLSearchParams
+) {
+  const apiUrl = import.meta.env.VITE_API_URL;
+  const target_url = `${apiUrl}/get-search-sire-kenpin-hin-info.php`;
+  // const params_entry = Object.fromEntries(searchParams.entries());
+
+
+  const param: RequestInit = {
+    method: "POST",
+    mode: "cors",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      den_no: p_den_no,
+      jan_cd: p_jan_cd,
+      // ...params_entry,
+    }),
+  };
+
+  const res = await fetch(target_url, param);
+  const responseData = await res.json();
+
+  const t_sir_m = responseData.results.info_mhin;
+  // console.log(t_sir_m);
+  return { t_sir_m };
 }

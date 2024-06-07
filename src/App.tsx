@@ -19,7 +19,9 @@ const router = [
       {
         index: true,
         async lazy() {
-          const { clientLoader } = await import("./app/routes/_index._match.tsx");
+          const { clientLoader } = await import(
+            "./app/routes/_index._match.tsx"
+          );
           return {
             loader: clientLoader,
           };
@@ -38,7 +40,9 @@ const router = [
           {
             index: true,
             async lazy() {
-              const { HinIndexRoute } = await import("./app/routes/hin/hin._index.tsx");
+              const { HinIndexRoute } = await import(
+                "./app/routes/hin/hin._index.tsx"
+              );
               return {
                 loader: HinIndexRoute.loader,
                 action: HinIndexRoute.action,
@@ -49,7 +53,9 @@ const router = [
           {
             path: ":hin_cd",
             async lazy() {
-              const { HinDetailRoute } = await import("./app/routes/hin/hin.$hin_cd.tsx");
+              const { HinDetailRoute } = await import(
+                "./app/routes/hin/hin.$hin_cd.tsx"
+              );
               return {
                 loader: HinDetailRoute.loader,
                 action: HinDetailRoute.action,
@@ -73,7 +79,9 @@ const router = [
           {
             path: "nyusyuko",
             async lazy() {
-              const { handle } = await import("./app/routes/nyusyuko/_protected.nyusyuko.tsx");
+              const { handle } = await import(
+                "./app/routes/nyusyuko/_protected.nyusyuko.tsx"
+              );
               return {
                 handle: handle,
               };
@@ -83,7 +91,9 @@ const router = [
               {
                 index: true,
                 async lazy() {
-                  const { ProtectedNyusyukoRoute } = await import("./app/routes/nyusyuko/_protected.nyusyuko._index.tsx");
+                  const { ProtectedNyusyukoRoute } = await import(
+                    "./app/routes/nyusyuko/_protected.nyusyuko._index.tsx"
+                  );
                   return {
                     loader: ProtectedNyusyukoRoute.loader,
                     element: <ProtectedNyusyukoRoute />,
@@ -93,11 +103,42 @@ const router = [
               {
                 path: ":den_no",
                 async lazy() {
-                  const { ProtectedNyusyukoDenRoute } = await import("./app/routes/nyusyuko/_protected.nyusyuko._index._den_no.tsx");
+                  const { ProtectedNyusyukoDenRoute } = await import(
+                    "./app/routes/nyusyuko/_protected.nyusyuko.$den_no.tsx"
+                  );
                   return {
                     loader: ProtectedNyusyukoDenRoute.loader,
-                    // handle: ProtectedNyusyukoDenRoute.handle,
+                    action: ProtectedNyusyukoDenRoute.action,
+                    handle: ProtectedNyusyukoDenRoute.handle,
                     element: <ProtectedNyusyukoDenRoute />,
+                  };
+                },
+                // children: [
+                //   {
+                //     path: ":jan_cd",
+                //     async lazy() {
+                //       const { ProtectedNyusyukoDenJanRoute } = await import(
+                //         "./app/routes/nyusyuko/_protected.nyusyuko.$den_no.$jan_cd.tsx"
+                //       );
+                //       return {
+                //         loader: ProtectedNyusyukoDenJanRoute.loader,
+                //         handle: ProtectedNyusyukoDenJanRoute.handle,
+                //         element: <ProtectedNyusyukoDenJanRoute />,
+                //       };
+                //     },
+                //   },
+                // ],
+              },
+              {
+                path: ":den_cd/:jan_cd",
+                async lazy() {
+                  const { ProtectedNyusyukoDenJanRoute } = await import(
+                    "./app/routes/nyusyuko/_protected.nyusyuko.$den_no.$jan_cd.tsx"
+                  );
+                  return {
+                    loader: ProtectedNyusyukoDenJanRoute.loader,
+                    handle: ProtectedNyusyukoDenJanRoute.handle,
+                    element: <ProtectedNyusyukoDenJanRoute />,
                   };
                 },
               },
@@ -107,7 +148,9 @@ const router = [
             id: "protected-cart-layout",
             path: "cart/edit?/confirm?/commit?",
             async lazy() {
-              const { handle } = await import("./app/routes/hin/_protected.cart.tsx");
+              const { handle } = await import(
+                "./app/routes/hin/_protected.cart.tsx"
+              );
               return {
                 handle: handle,
               };
@@ -117,7 +160,9 @@ const router = [
               {
                 index: true,
                 async lazy() {
-                  const { ProtectedCartRoute } = await import("./app/routes/hin/_protected.cart._index.tsx");
+                  const { ProtectedCartRoute } = await import(
+                    "./app/routes/hin/_protected.cart._index.tsx"
+                  );
                   return {
                     loader: ProtectedCartRoute.loader,
                     action: ProtectedCartRoute.action,
@@ -128,7 +173,9 @@ const router = [
               {
                 path: ":row_no",
                 async lazy() {
-                  const { ProtectedCartRowNoRoute } = await import("./app/routes/hin/_protected.cart.$row_no.tsx");
+                  const { ProtectedCartRowNoRoute } = await import(
+                    "./app/routes/hin/_protected.cart.$row_no.tsx"
+                  );
                   return {
                     loader: ProtectedCartRowNoRoute.loader,
                     action: ProtectedCartRowNoRoute.action,
@@ -143,7 +190,9 @@ const router = [
             id: "protected-mypage-layout",
             path: "mypage",
             async lazy() {
-              const { handle } = await import("./app/routes/hin/_protected.mypage.tsx");
+              const { handle } = await import(
+                "./app/routes/hin/_protected.mypage.tsx"
+              );
               return {
                 handle: handle,
               };
@@ -153,7 +202,9 @@ const router = [
               {
                 index: true,
                 async lazy() {
-                  const { ProtectedMypageRoute } = await import("./app/routes/hin/_protected.mypage._index.tsx");
+                  const { ProtectedMypageRoute } = await import(
+                    "./app/routes/hin/_protected.mypage._index.tsx"
+                  );
                   return {
                     loader: ProtectedMypageRoute.loader,
                     element: <ProtectedMypageRoute />,
@@ -163,7 +214,9 @@ const router = [
               {
                 path: "mypage_admin",
                 async lazy() {
-                  const { ProtectedMypageAdminRoute } = await import("./app/routes/hin/_protected.mypage_admin._index.tsx");
+                  const { ProtectedMypageAdminRoute } = await import(
+                    "./app/routes/hin/_protected.mypage_admin._index.tsx"
+                  );
                   return {
                     loader: ProtectedMypageAdminRoute.loader,
                     action: ProtectedMypageAdminRoute.action,
@@ -201,7 +254,9 @@ const router = [
             id: "protected-albums-layout",
             path: "albums",
             async lazy() {
-              const { handle } = await import("./app/routes/jsonplaceholder/_protected.albums.tsx");
+              const { handle } = await import(
+                "./app/routes/jsonplaceholder/_protected.albums.tsx"
+              );
               return {
                 handle: handle,
               };
@@ -211,7 +266,9 @@ const router = [
               {
                 index: true,
                 async lazy() {
-                  const { ProtectedAlbumsRoute } = await import("./app/routes/jsonplaceholder/_protected.albums._index.tsx");
+                  const { ProtectedAlbumsRoute } = await import(
+                    "./app/routes/jsonplaceholder/_protected.albums._index.tsx"
+                  );
                   return {
                     loader: ProtectedAlbumsRoute.loader,
                     element: <ProtectedAlbumsRoute />,
@@ -221,7 +278,9 @@ const router = [
               {
                 path: ":id/edit?",
                 async lazy() {
-                  const { ProtectedAlbumsIdRoute } = await import("./app/routes/jsonplaceholder/_protected.albums.$id.tsx");
+                  const { ProtectedAlbumsIdRoute } = await import(
+                    "./app/routes/jsonplaceholder/_protected.albums.$id.tsx"
+                  );
                   return {
                     loader: ProtectedAlbumsIdRoute.loader,
                     action: ProtectedAlbumsIdRoute.action,
@@ -236,7 +295,9 @@ const router = [
             id: "protected-comments-layout",
             path: "comments",
             async lazy() {
-              const { handle } = await import("./app/routes/jsonplaceholder/_protected.comments.tsx");
+              const { handle } = await import(
+                "./app/routes/jsonplaceholder/_protected.comments.tsx"
+              );
               return {
                 handle: handle,
               };
@@ -246,7 +307,9 @@ const router = [
               {
                 index: true,
                 async lazy() {
-                  const { ProtectedCommentsRoute } = await import("./app/routes/jsonplaceholder/_protected.comments._index.tsx");
+                  const { ProtectedCommentsRoute } = await import(
+                    "./app/routes/jsonplaceholder/_protected.comments._index.tsx"
+                  );
                   return {
                     loader: ProtectedCommentsRoute.loader,
                     element: <ProtectedCommentsRoute />,
@@ -256,7 +319,9 @@ const router = [
               {
                 path: ":id/edit?",
                 async lazy() {
-                  const { ProtectedCommentsIdRoute } = await import("./app/routes/jsonplaceholder/_protected.comments.$id.tsx");
+                  const { ProtectedCommentsIdRoute } = await import(
+                    "./app/routes/jsonplaceholder/_protected.comments.$id.tsx"
+                  );
                   return {
                     loader: ProtectedCommentsIdRoute.loader,
                     handle: ProtectedCommentsIdRoute.handle,
@@ -269,7 +334,9 @@ const router = [
           {
             path: "photos",
             async lazy() {
-              const { ProtectedPhotosRoute } = await import("./app/routes/jsonplaceholder/_protected.photos.tsx");
+              const { ProtectedPhotosRoute } = await import(
+                "./app/routes/jsonplaceholder/_protected.photos.tsx"
+              );
               return {
                 loader: ProtectedPhotosRoute.loader,
                 element: <ProtectedPhotosRoute />,
@@ -279,7 +346,9 @@ const router = [
           {
             path: "posts",
             async lazy() {
-              const { ProtectedPostsRoute } = await import("./app/routes/jsonplaceholder/_protected.posts.tsx");
+              const { ProtectedPostsRoute } = await import(
+                "./app/routes/jsonplaceholder/_protected.posts.tsx"
+              );
               return {
                 loader: ProtectedPostsRoute.loader,
                 element: <ProtectedPostsRoute />,
@@ -289,7 +358,9 @@ const router = [
           {
             path: "todos",
             async lazy() {
-              const { ProtectedTodosRoute } = await import("./app/routes/jsonplaceholder/_protected.todos.tsx");
+              const { ProtectedTodosRoute } = await import(
+                "./app/routes/jsonplaceholder/_protected.todos.tsx"
+              );
               return {
                 loader: ProtectedTodosRoute.loader,
                 element: <ProtectedTodosRoute />,
@@ -299,7 +370,9 @@ const router = [
           {
             path: "users",
             async lazy() {
-              const { ProtectedUsersRoute } = await import("./app/routes/jsonplaceholder/_protected.users.tsx");
+              const { ProtectedUsersRoute } = await import(
+                "./app/routes/jsonplaceholder/_protected.users.tsx"
+              );
               return {
                 loader: ProtectedUsersRoute.loader,
                 element: <ProtectedUsersRoute />,
@@ -323,7 +396,9 @@ const router = [
       {
         path: "login_user",
         async lazy() {
-          const { LoginUserRoute } = await import("./app/routes/login_user.tsx");
+          const { LoginUserRoute } = await import(
+            "./app/routes/login_user.tsx"
+          );
           return {
             loader: LoginUserRoute.loader,
             action: LoginUserRoute.action,
@@ -353,7 +428,9 @@ const router = [
       {
         path: "remove_tok_cd",
         async lazy() {
-          const { clientAction } = await import("./app/routes/hin/remove_tok_cd.tsx");
+          const { clientAction } = await import(
+            "./app/routes/hin/remove_tok_cd.tsx"
+          );
           return {
             action: clientAction,
           };
